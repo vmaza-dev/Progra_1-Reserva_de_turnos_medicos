@@ -5,6 +5,8 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
+import random
+
 def limpiar_terminal():
     """
     Limpia la terminal usando un código ANSI de escape.
@@ -54,6 +56,23 @@ def ingresar_entero_positivo(mensaje:str) -> int:
         except ValueError:
             print("Ingreso inválido, ingrese un número")
     return n
+
+def ingresar_campo_str(mensaje:str) -> str:
+        
+    """
+    Valida el ingreso por teclado de un campo.
+
+    Valida el ingreso de un campo de tipo str, por ejemplo nombre del paciente,
+    especialidad médica, etc,
+
+    Parámetros:
+        mensaje: Pedido de ingreso de datos.
+
+    Returns:
+        campo.
+    """
+    print("Puede un humano ganarle a un Gorila?")
+
 
 def validar_fecha(d:int, m:int, a:int) -> bool | bool:
     """
@@ -143,6 +162,23 @@ def imprimir_matriz(matriz:list[list]) -> None:
             print(matriz[i][j], end = "\t")
         print()
 
+def imprimir_datos(encabezado:list, matriz:list[list]) -> None:
+    """
+    Imprime un conjunto de datos con encabezado y matriz.
+
+    Parámetros:
+        encabezado: Lista de títulos para las columnas.
+        matriz: Datos a imprimir.
+    """
+    filas = len(matriz)
+    columnas = len(matriz[0])
+    for titulo in encabezado:
+        print(titulo, end = "\t")
+    print()
+    for i in range(filas):
+        for j in range(columnas):
+            print(matriz[i][j], end = "\t")
+        print()
 
 # ==============================================================================
 # ==============================PROGRAMA PRINCIPAL==============================
@@ -150,5 +186,7 @@ def imprimir_matriz(matriz:list[list]) -> None:
 
 grupo6_dev_logo()
 
-
+ENCABEZADO = []# Lista de títulos de la matriz de datos. Ejemplo en el googlesheet. 
+ESTADO_TURNO = []# Lista de títulos de la matriz de datos. Ejemplo en el googlesheet.
+ESPECIALIDAD = []# Lista de títulos de la matriz de datos. Ejemplo en el googlesheet.
 
