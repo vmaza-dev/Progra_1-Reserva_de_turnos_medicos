@@ -6,6 +6,10 @@
 # ==============================================================================
 
 import random
+import pacientes.py
+import turnos.py
+import medicos.py
+import aux.py
 
 def limpiar_terminal():
     """
@@ -35,15 +39,15 @@ def grupo6_dev_logo():
  \__|\__,_|_|  |_| |_|\___/|___/ |_| |_| |_|\___|\__,_|_|\___\___/|___/
 """)
     
-def ingresar_entero_positivo(mensaje:str) -> int:
+def ingresar_entero_positivo(mensaje):
     """
     Valida el ingreso por teclado de un número entero positivo.
 
     Parámetros:
-        mensaje: Pedido de ingreso de datos.
+        mensaje(str): Pedido de ingreso de datos.
 
     Returns:
-        Número entero positivo.
+        Número entero positivo(int).
     """
     bandera = True
     while bandera:
@@ -57,7 +61,7 @@ def ingresar_entero_positivo(mensaje:str) -> int:
             print("Ingreso inválido, ingrese un número")
     return n
 
-def ingresar_campo_str(mensaje:str) -> str:
+def ingresar_campo_str(mensaje):
         
     """
     Valida el ingreso por teclado de un campo.
@@ -66,26 +70,27 @@ def ingresar_campo_str(mensaje:str) -> str:
     especialidad médica, etc,
 
     Parámetros:
-        mensaje: Pedido de ingreso de datos.
+        mensaje(str): Pedido de ingreso de datos.
 
     Returns:
-        campo.
+        campo(str).
     """
     print("Puede un humano ganarle a un Gorila?")
 
 
-def validar_fecha(d:int, m:int, a:int) -> bool | bool:
+def validar_fecha(d, m, a):
     """
     Valida si tres números enteros positivos corresponden a una fecha válida.
 
     Toma en cuenta anios bisiestos, meses de 30 y 31 días.
 
     Parámetros:
-        d: Día del mes.
-        m: Mes.
-        a: Anio.
+        d(int): Día del mes.
+        m(int): Mes.
+        a(int): Anio.
 
     Returns:
+        bool
         - True si los tres número corresponden a una fecha válida. False si 
         alguno/todos hacen inválida a la fecha.
         - True si el año es bisiesto. False si el año no es bisiesto 
@@ -125,18 +130,18 @@ def validar_fecha(d:int, m:int, a:int) -> bool | bool:
         f_valida = True
     return f_valida, bisiesto
 
-def crear_matriz(filas:int, columnas:int, n0:int = 0, n:int = 99) -> list[list]:
+def crear_matriz(filas, columnas, n0 = 0, n = 99):
     """
     Crea una matriz con valores enteros aleatorios.
 
     Parámetros:
-        filas: Cantidad de filas de la matriz.
-        columnas: Cantidad de columnas de la matriz.
-        n0: Valor mínimo aleatorio. Default = 0.
-        n: Valor máximo aleatorio. Default = 99.
+        filas(int): Cantidad de filas de la matriz.
+        columnas(int): Cantidad de columnas de la matriz.
+        n0(int): Valor mínimo aleatorio. Default = 0.
+        n(int): Valor máximo aleatorio. Default = 99.
 
     Returns:
-        Matriz generada.
+        Matriz generada(list[list])
     """
 
     matriz = []
@@ -148,12 +153,12 @@ def crear_matriz(filas:int, columnas:int, n0:int = 0, n:int = 99) -> list[list]:
 
     return matriz
 
-def imprimir_matriz(matriz:list[list]) -> None:
+def imprimir_matriz(matriz):
     """
     Imprime la matriz en formato tabulado.
 
     Parámetros:
-        matriz: Matriz a imprimir.
+        matriz(list[list]): Matriz a imprimir.
     """
     filas = len(matriz)
     columnas = len(matriz[0])
@@ -162,13 +167,13 @@ def imprimir_matriz(matriz:list[list]) -> None:
             print(matriz[i][j], end = "\t")
         print()
 
-def imprimir_datos(encabezado:list, matriz:list[list]) -> None:
+def imprimir_datos(encabezado, matriz):
     """
     Imprime un conjunto de datos con encabezado y matriz.
 
     Parámetros:
-        encabezado: Lista de títulos para las columnas.
-        matriz: Datos a imprimir.
+        encabezado(list): Lista de títulos para las columnas.
+        matriz(list[list]): Datos a imprimir.
     """
     filas = len(matriz)
     columnas = len(matriz[0])
