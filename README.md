@@ -1,2 +1,5 @@
-# GRUPO 6
-# Progra_1-Reserva_de_turnos_médicos
+# GRUPO 6 Programación 1: 
+# Aliano Manuel, Ávila Simón, Iturria Agustín, Seijo Nicolás, Maza Victor
+# CRUD: Sistema de reserva de turnos médicos
+
+
