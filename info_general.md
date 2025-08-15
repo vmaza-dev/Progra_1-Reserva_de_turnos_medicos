@@ -99,7 +99,7 @@ La idea es que en `main` escribamos el programa final sin funcionalidades extras
 
 En `turnos`, `medicos` y `pacientes`, todo lo que tenga que ver especificamente con cada uno. Por ejemplo en medicos la creacion de su matriz, sus especialidades, bueno eso se me ocurre hasta ahora. 
 
-En `aux` todas la funciones generales que se puedan usar en todo el programa. Por ejemplo validar una fecha, pedir el ingreso de un número, la función de crear una matriz.
+En `fun_aux` todas la funciones generales que se puedan usar en todo el programa. Por ejemplo validar una fecha, pedir el ingreso de un número, la función de crear una matriz.
 
 **Otro archivos**
 
