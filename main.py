@@ -8,11 +8,11 @@
 import pacientes
 import turnos
 import medicos
-import aux
+import fun_aux
 
 # ==============================================================================
 # ==============================PROGRAMA PRINCIPAL==============================
 # ==============================================================================
 
-aux.grupo6_dev_logo()
+fun_aux.grupo6_dev_logo()
 

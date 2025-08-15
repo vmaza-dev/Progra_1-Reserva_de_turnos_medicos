@@ -7,3 +7,10 @@
 
 print("l")
 
+#[ID, DNI, NOMBRE, APELLIDO]
+pacientes = [
+    [1, "11223344", "Jose", "Diaz"],
+    [2, "12131415", "Andres", "Jimenez"],
+    [3, "33366633", "Micaela", "Macri"],
+    [4, "77754894", "Fernanda", "Fernandez"]
+]
