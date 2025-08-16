@@ -5,6 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
+<<<<<<< HEAD
 import random
 def ingresar_nombre_medico():
     nombre = input("Ingrese el nombre del medico: ")
@@ -82,3 +83,12 @@ crear_medico(medicos)
 actu_medico(medicos[0], medicos[0][1])
 #medico_aux = leer_medico()
 elim_medico(medicos)
+=======
+#[ID, DNI, NOMBRE, APELLIDO, ESPECIALIDAD]
+medicos = [
+    [101, "12345678", "Pepe", "", "Cardiología"],
+    [102, "87654321", "Jaime", "", "Dermatología"],
+    [103, "13245768", "Enrique", "", "Gastroenterología"],
+    [104, "86427531", "Alejandra", "", "Neurología"]
+]
+>>>>>>> 15a723000021c42a42c5655121e527a5ed892772
