@@ -7,18 +7,62 @@
 
 import random
 def ingresar_nombre_medico():
+    """
+    Solicita al usuario el nombre de un médico *ingresa el nombre* .
+
+    Returns:
+        str: Nombre ingresado.
+    """
     nombre = input("Ingrese el nombre del medico: ")
     return nombre
 
 def ingresar_espe(nombreMed):
+    """
+    Solicita al usuario la especialidad a ingresar del medico
+    
+    Parametros
+        nombreMed (str): Nombre del medico utilizado para despues mostrar en el promp
+        
+    Returns:
+        str: Especialidad ingresada.
+    """
     especialidad = input(f"Ingrese la especialidad de {nombreMed}: ") #Uso fPrints ya que el input no puede concatenar cadenas con ","
     return especialidad
 
 def ingresar_antig(nombreMed):
+    """
+    Solicita al usuario la antiguedad (anos de experiencia de un medico)
+    
+    Parametros:
+        nombreMed (str): Nombre del medico, utilizado para mostrar en el prompt
+        
+    Returns:
+        int: Antiguedad en anos.
+    """
     antiguedad = int(input(f"Ingrese la antiguedad de {nombreMed}: "))
     return antiguedad
 
 def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea mejor con diccionarios. (structs)
+    """
+    Crear un nuevo usuario medico y lo agrega a la matriz total de medicos.
+    
+    Parametros:
+        matrizMeds (list): Lista de listas *matriz* que almacena los medicos registrados.
+        cada medico se guarda con el formato:
+        [ID,Nombre, Especialidad, Antiguedad , Estado]
+
+
+    Flujo:
+        - Genera un ID aleatorio de 4 digitos
+        - Pide al usuario (nombre,especialidad y antiguedad)
+        - Define el estado inicial como activo (1)
+        - Agrega la informacion del medico a la matriz
+
+    Returns:
+        None. Modifica directamente la matriz de medicos.
+        
+        
+        """
     idMed = random.randint(1000, 9999)
     nombreCompleto = ingresar_nombre_medico()
     espe = ingresar_espe(nombreCompleto)
@@ -28,6 +72,23 @@ def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea me
     print("ID: ", idMed) # Esto es temporal, todavía no hice la lectura de un médico específico.
 
 def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el nombre asi es más claro y legible.
+    """
+    Permite modificar los datos de un medico que ya estaba registrado.
+    
+    Parametros:
+        listaMed (list): Lista que representa a un medico, en el formato:
+        [ID, Nombre, Especialidad, Antiguedad, Estado]
+        
+        nombreMed (str):Nombre del medico que solo se va a utilizar para mostrar mensajes
+
+    Flujo: 
+        - Muestra un menu de opciones de edicion
+        - Permite modificar : nombre, especialidad, antiguedad o estado.
+        - Actualiza directamente la lista del medico.
+
+    Returns:
+        None. (Solo modifica a la lista del medico.)
+        """
     print("Ingrese el dato a modificar del medico", nombreMed, ":")
     print("1: Nombre y Apellido\n2: Especialidad\n3: Antigüedad\n4: Estado (Dar de baja, o dar de alta)")
     opcion = int(input("Ingrese el número correspondiente: "))
@@ -60,7 +121,19 @@ def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el 
                 print("El médico", nombreMed, "ahora se encuentra dado de baja")
 
 #def leer_medico():
+
 def buscar_borrar_med(idElim, meds):
+    """
+    Busca un medico segun el id que tiene y lo elimina de la lista si es que lo encuentra.
+
+    Parametros: 
+        idElim (int): ID del medico a eliminar.
+        meds (list): Lista de medicos, donde cada medico es una lista en el formato
+        [ID, Nombre, Especialidad, Antiguedad, Estado]
+        
+    Returns:
+        bool: True si se encontro y elimino al medico, false si no se encontro.
+    """
     encontrado = False
     for med in meds:
         if (med[0] == idElim):
@@ -70,6 +143,15 @@ def buscar_borrar_med(idElim, meds):
     return encontrado
 
 def elim_medico(matrizMeds):
+    """
+    Solicita al usuario que ingrese el ID de un medico y lo elimina de la matriz de medicos.
+    
+    Parametros: 
+        MatrizMeds(list): Lista de medicos.
+        
+    Returns:
+    None. Modifica directamente la matriz de medicos.
+    """
     idElim = int(input("Ingrese el ID del médico a eliminar: "))
     if (buscar_borrar_med(idElim, matrizMeds)): # Devuelve True si lo encontro y borro, False si no lo encontró
         print("Medico de ID", idElim, "eliminado exitosamente.")
