@@ -14,7 +14,7 @@ Espero que sea de ayuda y si están de acuerdo con este archivo lo dejamos, lo s
 
 ## Convenciones generales de escritura de código
 
-Usamos la convenciones de Python (PEP 8, PEP 257), que son convenciones que estan en la página oficial de Python.
+Usamos la convenciones de Python (PEP 8, PEP 257), que son convenciones que están en la página oficial de Python.
 
 ### PEP 8 – Guía de Estilo para Python
 
@@ -30,7 +30,7 @@ Objetivo: Establecer reglas y buenas prácticas para escribir código Python leg
     - Variables y funciones: snake_case.
 
      Ejemplo, queremos definir una variable que se llama especialidad médica, con snake case sería especialidad_medica. Lo mismo con los nombres de funciones.
-    - Constantes: MAYÚSCULAS_CON_GUIONES_BAJO.
+    - Constantes: MAYUSCULAS_CON_GUIONES_BAJO.
 
     Ejemplo, tenemos la variable número de médicos que es constante a lo largo de todo el programa la escribimos como NUMERO_MEDICOS. 
 
@@ -87,7 +87,7 @@ def validar_fecha(d, m, a):
 
 ## Estructura del trabajo
 
-El profe dijo que vamos a usar módulo para hacer el TP. Los módulos son archivos apartes que continen parte del código. La idea es para que no sea tan largo e ilegible un código. Estos módulos despues los importas al módulo principal. En nuestro trabajo definimos hasta ahora cuatro módulos:
+El profe dijo que vamos a usar módulo para hacer el TP. Los módulos son archivos apartes que contienen parte del código. La idea es para que no sea tan largo e ilegible un código. Estos módulos después los importas al módulo principal. En nuestro trabajo definimos hasta ahora cuatro módulos:
 
     - main.py
     - turnos.py
@@ -95,9 +95,9 @@ El profe dijo que vamos a usar módulo para hacer el TP. Los módulos son archiv
     - pacientes.py
     - aux.py
 
-La idea es que en `main` escribamos el programa final sin funcionalidades extras. Por ejemplo el menú principal, nuestro logo, todo el código que valla a usar las funciones de los otros módulos. 
+La idea es que en `main` escribamos el programa final sin funcionalidades extras. Por ejemplo el menú principal, nuestro logo, todo el código que vaya a usar las funciones de los otros módulos. 
 
-En `turnos`, `medicos` y `pacientes`, todo lo que tenga que ver especificamente con cada uno. Por ejemplo en medicos la creacion de su matriz, sus especialidades, bueno eso se me ocurre hasta ahora. 
+En `turnos`, `medicos` y `pacientes`, todo lo que tenga que ver especificamente con cada uno. Por ejemplo en médicos la creacion de su matriz, sus especialidades, bueno eso se me ocurre hasta ahora. 
 
 En `fun_aux` todas la funciones generales que se puedan usar en todo el programa. Por ejemplo validar una fecha, pedir el ingreso de un número, la función de crear una matriz.
 
