@@ -4,7 +4,7 @@
 # Descripción: 
 # Fecha de creación: 10/08/2025
 # ==============================================================================
-
+import random
 def limpiar_terminal():
     """
     Limpia la terminal usando un código ANSI de escape.
@@ -176,7 +176,7 @@ def imprimir_datos(encabezado, matriz):
 nombres = [
     "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
     "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
-    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo",
+    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo", "Alan",
     "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
     "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
     "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
@@ -195,7 +195,7 @@ apellidos = [
     "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini",
     "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
     "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
-    "Rios", "Morales", "Godoy", "Moreno", "Ferreyra",
+    "Rios", "Morales", "Godoy", "Moreno", "Ferreyra", "Brito",
     "Dominguez", "Carrizo", "Peralta", "Castillo", "Ledesma",
     "Quiroga", "Vega", "Vera", "Muñoz", "Ojeda",
     "Ponce", "Villalba", "Cardozo", "Navarro", "Coronel",
