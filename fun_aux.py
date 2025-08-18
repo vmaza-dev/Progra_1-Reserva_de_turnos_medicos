@@ -176,12 +176,12 @@ def imprimir_datos(encabezado, matriz):
 nombres = [
     "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
     "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
-    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo"
+    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo",
     "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
     "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
     "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
     "Fausto", "León", "Lucio", "Santino", "Lionel", "Lucas", "Nicolás", "Camilo", "Manuel", "Sebastián",
-    "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros", 
+    "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros",
     "Victoria", "Josefina","Rufina", "Amparo", "Refugio", "Paz", "Lara", "Luna", "Malena", "Remedios",
     "Bruna", "Luz","Melody", "Azul", "Constanza", "Eva", "India", "Paulina", "Greta", "Vera", "Xiomara",
     "Abril", "Ariadna", "Ailén", "Aurora", "Gianna", "Juana", "Nina", "Rosario", "Agostina", "Aline", 
@@ -191,8 +191,8 @@ nombres = [
 
 apellidos = [
     "González", "Rodríguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
-    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi"
-    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini"
+    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi",
+    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini",
     "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
     "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
     "Rios", "Morales", "Godoy", "Moreno", "Ferreyra",
@@ -215,13 +215,12 @@ apellidos = [
 especialidades = [
     "Medicina General", "Clínica Médica", "Cardiología", "Dermatología", "Pediatría",
     "Ginecología y Obstetricia", "Neurología", "Psiquiatría", "Cirugía General", "Oftalmología",
-    "Otorrinolaringología", "Traumatología y Ortopedia", "Urología", "Anestesiología", "Radiología",
+    "Otorrinolaringología", "Traumatología", "Urología", "Anestesiología", "Radiología",
     "Endocrinología", "Gastroenterología", "Neumonología", "Nefrología", "Reumatología",
-    "Infectología", "Oncología", "Hematología", "Geriatría", "Medicina Familiar",
-    "Emergentología", "Cirugía Plástica", "Neurocirugía", "Cirugía Cardiovascular", "Cirugía Pediátrica",
-    "Nutrición", "Medicina del Deporte", "Fisiatría", "Medicina Paliativa", "Medicina Estética",
+    "Infectología", "Oncología", "Hematología", "Geriatría","Emergentología", "Cirugía Plástica",
+    "Neurocirugía", "Cirugía Cardiovascular", "Cirugía Pediátrica", "Nutrición","Fisiatría",
     "Alergia e Inmunología", "Patología", "Toxicología", "Genética Médica",
-    "Medicina Laboral", "Cuidados Intensivos", "Fonoaudiología", "Kinesiología", "Fisioterapia",
-    "Microbiología", "Medicina Nuclear", "Genética", "Medicina Preventiva", "Medicina Interna"
+    "Cuidados Intensivos", "Fonoaudiología", "Kinesiología", "Fisioterapia",
+    "Microbiología", "Genética"
 ]
 
