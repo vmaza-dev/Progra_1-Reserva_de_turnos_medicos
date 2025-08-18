@@ -173,3 +173,55 @@ def imprimir_datos(encabezado, matriz):
             print(matriz[i][j], end = "\t")
         print()
 
+nombres = [
+    "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
+    "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
+    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo"
+    "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
+    "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
+    "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
+    "Fausto", "León", "Lucio", "Santino", "Lionel", "Lucas", "Nicolás", "Camilo", "Manuel", "Sebastián",
+    "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros", 
+    "Victoria", "Josefina","Rufina", "Amparo", "Refugio", "Paz", "Lara", "Luna", "Malena", "Remedios",
+    "Bruna", "Luz","Melody", "Azul", "Constanza", "Eva", "India", "Paulina", "Greta", "Vera", "Xiomara",
+    "Abril", "Ariadna", "Ailén", "Aurora", "Gianna", "Juana", "Nina", "Rosario", "Agostina", "Aline", 
+    "Celina", "Guillermina", "Jesús", "Vitto", "Salvador", "Ignacio", "Amelie", "Aitana", "Alana",
+    "Brisa", "Iñaki", "Esteban", "Obi Wan", "John", "Anakin", "Arthas", "Guido", "Rick", "Jose Joaquín"
+]
+
+apellidos = [
+    "González", "Rodríguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
+    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi"
+    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini"
+    "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
+    "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
+    "Rios", "Morales", "Godoy", "Moreno", "Ferreyra",
+    "Dominguez", "Carrizo", "Peralta", "Castillo", "Ledesma",
+    "Quiroga", "Vega", "Vera", "Muñoz", "Ojeda",
+    "Ponce", "Villalba", "Cardozo", "Navarro", "Coronel",
+    "Vazquez", "Ramos", "Vargas", "Caceres", "Arias",
+    "Figueroa", "Cordoba", "Correa", "Maldonado", "Paz",
+    "Rivero", "Miranda", "Mansilla", "Farias", "Roldan",
+    "Mendez", "Guzmán", "Aguero", "Hernández", "Lucero",
+    "Cruz", "Paez", "Escobar", "Mendoza", "Barrios", "Diaz"
+    "Bustos", "Avila", "Ayala", "Blanco", "Soria",
+    "Maidana", "Acuña", "Leiva", "Duarte", "Moyano",
+    "Campos", "Iturria", "Maza", "Seijo", "Aliano",
+    "Escándalo", "Quito", "Gimenez", "Herrera", "Suárez",
+    "Aguirre", "Gutiérrez", "Pereyra", "Molina", "Castro", "Grimes"
+    "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
+]
+
+especialidades = [
+    "Medicina General", "Clínica Médica", "Cardiología", "Dermatología", "Pediatría",
+    "Ginecología y Obstetricia", "Neurología", "Psiquiatría", "Cirugía General", "Oftalmología",
+    "Otorrinolaringología", "Traumatología y Ortopedia", "Urología", "Anestesiología", "Radiología",
+    "Endocrinología", "Gastroenterología", "Neumonología", "Nefrología", "Reumatología",
+    "Infectología", "Oncología", "Hematología", "Geriatría", "Medicina Familiar",
+    "Emergentología", "Cirugía Plástica", "Neurocirugía", "Cirugía Cardiovascular", "Cirugía Pediátrica",
+    "Nutrición", "Medicina del Deporte", "Fisiatría", "Medicina Paliativa", "Medicina Estética",
+    "Alergia e Inmunología", "Patología", "Toxicología", "Genética Médica",
+    "Medicina Laboral", "Cuidados Intensivos", "Fonoaudiología", "Kinesiología", "Fisioterapia",
+    "Microbiología", "Medicina Nuclear", "Genética", "Medicina Preventiva", "Medicina Interna"
+]
+

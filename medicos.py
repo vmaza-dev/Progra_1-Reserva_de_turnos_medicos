@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random
+import random, fun_aux
 def ingresar_nombre_medico():
     """
     Solicita al usuario el nombre de un médico *ingresa el nombre* .
@@ -71,6 +71,13 @@ def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea me
     matrizMeds.append([idMed, nombreCompleto, espe, antig, estado])
     print("ID: ", idMed) # Esto es temporal, todavía no hice la lectura de un médico específico.
 
+def crear_medicos_random(meds, cantCrear):
+    # Esta funcion lo que hace es crear "cantCrear" veces un médico usando las matrices de fun_aux.py
+    for i in range(cantCrear):
+        nyap = random.choice(fun_aux.nombres) + " " + random.choice(fun_aux.apellidos)
+        espe = random.choice(fun_aux.especialidades)
+        meds.append([random.randint(1000, 9999), nyap, espe, random.randint(1,30), 1])
+
 def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el nombre asi es más claro y legible.
     """
     Permite modificar los datos de un medico que ya estaba registrado.
@@ -105,12 +112,9 @@ def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el 
             print("1: Sumar 1 año\n2: Restar 1 año\n3: Ingresar manualmente la antigüedad")
             opcionAntig = int(input("Ingrese el número correspondiente: "))
             match opcionAntig:
-                case 1:
-                    listaMed[3] += 1
-                case 2:
-                    listaMed[3] -= 1
-                case 3:
-                    listaMed[3] = ingresar_antig(nombreMed)
+                case 1:listaMed[3] += 1
+                case 2:listaMed[3] -= 1
+                case 3:listaMed[3] = ingresar_antig(nombreMed)
             print("Antigüedad modificada exitosamente a:", listaMed[3])
         case 4:
             if (listaMed[4] == 0):
@@ -120,7 +124,15 @@ def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el 
                 listaMed[4] = 0
                 print("El médico", nombreMed, "ahora se encuentra dado de baja")
 
-#def leer_medico():
+def leer_medicos(meds):
+    for med in meds:
+        print("---------------------------------------")
+        print(f"MÉDICO: {med[1]} | ID: {med[0]}:")
+        print(f"ESPECIALIDAD: {med[2]}\nANTIGÜEDAD: {med[3]} años")
+        if (med[4] == 0):
+            print(f"ESTADO: DE BAJA")
+        else:
+            print(f"ESTADO: ACTIVO")
 
 def buscar_borrar_med(idElim, meds):
     """
@@ -160,7 +172,9 @@ def elim_medico(matrizMeds):
 
 medicos = []
 
-crear_medico(medicos)
-actu_medico(medicos[0], medicos[0][1])
-#medico_aux = leer_medico()
-elim_medico(medicos)
+crear_medicos_random(medicos, 10)
+
+#crear_medico(medicos)
+#actu_medico(medicos[0], medicos[0][1])
+leer_medicos(medicos)
+#elim_medico(medicos)
