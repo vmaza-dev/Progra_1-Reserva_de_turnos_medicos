@@ -31,3 +31,8 @@ def leer_pacientes(pacientes):
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
+
+# obra social para pacientes
+# id del ARCA de la obra social
+# Elegir las obras sociales que queremos
+# Decidir si usar obras sociales o solo poner si tiene obra o es particular
