@@ -12,6 +12,14 @@ La idea es que todos tengamos la misma info de como vamos a hacer el TP. La exte
 
 Espero que sea de ayuda y si están de acuerdo con este archivo lo dejamos, lo sacamos, lo modificamos (MarkDown es sencillo). Cambienlo como quieran, agreguenle lo que les parezca y vamos viendo.
 
+## Convención de commits
+
+Cada uno hace alguna funcionalidad y commitea.
+
+## Merge
+
+
+
 ## Convenciones generales de escritura de código
 
 Usamos la convenciones de Python (PEP 8, PEP 257), que son convenciones que están en la página oficial de Python.
