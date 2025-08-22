@@ -49,22 +49,48 @@ def ingresar_entero_positivo(mensaje):
         n = int(input(f"{mensaje}"))
     return n
 
-def ingresar_campo_str(mensaje):
+def ingresar_respuesta_str(mensaje):
         
     """
-    Valida el ingreso por teclado de un campo.
+    Permite el ingreso de un respuesta a un prompt.
 
-    Valida el ingreso de un campo de tipo str, por ejemplo nombre del paciente,
-    especialidad médica, etc,
+    Permite el ingreso de una respuesta de tipo str, por ejemplo nombre del paciente,
+    especialidad médica, s/n, etc,
 
     Parámetros:
         mensaje(str): Pedido de ingreso de datos.
 
     Returns:
-        campo(str).
+        respuesta(str).
     """
-    print("Puede un humano ganarle a un Gorila?")
+    rta = input(mensaje)
+    return rta
 
+
+def imprimir_lista(mi_lista, num = False):
+    """
+    Imprmime los elementos de una lista tabulados.
+    
+    Admite la numeración de los elementos.
+    Args:
+        mi_lista(list): Lista de elementos.
+        num(bool):
+            False: Por defecto. Omite numeración
+            True: Opcional. Numera los elementos
+            
+    
+    Returns:
+    """
+    if num:
+        contador = 0
+        for i in mi_lista:
+            contador += 1
+            print(f"{contador}: {i}", end=" ")
+    else:
+        for i in mi_lista:
+            print(i, end=" ")        
+
+    print("")
 
 def validar_fecha(d, m, a):
     """
@@ -212,15 +238,6 @@ apellidos = [
     "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
 ]
 
-especialidades = [
-    "Medicina General", "Clínica Médica", "Cardiología", "Dermatología", "Pediatría",
-    "Ginecología y Obstetricia", "Neurología", "Psiquiatría", "Cirugía General", "Oftalmología",
-    "Otorrinolaringología", "Traumatología", "Urología", "Anestesiología", "Radiología",
-    "Endocrinología", "Gastroenterología", "Neumonología", "Nefrología", "Reumatología",
-    "Infectología", "Oncología", "Hematología", "Geriatría","Emergentología", "Cirugía Plástica",
-    "Neurocirugía", "Cirugía Cardiovascular", "Cirugía Pediátrica", "Nutrición","Fisiatría",
-    "Alergia e Inmunología", "Patología", "Toxicología", "Genética Médica",
-    "Cuidados Intensivos", "Fonoaudiología", "Kinesiología", "Fisioterapia",
-    "Microbiología", "Genética"
-]
+especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
 
+COBERTURA = ["Total", "Copago", "Particular"]
