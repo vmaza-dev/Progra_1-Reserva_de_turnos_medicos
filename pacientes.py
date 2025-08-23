@@ -34,10 +34,6 @@ def crear_pacientes_random(pacientes, cantCrear):
 def leer_pacientes(pacientes):
     ancho=50
     for pac in pacientes:
-        print("---------------------------------------")
-        print(f"PACIENTE: {pac[2]} | ID: {pac[0]}")
-        print(f"DNI: {pac[1]}\nEDAD: {pac[3]}")
-        print("=" * ancho)
         print(f" PACIENTE: {pac[2]} ".center(ancho, "="))
         print(f"ID: {str(pac[0]).ljust(10)} | DNI: {str(pac[1]).ljust(12)}")
         print(f"EDAD: {str(pac[3]).ljust(8)} | OBRA SOCIAL: {pac[4]}")
@@ -59,15 +55,69 @@ def buscar_id_paciente(pacientes):
             print(f"DNI: {pac[1]}")
             print(f"NOMBRE: {pac[2]}")
             print(f"EDAD: {pac[3]}")
+            print(f"OBRA SOCIAL: {pac[4]}")
+            print(f"ESTADO: {pac[5]}")
             print("==============================" + "\n")
             encontrado = True 
         i += 1
     if encontrado == False:
-        print("\nNo se encontro al paciente\n")
+        print("No se encontro al paciente")
+
+def actualizar_paciente(pacientes):
+    id = int(input("Ingrese el ID del paciente que desea modificar:"))
+    encontrado = False
+    i = 0
+    
+    while i < len(pacientes) and encontrado == False:
+        pac = pacientes[i]
+        if pac[0] == id:
+            print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
+            print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL\n5-ESTADO")
+            op = int(input("Ingrese el numero de la opcion:"))
+
+            match op:
+                case 1:
+                    pac[1] = int(input("Ingrese el nuevo DNI:"))
+                case 2:
+                    pac[2] = input("Ingrese el nuevo nombre:")
+                case 3:
+                    pac[3] = int(input("Ingrese la nueva edad:"))
+                case 4:
+                    pac[4] = input("Ingrese la nueva Obra social:")
+                case 5:
+                    pac[5] = int(input("Ingrese el nuevo Estado:"))
+            encontrado = True
+        else:
+            i = i + 1
+    if encontrado == False:
+        print("No se encontro al paciente")
+
+def eliminar_paciente(pacientes):
+    id = int(input("Ingrese el ID del paciente que desea eliminar:"))
+    encontrado = False
+    i = 0
+
+    while i < len(pacientes) and encontrado == False:
+        if pacientes[i][0] == id:
+            pacientes.pop(i)
+            encontrado = True
+        else:
+            i = i + 1
+    
+    if encontrado:
+        print("El paciente fue eliminado")
+    else:
+        print("El paciente no fue eliminado porque no pudo ser encontrado")
+
+
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
 buscar_id_paciente(pacientes)
+eliminar_paciente(pacientes)
+leer_pacientes(pacientes)
+actualizar_paciente(pacientes)
+leer_pacientes(pacientes)
 
 
 # obra social para pacientes
