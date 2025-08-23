@@ -20,6 +20,28 @@ def leer_pacientes(pacientes):
         print(f"PACIENTE: {pac[2]} | ID: {pac[0]}")
         print(f"DNI: {pac[1]}\nEDAD: {pac[3]}")
 
+def buscar_id_paciente(pacientes):
+    id = int(input("Ingrese el ID del paciente a buscar: "))
+    encontrado = False
+    i = 0
+
+    while i < len(pacientes) and encontrado == False:
+        pac = pacientes[i]
+        if pac[0] == id:
+            print("\n" + "==============================")
+            print("PACIENTE ENCONTRADO")
+            print("-------------------------------")
+            print(f"ID: {pac[0]}")
+            print(f"DNI: {pac[1]}")
+            print(f"NOMBRE: {pac[2]}")
+            print(f"EDAD: {pac[3]}")
+            print("==============================" + "\n")
+            encontrado = True 
+        i += 1
+
+    if encontrado == False:
+        print("\nNo se encontro al paciente\n")
+
 #[ID, DNI, NOMBRE, EDAD]
 #pacientes = [
 #    [1, "11223344", "Jose Diaz"],
@@ -31,6 +53,8 @@ def leer_pacientes(pacientes):
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
+buscar_id_paciente(pacientes)
+
 
 # obra social para pacientes
 # id del ARCA de la obra social
