@@ -66,19 +66,18 @@ def ingresar_respuesta_str(mensaje):
     rta = input(mensaje)
     return rta
 
-
 def imprimir_lista(mi_lista, num = False):
     """
-    Imprmime los elementos de una lista tabulados.
+    Imprimme los elementos de una lista tabulados.
     
     Admite la numeración de los elementos.
-    Args:
+
+    Parámetros:
         mi_lista(list): Lista de elementos.
         num(bool):
             False: Por defecto. Omite numeración
             True: Opcional. Numera los elementos
-            
-    
+
     Returns:
     """
     if num:
@@ -192,11 +191,11 @@ def imprimir_datos(encabezado, matriz):
     filas = len(matriz)
     columnas = len(matriz[0])
     for titulo in encabezado:
-        print(titulo, end = "\t")
+        print(f"{titulo:<16}", end="\t")
     print()
     for i in range(filas):
         for j in range(columnas):
-            print(matriz[i][j], end = "\t")
+            print(f"{matriz[i][j]:<16}", end = "\t")
         print()
 
 nombres = [
@@ -240,4 +239,4 @@ apellidos = [
 
 especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
 
-COBERTURA = ["Total", "Copago", "Particular"]
+cobertura = ["Total", "Copago", "Particular"]
