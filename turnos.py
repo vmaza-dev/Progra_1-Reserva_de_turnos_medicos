@@ -22,7 +22,7 @@ def mostrar_encabezado_consulta(encabe):
     print(f"{encabe.upper()}")
 
 
-def generar_informe()
+#def generar_informe()
 
 def logo_turnos():
     """
@@ -236,7 +236,7 @@ def consultar_por_paciente(encabezados, m_turnos):
         pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
     
     turnos_pac_cons = []
-    for 
+    #for 
 
 
 
@@ -277,6 +277,24 @@ def consultar_turno(encabezados, turnos):
         case 7:
             print("x")
     print("x")
+
+def elim_turno(m_turnos):
+    """
+    Cancela un turno cambiando el estado
+    """
+    print("-"*10, "BAJA DE TURNO", "-"*10)
+    id_turno = fun_aux.ingresar_entero_positivo("Ingresar id del turno: ")
+
+    for turno in m_turnos:
+        if turno [0] == id_turno:
+            if turno [7] == "Cancelado":
+                print("Su turno ya está cancelado")
+                return
+            turno[7] = "Cancelado"
+            print(f"Turno {id_turno} cancelado")
+            return
+        print("Turno no encontrado")
+
 
 
 
@@ -333,5 +351,6 @@ consultar_turno(ENCABEZADO, turnos_hard)
 #### Esto es lo que va quedando pendiente de arrancar
 
 # baja de turnos
+
 # edición de turnos
 
