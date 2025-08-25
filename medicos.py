@@ -42,7 +42,17 @@ def ingresar_antig(nombreMed):
     antiguedad = int(input(f"Ingrese la antiguedad de {nombreMed}: "))
     return antiguedad
 
-def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea mejor con diccionarios. (structs)
+def generar_id(matrizIds):
+    if (len(matrizIds) == 9000):
+        print("No hay mas IDs disponibles")
+        return -1
+    else:
+        idGenerado = random.randint(1000, 9999)
+        while (idGenerado in matrizIds):
+            idGenerado = random.randint(1000, 9999)
+        return idGenerado
+
+def crear_medico(matrizMeds, matrizIds): # NOTA: Lo hago con matrices pero no sé si sea mejor con diccionarios. (structs)
     """
     Crear un nuevo usuario medico y lo agrega a la matriz total de medicos.
     
@@ -50,7 +60,6 @@ def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea me
         matrizMeds (list): Lista de listas *matriz* que almacena los medicos registrados.
         cada medico se guarda con el formato:
         [ID,Nombre, Especialidad, Antiguedad , Estado]
-
 
     Flujo:
         - Genera un ID aleatorio de 4 digitos
@@ -60,23 +69,25 @@ def crear_medico(matrizMeds): # NOTA: Lo hago con matrices pero no sé si sea me
 
     Returns:
         None. Modifica directamente la matriz de medicos.
-        
-        
         """
-    idMed = random.randint(1000, 9999)
     nombreCompleto = ingresar_nombre_medico()
-    espe = ingresar_espe(nombreCompleto)
-    antig = ingresar_antig(nombreCompleto)
-    estado = 1 # 0 DE BAJA | 1 ACTIVO
-    matrizMeds.append([idMed, nombreCompleto, espe, antig, estado])
-    print("ID: ", idMed) # Esto es temporal, todavía no hice la lectura de un médico específico.
+    idMed = generar_id(matrizIds)
+    if (idMed == -1):
+        print("ERROR al crear medico. No hay más IDs disponibles")
+        return
+    matrizMeds.append([idMed, nombreCompleto, ingresar_espe(nombreCompleto),
+                        ingresar_antig(nombreCompleto), 1 ]) # 0 DE BAJA | 1 ACTIVO
 
-def crear_medicos_random(meds, cantCrear):
+def crear_medicos_random(meds, cantCrear, matrizIds):
     # Esta funcion lo que hace es crear "cantCrear" veces un médico usando las matrices de fun_aux.py
     for i in range(cantCrear):
         nyap = random.choice(fun_aux.nombres) + " " + random.choice(fun_aux.apellidos)
         espe = random.choice(fun_aux.especialidades)
-        meds.append([random.randint(1000, 9999), nyap, espe, random.randint(1,30), 1])
+        idMed = generar_id(matrizIds)
+        if (idMed == -1):
+            print("ERROR al crear medico. No hay más IDs disponibles")
+            return
+        meds.append(idMed, nyap, espe, random.randint(1,30), 1])
 
 def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el nombre asi es más claro y legible.
     """
@@ -124,15 +135,22 @@ def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el 
                 listaMed[4] = 0
                 print("El médico", nombreMed, "ahora se encuentra dado de baja")
 
+def imprimir_medico(med):
+    print("---------------------------------------")
+    print(f"MÉDICO: {med[1]} | ID: {med[0]}")
+    print(f"ESPECIALIDAD: {med[2]}\nANTIGÜEDAD: {med[3]} años")
+    if (med[4] == 0): print(f"ESTADO: DE BAJA")
+    else: print(f"ESTADO: ACTIVO")
+
 def leer_medicos(meds):
     for med in meds:
-        print("---------------------------------------")
-        print(f"MÉDICO: {med[1]} | ID: {med[0]}:")
-        print(f"ESPECIALIDAD: {med[2]}\nANTIGÜEDAD: {med[3]} años")
-        if (med[4] == 0):
-            print(f"ESTADO: DE BAJA")
-        else:
-            print(f"ESTADO: ACTIVO")
+        imprimir_medico(med)
+
+def leer_medico_id(meds, idMed):
+    for med in meds:
+        if (med[0] == idMed):
+            imprimir_medico(med)
+            break
 
 def buscar_borrar_med(idElim, meds):
     """
@@ -150,8 +168,8 @@ def buscar_borrar_med(idElim, meds):
     for med in meds:
         if (med[0] == idElim):
             encontrado = True
-            meds.remove(med)
-        break
+            med[4] = 0
+            break
     return encontrado
 
 def elim_medico(matrizMeds):
@@ -170,11 +188,23 @@ def elim_medico(matrizMeds):
     else:
         print("Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
 
-medicos = []
+""" MAIN """
+medicos = [
+    [1001, "Juan Pérez", "Traumatología", 5, 1],
+    [9999, "Ataúlfo Americo Djandjikian", "Otorrinonaringología", 23, 1]
+] #ID, Nombre, Especialidad, Antiguedad, Estado
 
-crear_medicos_random(medicos, 10)
+idsUsados = [1001, 9999]
+# Acá inicialice dos médicos para hacer pruebas de lectura.
 
-#crear_medico(medicos)
+
+crear_medicos_random(medicos, 5, idsUsados)
+
+#crear_medico(medicos, idsUsados)
+
 #actu_medico(medicos[0], medicos[0][1])
+
 leer_medicos(medicos)
+leer_medico_id(medicos, 1001)
+
 #elim_medico(medicos)
