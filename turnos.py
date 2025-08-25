@@ -1,12 +1,14 @@
 # ==============================================================================
 # Materia: Programación 1 
 # Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
-# Descripción: 
+# Descripción: Módulo Turnos
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
 import fun_aux, random
+from datetime import datetime, time, date, timedelta
 
+# Funciones del CRUD
 
 def mostrar_encabezado_consulta(encabe):
     """
@@ -21,8 +23,17 @@ def mostrar_encabezado_consulta(encabe):
     """
     print(f"{encabe.upper()}")
 
-
-def generar_informe()
+def generar_informe():
+    """
+    
+    
+    Parámetros:
+    
+    Returns:
+    """
+    # La idea de esta función es generar una salida por pantalla tipo
+    # informe tuneada con ansi
+    print("x")
 
 def logo_turnos():
     """
@@ -67,21 +78,18 @@ def elegir_horario(hora_turnos):
     print("Seleccione el horario del turno")
     print("-"*10, "HORARIO DE ATENCIÓN 9 A 17 HS", "-"*10)
     print("FRECUENCIA DE TURNOS: 20 MINUTOS")
-    m_t = fun_aux.ingresar_respuesta_str("Mañana o tarde? m/t: ").lower()
-    if m_t != "t":
-        print("MAÑANA")
-        print("h: 9/10/11/12")
-        fun_aux.imprimir_lista(hora_turnos)
+    c = int(len(hora_turnos)/2)
+    print("")
+    fun_aux.imprimir_lista(hora_turnos[:c], True)
+    print("")
+    fun_aux.imprimir_lista(hora_turnos[c:], True, 8)
+    print("")
+    seleccion = fun_aux.ingresar_entero_positivo("Horario seleccionado: ")
+    if seleccion == 1:
+        seleccion = 0
     else:
-        print("TARDE")
-        print("h: 13/14/15/16")
-        fun_aux.imprimir_lista(hora_turnos)
-    print("Ingrese el horario seleccionado sin los ':'. Ejemplo: 920")
-    ingreso = fun_aux.ingresar_respuesta_str("Horario seleccionado: ")
-    if len(ingreso) % 2 == 0:   
-        hora = f"{ingreso[:2]}:{ingreso[2:]}"
-    else:
-        hora = f"{ingreso[:1]}:{ingreso[1:]}"
+        seleccion -= 1
+    hora = hora_turnos[seleccion] 
     return hora
 
 def generar_consulta_med(tipos_consultas):
@@ -105,12 +113,12 @@ def generar_consulta_med(tipos_consultas):
     consulta = tipos_consultas[seleccion]    
     return consulta
 
-def elegir_especialidad_med(lista_meds):
+def elegir_especialidad_med():
     """
     Permite la elección de la especialidad médica.
     
     Parámetros:
-        lista_meds(list): Lista con los datos del médico.    
+          
     Returns:
         espec(str): Especilidad elegida.
     """
@@ -136,11 +144,13 @@ def mostrar_meds_por_especialidad(lista_meds, espec):
         
     """
     meds_espec = []
+    mat_meds = []
     for medico in lista_meds:
         if espec in medico:
             meds_espec.append(medico[1])
+            mat_meds.append(medico[0])
     fun_aux.imprimir_lista(meds_espec, True)
-    return meds_espec
+    return mat_meds
 
 def crear_id_turno(turnos):
     """
@@ -156,14 +166,179 @@ def crear_id_turno(turnos):
         return 1
     else:
         return len(turnos) + 1
+
+def crear_horario_atencion(inicio, fin):
+    """
+    Crea el horario de atención del consultorio.
     
+    Parámetros:
+        inicio(time): Hora del primer turno.
+        fin(time): Hora del último turno.
+    Returns:
+        list: Lista con los horarios de los turnos.
+    """
+    h_turnos = [inicio.strftime("%H:%M")]
+    h_turno =  inicio
+    while h_turno <= fin:
+        h_turno += timedelta(minutes = 30)
+        h_turnos.append(str(h_turno.strftime("%H:%M")))
+    return h_turnos
+
+def crear_mes(inicio, fin):
+    """
+    Genera todas las fechas entre inicio y fin
+    
+    Parámetros:
+    
+    Returns:
+    """
+    rango_fechas = [inicio + timedelta(days=i) for i in range((fin - inicio).days + 1)]
+    return rango_fechas
+    
+def devolver_paciente(paci, dni):
+    """
+    Devuelve el nombre del paciente según el DNI.
+    
+    Parámetros:
+        paci(list[list]): Matriz de pacientes.
+        dni(int): DNI del paciente a buscar.
+    
+    Returns:
+    """
+    buscar = True
+    i = 0
+    while buscar:
+        if paci[i][0] == dni:
+            nombre = paci[i][1]
+            buscar = False
+        i += 1
+    return nombre
+                
+def devolver_medico(meds, mat):
+    """
+    Devuelve el nombre del médicos según el matrícula.
+    
+    Parámetros:
+        meds(list[list]): Matriz de médicos.
+        mat(int): Matrícula del médico a buscar.
+    
+    Returns:
+    """
+    buscar = True
+    i = 0
+    while buscar:
+        if meds[i][0] == mat:
+            nombre = meds[i][1]
+            buscar = False
+        i += 1
+    return nombre
+
+def consultar_por_fecha(encabezados, m_turnos, paci, meds):
+    """
+    Filtra y muestra turnos según la fecha a ingresar.
+    
+    Parámetros:
+        encabezados(list): Lista de encabezados de la matriz de turnos.
+        m_turnos(list[list]): Matriz de turnos
+        paci(list[list]): Matriz de pacientes.
+        meds(list[list]): Matriz de médicos.
+    Returns:
+    """
+    mostrar_encabezado_consulta("consulta por fecha")
+    print("Ingrese la fecha a consultar")
+
+    dia, mes, anio = ingresar_fecha()
+    valido, bisiesto = fun_aux.validar_fecha(dia, mes, anio)
+    while valido == False:
+        print("Fecha inválida, ingrese nuevamente: ")
+        dia, mes, anio = ingresar_fecha()
+        valido, bisiesto = fun_aux.validar_fecha(dia, mes, anio)
+    fecha_cons = date(anio, mes, dia)
+    turnos_por_fecha = []
+    for turno in m_turnos:
+        if fecha_cons in turno:
+            turnos_por_fecha.append(turno)
+            # por acá agregaría la función para hacer el informe
+    leer_turnos(turnos_por_fecha, encabezados, paci, meds)
+
+def consultar_por_paciente(encabezados, m_turnos, paci, meds):
+    """
+    Filtra y muestra turnos según el DNI del paciente.
+    
+    Parámetros:
+        encabezados(list): Lista de encabezados de la matriz de turnos.
+        m_turnos(list[list]): Matriz de turnos
+        paci(list[list]): Matriz de pacientes.
+        meds(list[list]): Matriz de médicos.    
+    Returns:
+    """
+    mostrar_encabezado_consulta("consulta por paciente")
+    pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
+    while len(str(pac)) < 8:
+        print("DNI incorrecto, ingrese nuevamente")
+        pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
+    
+    turnos_pac_cons = []
+    for turno in m_turnos:
+        if pac in turno:
+            turnos_pac_cons.append(turno)
+        # por acá agregaría la función para hacer el informe
+    leer_turnos(turnos_pac_cons, encabezados, paci, meds)
+
+def consultar_por_horario():
+    """
+    
+    
+    Parámetros:
+    
+    Returns:
+    """
+
+### Funciones CRUD
+
+def crear_turnos_random(turnos, mes, hora_turnos, tipo_consultas, estado,
+                         paci ,meds , n_turnos):
+    """
+    Crea una matriz de turnos al azar.
+
+    Usa las matrices creadas en los módulos pacientes y médicos.
+    
+    Parámetros:
+        turnos(list[list]): Matriz de turnos.
+        mes(date): Lista de los días del mes. 
+        hora_turnos(list): Lista con los horarios de los turnos.
+        tipo_consultas(list): Lista con el tipo de consultas.
+        estado(list): Lista de estados.
+        paci(list[list]): Matriz de pacientes.
+        meds(list[list]): Matriz de médicos.
+        n_turnos(int): Número de turnos a generar.
+
+    Returns:
+    """
+    # Falta ver como hacer que un médico tome mas de un turno.
+    for i in range(n_turnos):
+        id = crear_id_turno(turnos)
+        fecha = mes[i]
+        hora_turno = random.choice(hora_turnos)
+        especialidad = random.choice(fun_aux.especialidades)
+        consulta = random.choice(tipo_consultas)
+        estado_turno = random.choice(estado)
+        paciente = random.choice(paci)
+        dni_pac =  paciente[0]
+        medico = random.choice(meds)
+        mat_med =  medico[0]
+        turnos.append([id, fecha, hora_turno, dni_pac, especialidad, mat_med, 
+                       consulta, estado_turno])
+
 def crear_turno(turnos, hora_turnos, tipo_consultas, 
-                lista_pacs, lista_espe, lista_meds):
+                lista_pacs, lista_meds):
     """
     Permite la creación de un turno y guardarlo en la matriz de turnos.
     
     Parámetros:
         turnos(list[list]): Matriz de turnos.
+        hora_turnos(list): Lista con los horarios de los turnos.
+        tipo_consultas(list): Lista con el tipo de consultas.
         lists_pac(list): Lista con los datos del paciente.
         lista_meds(list): Lista con los datos del médico.
     Returns:
@@ -178,7 +353,7 @@ def crear_turno(turnos, hora_turnos, tipo_consultas,
     fecha_turno = f"{dia}/{mes}/{anio}"
     horario_turno = elegir_horario(hora_turnos)
     tipo_consulta = generar_consulta_med(tipo_consultas)
-    especialidad = elegir_especialidad_med(lista_espe)
+    especialidad = elegir_especialidad_med()
     print(f"{especialidad.upper()}: Elija un médico disponible.")
     meds_a_selec= mostrar_meds_por_especialidad(lista_meds, especialidad)
     seleccion = fun_aux.ingresar_entero_positivo("Seleccione médico: ")
@@ -188,59 +363,54 @@ def crear_turno(turnos, hora_turnos, tipo_consultas,
         seleccion -= 1
     medico_selec = meds_a_selec[seleccion]
     id = crear_id_turno(turnos)
-    turno = [id, fecha_turno, horario_turno, paciente[1], 
+    turno = [id, fecha_turno, horario_turno, paciente[0], 
              especialidad, medico_selec, tipo_consulta, "Activo"]
+    # Generar una confirmación del turno y mensaje de "generado exitosamente"
     turnos.append(turno)
     print(f"Turno: {turno} generado exitosamente")
 
-
-def consultar_por_fecha(encabezados, m_turnos):
+def leer_turnos(turnos, encabezado, paci, meds):
     """
-    Filtra y muestra turnos según la fecha a ingresar.
+    Leer y imprime matriz de turnos mas encabezado.
     
     Parámetros:
-        encabezados(list): Lista de encabezados de la matriz de turnos.
-        m_turnos(list[list]): Matriz de turnos
+        turnos(list[lis]): Matriz de turnos.
+        encabezado(list): Lista de encabezados de la matriz.
+        paci(list[list]): Matriz de pacientes.
+        meds(list[list]): Matriz de médicos.
     Returns:
     """
-    mostrar_encabezado_consulta("consulta por fecha")
-    print("Ingrese la fecha a consultar")
-
-    dia, mes, anio = ingresar_fecha()
-    valido, bisiesto = fun_aux.validar_fecha(dia, mes, anio)
-    while valido == False:
-        print("Fecha inválida, ingrese nuevamente: ")
-        dia, mes, anio = ingresar_fecha()
-        valido, bisiesto = fun_aux.validar_fecha(dia, mes, anio)
-    fecha_cons = f"{dia}/{mes}/{anio}"
-    turnos_por_fecha = []
-    for turno in m_turnos:
-        if fecha_cons in turno:
-            turnos_por_fecha.append(turno)
-            # por acá agregaría la función para hacer el informe
-    fun_aux.imprimir_datos(encabezados, turnos_por_fecha)
-
-def consultar_por_paciente(encabezados, m_turnos):
-    """
-    Filtra y muestra turnos según la fecha a ingresar.
+    # Tendría que ir un encabezado.
+    filas = len(turnos)
+    columnas = len(turnos[0])
+    for t in range(columnas):
+        match t:
+            case 0|2:
+                print(f"{encabezado[t]:<7}", end="\t")
+            case _:
+                print(f"{encabezado[t]:<15}", end="\t")        
+    print()
+    for i in range(filas):
+        # print("-"*107)
+        for j in range(columnas):
+            match j:
+                case 0|2:
+                    print(f"{turnos[i][j]:<7}", end = "\t")
+                case 1:
+                    print(f"{str(turnos[i][j].strftime("%d/%m/%Y")):<15}", end = "\t")
+                case 3:
+                    nombre = devolver_paciente(paci,turnos[i][j])
+                    apellido = nombre.split()[1]
+                    print(f"{nombre[:1]}. {apellido}", end = "\t")
+                case 5:
+                    nombre = devolver_medico(meds,turnos[i][j])
+                    apellido = nombre.split()[1]
+                    print(f"{nombre[:1]}. {apellido:<10}", end = "\t")
+                case _:
+                    print(f"{turnos[i][j]:<15}", end = "\t")
+        print()
     
-    Parámetros:
-        encabezados(list): Lista de encabezados de la matriz de turnos.
-        m_turnos(list[list]): Matriz de turnos    
-    Returns:
-    """
-    mostrar_encabezado_consulta("consulta por paciente")
-    pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
-    while len(str(pac)) < 8:
-        print("DNI incorrecto, ingrese nuevamente")
-        pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
-    
-    turnos_pac_cons = []
-    for 
-
-
-
-def consultar_turno(encabezados, turnos):
+def consultar_turno(encabezados, turnos, paci, meds):
 
 
     # mi idea es hacer una salida tipo informe, para cada consulta
@@ -264,10 +434,9 @@ def consultar_turno(encabezados, turnos):
         case 1:
             print("x")
         case 2:
-            consultar_por_fecha(encabezados, turnos)
-            print("x")
+            consultar_por_fecha(encabezados, turnos, paci, meds)
         case 3:
-            print("x")
+            consultar_por_paciente(encabezados, turnos, paci, meds)
         case 4:
             print("x")
         case 5:
@@ -276,8 +445,6 @@ def consultar_turno(encabezados, turnos):
             print("x")
         case 7:
             print("x")
-    print("x")
-
 
 
 # ==============================================================================
@@ -286,19 +453,24 @@ def consultar_turno(encabezados, turnos):
 
 # Matriz hard para prueba de código
 turnos_hard = [
-    [1, "22/8/2025", "10:00", "Cosme Fulanito", "Traumatología", "Rodolfo Galleguillo", "Urgencia", "Activo"],
-    [2, "22/8/2025", "10:45", "Anakin Skywalker", "Psiquiatría", "Obi Wan Kenobi", "Revisión", "Cancelado"],
-    [3, "23/8/2025", "11:30", "Judge Vinsmoke", "Urología", "Sanji Vismonke", "Control", "Finalizado"],
-    [4, "22/8/2025", "12:15", "Homero Simpson", "Clínica Médica", "Tony Tony Chopper", "Urgencia", "Activo"]
+    [1, "22/8/2025", "10:00", 35023963, "Traumatología", 154892, "Urgencia", "Activo"],
+    [2, "22/8/2025", "10:45", 32490932, "Psiquiatría", 153167, "Revisión", "Cancelado"],
+    [3, "23/8/2025", "11:30", 20488909, "Urología", 123858, "Control", "Finalizado"],
+    [4, "22/8/2025", "12:15", 20101983, "Clínica Médica", 456176, "Urgencia", "Activo"]
 ]
 
 ENCABEZADO = ["ID","FECHA", "HORA","PACIENTE","ESPECIALIDAD", "MEDICO","TIPO CONSULTA","ESTADO"]
                                     #ID_PAC     #ID_ESP        #ID_MED
 ESTADO_TURNO = ["Activo", "Cancelado", "Finalizado"]
 CONSULTA = ["Control", "Revisión", "Urgencia"]
-HORARIO_TURNOS = ["h:00", "h:20","h:40"]
-ESPECIALIDADES = fun_aux.especialidades
+INICIO_TURNOS = datetime(2025,1,1,9,0)# Pongo una fecha cualquiera lo que importa es la hora
+FIN_TURNOS = datetime(2025,1,1,16,0)# Pongo una fecha cualquiera lo que importa es la hora
+INICIO_MES = date(2025, 8, 1)
+FIN_MES = date(2025, 8, 31)
+
 turnos = []
+horario_turnos = crear_horario_atencion(INICIO_TURNOS, FIN_TURNOS)
+mes = crear_mes(INICIO_MES, FIN_MES)
 
 ### DATOS QUE DEBERIAN LLEGAR ###
 medicos = [[154892, "Rodolfo Galleguillo", "Traumatología", 15, 1],
@@ -316,19 +488,11 @@ pacientes = [[35023963, "Cosme Fulanito", "Total"],
 fun_aux.limpiar_terminal()
 logo_turnos()
 
-# crear_turno(turnos, HORARIO_TURNOS, CONSULTA, pacientes, ESPECIALIDADES, medicos)
-consultar_turno(ENCABEZADO, turnos_hard)
-
-# if len(turnos) == 0:
-#     print("Sin turnos asignados")
-#     crear_turno()
-
-
-# fun_aux.imprimir_datos(ENCABEZADO, turnos)
-
-# matriz de todps los turnos
-# consulta de turnos
-# creación de turnos
+# crear_turno(turnos, horario_turnos, CONSULTA, pacientes, medicos)
+crear_turnos_random(turnos, mes, horario_turnos, CONSULTA, ESTADO_TURNO, 
+                    pacientes, medicos, 31)
+leer_turnos(turnos, ENCABEZADO, pacientes, medicos)
+# consultar_turno(ENCABEZADO, turnos, pacientes, medicos)
 
 #### Esto es lo que va quedando pendiente de arrancar
 

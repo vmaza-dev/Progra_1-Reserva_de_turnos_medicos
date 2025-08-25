@@ -1,7 +1,7 @@
 # ==============================================================================
 # Materia: Programación 1 
 # Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
-# Descripción: 
+# Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 import random
@@ -66,7 +66,7 @@ def ingresar_respuesta_str(mensaje):
     rta = input(mensaje)
     return rta
 
-def imprimir_lista(mi_lista, num = False):
+def imprimir_lista(mi_lista, num = False, contador = 0):
     """
     Imprimme los elementos de una lista tabulados.
     
@@ -77,11 +77,11 @@ def imprimir_lista(mi_lista, num = False):
         num(bool):
             False: Por defecto. Omite numeración
             True: Opcional. Numera los elementos
+        contador(int): Inicio de la numeración. Por defecto 0.
 
     Returns:
     """
     if num:
-        contador = 0
         for i in mi_lista:
             contador += 1
             print(f"{contador}: {i}", end=" ")
@@ -191,11 +191,11 @@ def imprimir_datos(encabezado, matriz):
     filas = len(matriz)
     columnas = len(matriz[0])
     for titulo in encabezado:
-        print(f"{titulo:<16}", end="\t")
+        print(f"{titulo}", end="\t")
     print()
     for i in range(filas):
         for j in range(columnas):
-            print(f"{matriz[i][j]:<16}", end = "\t")
+            print(f"{matriz[i][j]}", end = "\t")
         print()
 
 nombres = [
