@@ -158,7 +158,7 @@ def buscar_borrar_med(idElim, meds):
     for med in meds:
         if (med[0] == idElim):
             encontrado = True
-            med[4] = False
+            meds.remove(med)
             break
     return encontrado
 
