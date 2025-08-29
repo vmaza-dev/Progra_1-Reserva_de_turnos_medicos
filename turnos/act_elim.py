@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-from turnos import *
+from cre_leer import *
 from fun_aux import *
 
 
