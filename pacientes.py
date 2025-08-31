@@ -14,6 +14,14 @@ OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 # CRUD
 # ==============================================================================
 
+def obtener_paciente_por_id(pacientes,id):
+    for i in pacientes:
+        if i[0] == id:
+            return i
+    return -1
+
+
+
 # Crear paciente
 def crear_paciente(id):
     """
@@ -132,41 +140,35 @@ def actualizar_paciente(pacientes):
         None.
     """
     id = int(input("Ingrese el ID del paciente que desea modificar: "))
-    encontrado = False
-    i = 0
-    while i < len(pacientes) and not encontrado:
-        pac = pacientes[i]
-        if pac[0] == id:
-            print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
-            print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL\n5-ESTADO")
-            op = int(input("Ingrese el numero de la opcion: "))
-            match op:
-                case 1:
-                    pac[1] = validacion_dni(int(input("Ingrese el nuevo DNI: ")))
-                case 2:
-                    pac[2] = input("Ingrese el nuevo nombre: ")
-                case 3:
-                    pac[3] = validacion_edad(int(input("Ingrese la nueva edad: ")))
-                case 4:
-                    print("Seleccione una Obra Social válida:")
-                    for n in range(len(OBRAS_SOCIALES)):
-                        print(f"{n+1} - {OBRAS_SOCIALES[n]}")
-                    while True:
-                        op_obra = int(input("Ingrese el número de la obra social: "))
-                        if 1 <= op_obra <= len(OBRAS_SOCIALES):
-                            pac[4] = OBRAS_SOCIALES[op_obra - 1]
-                            print("\nPerfil actualizado del paciente:")
-                            imprimir_paciente([pac])  # Pasamos lista con un solo paciente
-                            break
-                        else:
-                            print("Opción inválida, intente nuevamente.")
-                case 5:
-                    pac[5] = int(input("Ingrese el nuevo Estado: "))
-            encontrado = True
-        else:
-            i += 1
-    if not encontrado:
-        print("No se encontro al paciente")
+    pac = obtener_paciente_por_id(pacientes,id)
+    if pac == -1:
+        print("No se encontro al paciente.")
+    else:
+        print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
+        print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL\n5-ESTADO")
+        op = int(input("Ingrese el numero de la opcion: "))
+        match op:
+            case 1:
+                pac[1] = validacion_dni(int(input("Ingrese el nuevo DNI: ")))
+            case 2:
+                pac[2] = input("Ingrese el nuevo nombre: ")
+            case 3:
+                pac[3] = validacion_edad(int(input("Ingrese la nueva edad: ")))
+            case 4:
+                print("Seleccione una Obra Social válida:")
+                for n in range(len(OBRAS_SOCIALES)):
+                    print(f"{n+1} - {OBRAS_SOCIALES[n]}")
+                while True:
+                    op_obra = int(input("Ingrese el número de la obra social: "))
+                    if 1 <= op_obra <= len(OBRAS_SOCIALES):
+                        pac[4] = OBRAS_SOCIALES[op_obra - 1]
+                        print("\nPerfil actualizado del paciente:")
+                        imprimir_paciente([pac])
+                        break
+                    else:
+                        print("Opción inválida, intente nuevamente.")
+            case 5:
+                pac[5] = int(input("Ingrese el nuevo Estado: "))
 
 # Eliminar paciente
 def eliminar_paciente(pacientes):
