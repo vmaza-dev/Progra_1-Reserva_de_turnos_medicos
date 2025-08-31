@@ -177,18 +177,12 @@ def eliminar_paciente(pacientes):
         None
     """
     id = int(input("Ingrese el ID del paciente que desea eliminar: "))
-    encontrado = False
-    i = 0
-    while i < len(pacientes) and not encontrado:
-        if pacientes[i][0] == id:
-            pacientes.pop(i)
-            encontrado = True
-        else:
-            i += 1
-    if encontrado:
-        print("El paciente fue eliminado")
-    else:
+    pac = obtener_paciente_por_id(pacientes, id)
+    if pac == -1:
         print("El paciente no fue eliminado porque no pudo ser encontrado")
+    else:
+        pacientes.remove(pac)
+        print("El paciente fue eliminado")
 
 # ==============================================================================
 # VALIDACIONES
@@ -251,7 +245,7 @@ def generacion_dni_realista(edad):
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
-buscar_id_paciente(pacientes)
-#eliminar_paciente(pacientes)
-#leer_pacientes(pacientes)
+#buscar_id_paciente(pacientes)
+eliminar_paciente(pacientes)
+leer_pacientes(pacientes)
 #actualizar_paciente(pacientes)
