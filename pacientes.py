@@ -108,25 +108,20 @@ def buscar_id_paciente(pacientes):
         None.
     """
     id = int(input("Ingrese el ID del paciente a buscar: "))
-    encontrado = False
-    i = 0
-    while i < len(pacientes) and not encontrado:
-        pac = pacientes[i]
-        if pac[0] == id:
-            print("\n==============================")
-            print("PACIENTE ENCONTRADO")
-            print("-------------------------------")
-            print(f"ID: {pac[0]}")
-            print(f"DNI: {pac[1]}")
-            print(f"NOMBRE: {pac[2]}")
-            print(f"EDAD: {pac[3]}")
-            print(f"OBRA SOCIAL: {pac[4]}")
-            print(f"ESTADO: {pac[5]}")
-            print("==============================\n")
-            encontrado = True
-        i += 1
-    if not encontrado:
-        print("No se encontro al paciente")
+    pac = obtener_paciente_por_id(pacientes,id)
+    if pac == -1:
+        print("No se encontro el paciente")
+    else:
+        print("\n==============================")
+        print("PACIENTE ENCONTRADO")
+        print("-------------------------------")
+        print(f"ID: {pac[0]}")
+        print(f"DNI: {pac[1]}")
+        print(f"NOMBRE: {pac[2]}")
+        print(f"EDAD: {pac[3]}")
+        print(f"OBRA SOCIAL: {pac[4]}")
+        print(f"ESTADO: {pac[5]}")
+        print("==============================\n")
 
 # Actualizar paciente
 def actualizar_paciente(pacientes):
@@ -256,7 +251,7 @@ def generacion_dni_realista(edad):
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
-#buscar_id_paciente(pacientes)
+buscar_id_paciente(pacientes)
 #eliminar_paciente(pacientes)
 #leer_pacientes(pacientes)
-actualizar_paciente(pacientes)
+#actualizar_paciente(pacientes)
