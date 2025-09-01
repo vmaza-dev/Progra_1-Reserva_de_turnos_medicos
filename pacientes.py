@@ -254,7 +254,7 @@ def generacion_dni_realista(edad):
 pacientes = []
 crear_pacientes_random(pacientes, 10)
 leer_pacientes(pacientes)
-#buscar_id_paciente(pacientes)
-#eliminar_paciente(pacientes)
-#leer_pacientes(pacientes)
-actualizar_paciente(pacientes)
+# #buscar_id_paciente(pacientes)
+# #eliminar_paciente(pacientes)
+leer_pacientes(pacientes)
+# actualizar_paciente(pacientes)
