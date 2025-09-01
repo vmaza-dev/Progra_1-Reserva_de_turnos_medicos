@@ -324,7 +324,7 @@ def mostrar_estadisticas_pacientes(pacientes):
     print(f"{amarillo}{'=' * ancho}{default}")
 
 # ==============================================================================
-# GENERACION DE NOMBRES DE USUAROI
+# GENERACION DE NOMBRES DE USUARIO
 # ==============================================================================
 
 def generar_usuario(nombre_completo):
