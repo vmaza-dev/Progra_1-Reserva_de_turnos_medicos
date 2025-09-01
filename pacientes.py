@@ -381,3 +381,4 @@ leer_pacientes(pacientes)
 eliminar_paciente(pacientes)
 leer_pacientes(pacientes)
 #actualizar_paciente(pacientes)
+
