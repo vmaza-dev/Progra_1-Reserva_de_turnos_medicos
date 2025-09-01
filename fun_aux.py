@@ -1,7 +1,7 @@
 # ==============================================================================
 # Materia: Programación 1 
 # Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
-# Descripción: 
+# Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 import random
@@ -66,23 +66,22 @@ def ingresar_respuesta_str(mensaje):
     rta = input(mensaje)
     return rta
 
-
-def imprimir_lista(mi_lista, num = False):
+def imprimir_lista(mi_lista, num = False, contador = 0):
     """
-    Imprmime los elementos de una lista tabulados.
+    Imprimme los elementos de una lista tabulados.
     
     Admite la numeración de los elementos.
-    Args:
+
+    Parámetros:
         mi_lista(list): Lista de elementos.
         num(bool):
             False: Por defecto. Omite numeración
             True: Opcional. Numera los elementos
-            
-    
+        contador(int): Inicio de la numeración. Por defecto 0.
+
     Returns:
     """
     if num:
-        contador = 0
         for i in mi_lista:
             contador += 1
             print(f"{contador}: {i}", end=" ")
@@ -192,11 +191,11 @@ def imprimir_datos(encabezado, matriz):
     filas = len(matriz)
     columnas = len(matriz[0])
     for titulo in encabezado:
-        print(titulo, end = "\t")
+        print(f"{titulo}", end="\t")
     print()
     for i in range(filas):
         for j in range(columnas):
-            print(matriz[i][j], end = "\t")
+            print(f"{matriz[i][j]}", end = "\t")
         print()
 
 nombres = [
@@ -240,4 +239,4 @@ apellidos = [
 
 especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
 
-COBERTURA = ["Total", "Copago", "Particular"]
+cobertura = ["Total", "Copago", "Particular"]
