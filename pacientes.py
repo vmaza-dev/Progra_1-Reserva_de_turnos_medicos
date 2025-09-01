@@ -22,8 +22,6 @@ def obtener_paciente_por_id(pacientes,id):
     return -1
 
 
-
-# Crear paciente
 def crear_paciente(id):
     """
     Crea un paciente por teclado solicitando los datos al usuario
@@ -124,7 +122,6 @@ def buscar_id_paciente(pacientes):
         print(f"ESTADO: {pac[5]}")
         print("==============================\n")
 
-# Actualizar paciente
 def actualizar_paciente(pacientes):
     """
     Permite modificar los datos de un paciente por ID.
@@ -166,7 +163,6 @@ def actualizar_paciente(pacientes):
             case 5:
                 pac[5] = int(input("Ingrese el nuevo Estado: "))
 
-# Eliminar paciente
 def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
