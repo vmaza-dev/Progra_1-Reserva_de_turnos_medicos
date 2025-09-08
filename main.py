@@ -12,7 +12,7 @@
 
 # import pacientes
 from turnos import main_crear_leer, logo_turnos
-import medicos
+# import medicos
 import fun_aux
 
 
@@ -46,11 +46,11 @@ def main():
             print("[2] Gestión de pacientes")
             print("[3] Gestión de médicos")
             print("[4] Opción 100 a que lo elije a Lampone")
-            print("[5] Opción no son tan incómodos esto tacos ")
+            print("[5] Opción no son tan incómodos esto tacos")
             print("---------------------------")
             print("[0] Salir del programa")
             print("---------------------------")
-            print()
+            print() 
             
             opcion = input("Seleccione una opción: ")
             if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
@@ -118,7 +118,6 @@ def main():
 
 # Punto de entrada al programa
 main()
-
 
 
 

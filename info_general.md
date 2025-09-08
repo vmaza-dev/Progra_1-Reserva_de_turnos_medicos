@@ -12,13 +12,9 @@ La idea es que todos tengamos la misma info de como vamos a hacer el TP. La exte
 
 Espero que sea de ayuda y si están de acuerdo con este archivo lo dejamos, lo sacamos, lo modificamos (MarkDown es sencillo). Cambienlo como quieran, agreguenle lo que les parezca y vamos viendo.
 
-## Convención de commits
+## Convención de commits y merge
 
-Cada uno hace alguna funcionalidad y commitea.
-
-## Merge
-
-
+Cada uno hace alguna funcionalidad, commitea y mergea.
 
 ## Convenciones generales de escritura de código
 
