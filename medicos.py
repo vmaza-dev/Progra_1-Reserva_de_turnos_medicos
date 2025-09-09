@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, fun_aux
+import random, auxiliares
 def ingresar_nombre_medico():
     """
     Solicita al usuario el nombre de un médico *ingresa el nombre* .
@@ -75,10 +75,10 @@ def crear_medico(matrizMeds, matrizIds): # NOTA: Lo hago con matrices pero no s�
                         ingresar_antig(nombreCompleto), True]) # False DE BAJA | True ACTIVO
 
 def crear_medicos_random(meds, cantCrear, matrizIds):
-    # Esta funcion lo que hace es crear "cantCrear" veces un médico usando las matrices de fun_aux.py
+    # Esta funcion lo que hace es crear "cantCrear" veces un médico usando las matrices de auxiliares.py
     for i in range(cantCrear):
-        nyap = random.choice(fun_aux.nombres) + " " + random.choice(fun_aux.apellidos)
-        espe = random.choice(fun_aux.especialidades)
+        nyap = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
+        espe = random.choice(auxiliares.especialidades)
         idMed = generar_id(matrizIds)
         if (idMed == -1):
             print("ERROR al crear medico. No hay más IDs disponibles")

@@ -18,10 +18,10 @@ import re
 #---------------------------- MODULOS DEL PROYECTO -----------------------------
 #-------------------------------------------------------------------------------
 
-import fun_aux
-from . import calendario # importo mi módulo calendario
+import auxiliares
+import calendario # importo mi módulo calendario
 # es necesatio importarlo así para que python busque dentro de este paquete
-# sino busca al mismo nivel que fun_aux
+# sino busca al mismo nivel que auxiliares
 
 #-------------------------------------------------------------------------------
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
@@ -31,7 +31,7 @@ def transponer_matriz(matriz):
     """
     Transpone una matriz dada.
     
-    Parámetros:
+    Args:
     
     Returns:
     """
@@ -62,7 +62,7 @@ def generar_informe(matriz, consulta):#❓
     """
     Devuelve un informe con métricas de una matriz
     
-    Parámetros:
+    Args:
         matriz(list[list])
     Returns:
     """
@@ -79,7 +79,7 @@ def logo_turnos():
     Imprime logo turnos.
     """
 
-    fun_aux.limpiar_terminal()
+    auxiliares.limpiar_terminal()
     print("G6: SISTEMA DE GESTIÓN DE TURNOS")
 
     print(r"""
@@ -97,31 +97,31 @@ def ingresar_fecha():
     Returns
         Tres número enteros(tuple)
     """
-    d = fun_aux.ingresar_entero_positivo("Ingrese el día: ")
-    m = fun_aux.ingresar_entero_positivo("Ingrese el mes: ")
-    a = fun_aux.ingresar_entero_positivo("Ingrese el año: ")
+    d = auxiliares.ingresar_entero_positivo("Ingrese el día: ")
+    m = auxiliares.ingresar_entero_positivo("Ingrese el mes: ")
+    a = auxiliares.ingresar_entero_positivo("Ingrese el año: ")
     return d, m, a
 
 def ingresar_opcion_elegida(lista_opciones):
     """
     Permite el ingreso de una opción empezando en 1..
 
-    Parámetros:
+    Args:
         lista_opciones(list): Lista con la opciones.
     
     Returns:
         int: Devuelve el índice de la opción.
     """
-    opcion = fun_aux.ingresar_respuesta_str("Ingrese el número de opción escogida: ")
+    opcion = auxiliares.ingresar_respuesta_str("Ingrese el número de opción escogida: ")
     opcion_valida = False
     while opcion_valida  == False:
         # valido que no ingrese letras
         if re.findall("[a-zA-Z]", opcion):
             print("Ingrese una opción válida")
-            opcion= fun_aux.ingresar_respuesta_str("")
+            opcion= auxiliares.ingresar_respuesta_str("")
         elif int(opcion) <= 0 or int(opcion) > len(lista_opciones) :
             print("Ingrese una opción válida")
-            opcion = fun_aux.ingresar_respuesta_str("")
+            opcion = auxiliares.ingresar_respuesta_str("")
         else:
             opcion_valida = True
     opcion_elegida = int(opcion)-1
@@ -131,7 +131,7 @@ def elegir_fecha(mes, anio):
     """
     Permite la elección de una fecha para cargar un turno.
     
-    Parámetros:
+    Args:
         mes(int)
         anio(int)
     
@@ -150,18 +150,18 @@ def elegir_fecha(mes, anio):
     # [Domingo, Lunes, Martes, Miercoles, Jueves, Viernes, Sábado],
     # ...]
     print("Seleccione una fecha ingresando el dia")
-    dia_ingresado = fun_aux.ingresar_respuesta_str("")
+    dia_ingresado = auxiliares.ingresar_respuesta_str("")
     dia_valido = False
     while dia_valido == False:
         # valido que no ingrese letras
         if re.findall("[a-zA-Z]", dia_ingresado):
             print("Ingrese una fecha válida")
-            dia_ingresado = fun_aux.ingresar_respuesta_str("")
+            dia_ingresado = auxiliares.ingresar_respuesta_str("")
             # acá falta ver como validar que no elija el mas allá del
             # último día del mes actual, puse 31 para hacerlo general
         elif int(dia_ingresado) <= 0 or int(dia_ingresado) > 31 :
             print("Ingrese una fecha válida")
-            dia_ingresado = fun_aux.ingresar_respuesta_str("")
+            dia_ingresado = auxiliares.ingresar_respuesta_str("")
         else:
             dia_valido = True
     # saco el dia de la semana y su nombre para que quede mas lindo
@@ -180,7 +180,7 @@ def elgir_consulta_med(tipos_consultas):
     """
     Permite la elección del tipo de consulta médica.
     
-    Parámetros:
+    Args:
         tipos_consultas(list): Lista con los tipos de consultas ofrecidas.
     
     Returns:
@@ -188,8 +188,8 @@ def elgir_consulta_med(tipos_consultas):
     """
     print("Seleccione el tipo de consulta del turno")
     print("-"*10, "CONSULTAS OFRECIDAS", "-"*10)
-    fun_aux.imprimir_lista(tipos_consultas,True)
-    seleccion = fun_aux.ingresar_entero_positivo("Seleccione la consulta: ")
+    auxiliares.imprimir_lista(tipos_consultas,True)
+    seleccion = auxiliares.ingresar_entero_positivo("Seleccione la consulta: ")
     if seleccion == 1:
         seleccion = 0
     else:
@@ -201,20 +201,20 @@ def elegir_especialidad_med():
     """
     Permite la elección de la especialidad médica.
     
-    Parámetros:
+    Args:
           
     Returns:
         espec(str): Especilidad elegida.
     """
     print("Seleccione el tipo de especialidad médica")
     print("-"*10, "ESPECIALIDADES", "-"*10)
-    fun_aux.imprimir_lista(fun_aux.especialidades, True)
-    seleccion = fun_aux.ingresar_entero_positivo("Seleccione la especialidad: ")
+    auxiliares.imprimir_lista(auxiliares.especialidades, True)
+    seleccion = auxiliares.ingresar_entero_positivo("Seleccione la especialidad: ")
     if seleccion == 1:
         seleccion = 0
     else:
         seleccion -= 1
-    espc = fun_aux.especialidades[seleccion]    
+    espc = auxiliares.especialidades[seleccion]    
     return espc   
 
 def elegir_medico(mat_turnos, fecha_turno, dia_semana, hora_turnos,
@@ -222,7 +222,7 @@ def elegir_medico(mat_turnos, fecha_turno, dia_semana, hora_turnos,
     """
     Permite la elección de un medico disponible. 
     
-    Parámetros:
+    Args:
         mat_turnos(list[list]): Matriz de turnos del mes.
         fecha_turno(date): Fecha seleccionada para el turno.
         dia_semana(str): Nombre del día de la fecha.
@@ -314,7 +314,7 @@ def filtrar_turnos(mat_turnos, filtro, inverso = False):
 
     Si inverso True, filtra lo que no coincide.
 
-    Parámetros:
+    Args:
         mat_turnos(list[list]): Matriz de turnos.
         filtro(str|int|date): Clave de filtrado.
         inverso(bool): Defecto False. 
@@ -337,7 +337,7 @@ def filtrar_meds_por_especialidad(meds, espec):
     """
     Filtra médicos según la especialidad indicada.
     
-    Parámetros:
+    Args:
         meds(list): Lista de médicos.
         espec(str): Nombre de la especialidad a buscar.
     Returns:
@@ -353,7 +353,7 @@ def crear_id_turno(mat_turnos):
     """
     Crea el id de turnos.
     
-    Parámetros:
+    Args:
         turnos(list[list]): Matriz de turnos.
 
     Returns:
@@ -370,7 +370,7 @@ def crear_horario_atencion(inicio, fin, freq = 30):
 
     Por defecto cada turno de se asigna cada media hora.
     
-    Parámetros:
+    Args:
         inicio(time): Hora del primer turno.
         fin(time): Hora del último turno.
         freq(int): Tiempo entre cada turno.
@@ -389,7 +389,7 @@ def crear_mes():
     """
     Genera todas las fechas del mes actual.
     
-    Parámetros:
+    Args:
     
     Returns:
         rango_fechas(list[date]): Lista con las fechas generadas.
@@ -412,7 +412,7 @@ def devolver_paciente(paci, dni):
     """
     Devuelve el nombre del paciente según el DNI.
     
-    Parámetros:
+    Args:
         paci(list[list]): Matriz de pacientes.
         dni(int): DNI del paciente a buscar.
     
@@ -431,7 +431,7 @@ def devolver_medico(meds, mat_med):
     """
     Devuelve el nombre del médicos según la matrícula.
     
-    Parámetros:
+    Args:
         meds(list[list]): Matriz de médicos.
         mat_med(int): Matrícula del médico a buscar.
     
@@ -452,7 +452,7 @@ def validar_turno(mat_turnos, fecha, medico, paciente, hora_turno):
 
     Si hay superposición de horarios o superposición de médicos devuelve False.
 
-    Parámetros:
+    Args:
         
     Returns:
     """
@@ -479,7 +479,7 @@ def validar_turno(mat_turnos, fecha, medico, paciente, hora_turno):
 def validar_turno_por_especialidad(mat_turnos, fecha_turno, especialidad, paciente):
     """
     
-    Parámetros:
+    Args:
     
     Returns:
     """
@@ -518,7 +518,7 @@ def contar_ocurr_elementos_turnos(mat_turnos, lista_elementos):
     """
     Devuelve una lista con el conteo de cada elemento en matriz de turnos.
     
-    Parámetros:
+    Args:
         mat_turnos(list[list])
         lista_elementos(list)
     
@@ -543,7 +543,7 @@ def consultar_por_fecha(encabezados, m_turnos, mes, mes_palabra,
     """
     Filtra y muestra turnos según la fecha a ingresar.
     
-    Parámetros:
+    Args:
         encabezados(list): Lista de encabezados de la matriz de turnos.
         m_turnos(list[list]): Matriz de turnos
         paci(list[list]): Matriz de pacientes.
@@ -598,7 +598,7 @@ def consultar_por_paciente(encabezados, m_turnos, mes_palabra, paci, meds):
     """
     Filtra y muestra turnos según el DNI del paciente.
     
-    Parámetros:
+    Args:
         encabezados(list): Lista de encabezados de la matriz de turnos.
         m_turnos(list[list]): Matriz de turnos
         paci(list[list]): Matriz de pacientes.
@@ -606,10 +606,10 @@ def consultar_por_paciente(encabezados, m_turnos, mes_palabra, paci, meds):
     Returns:
     """
     mostrar_encabezado_consulta("consulta por paciente")
-    pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
+    pac = auxiliares.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
     while len(str(pac)) < 8:
         print("DNI incorrecto, ingrese nuevamente")
-        pac = fun_aux.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
+        pac = auxiliares.ingresar_entero_positivo("Ingrese el DNI del paciente: ")
     # filtro los turnos del paciente
     turnos_pac_cons = [turno for turno in m_turnos if pac in turno]
     # valido si el paciente no tiene turnos en el mes
@@ -642,7 +642,7 @@ def consultar_por_medico():
     """
     
     
-    Parámetros:
+    Args:
     
     Returns:
     """
@@ -651,7 +651,7 @@ def consultar_informe_turno_mes():
     """
     
     
-    Parámetros:
+    Args:
     
     Returns:
 
@@ -677,7 +677,7 @@ def crear_turnos_random(mat_turnos, mes, hora_turnos, tipo_consultas, estado,
 
     Usa las matrices creadas en los módulos pacientes y médicos.
     
-    Parámetros:
+    Args:
         mat_turnos(list[list]): Matriz de turnos.
         mes(date): Lista de los días del mes. 
         hora_turnos(list): Lista con los horarios de los turnos.
@@ -730,7 +730,7 @@ def crear_turno(mat_turnos, hora_turnos, tipo_consultas,
     """
     Permite la creación de un turno y guardarlo en la matriz de turnos.
     
-    Parámetros:
+    Args:
         m_turnos(list[list]): Matriz de turnos.
         hora_turnos(list): Lista con los horarios de los turnos.
         tipo_consultas(list): Lista con el tipo de consultas.
@@ -794,7 +794,7 @@ def leer_turnos(mat_turnos, encabezados, paci, meds, mes_palabra):
     """
     Leer y imprime matriz de turnos mas encabezado.
     
-    Parámetros:
+    Args:
         mat_turnos(list[lis]): Matriz de turnos.
         encabezado(list): Lista de encabezados de la matriz.
         paci(list[list]): Matriz de pacientes.
@@ -803,7 +803,7 @@ def leer_turnos(mat_turnos, encabezados, paci, meds, mes_palabra):
     Returns:
     """
     # Tendría que ir un encabezado.
-    # fun_aux.limpiar_terminal()
+    # auxiliares.limpiar_terminal()
     print(f"Lista de turnos del mes de {mes_palabra.upper()}")
     turnos_ordenados = ordenar_turnos_fecha_horario(mat_turnos)
 
@@ -907,7 +907,7 @@ def main_crear_leer(turnos, opcion = 0):
     """
     Función principal del módulo turnos.
 
-    Parámetros:
+    Args:
         turnos(list[list]): Matriz de turnos.
         opcion(int): Opción elegida. Por defecto = 0 para generar turnos random.
         paci[list[list]]: Matriz de pacientes.
@@ -946,7 +946,7 @@ def main_crear_leer(turnos, opcion = 0):
     #-------------------------------------------------
     # Bloque de menú
     #-------------------------------------------------
-    fun_aux.limpiar_terminal()
+    auxiliares.limpiar_terminal()
     logo_turnos()
     match opcion:
         case 0:

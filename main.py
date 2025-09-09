@@ -11,9 +11,9 @@
 #-------------------------------------------------------------------------------
 
 # import pacientes
-from turnos import main_crear_leer, logo_turnos
+from crear_leer_turnos import main_crear_leer, logo_turnos
 # import medicos
-import fun_aux
+import auxiliares
 
 
 # # ==============================================================================
@@ -36,7 +36,7 @@ def main():
     #-------------------------------------------------
     while True:
         while True:
-            fun_aux.grupo6_dev_logo()
+            auxiliares.grupo6_dev_logo()
             opciones = 5
             print()
             print("---------------------------")
@@ -45,8 +45,6 @@ def main():
             print("[1] Gestión de turnos")
             print("[2] Gestión de pacientes")
             print("[3] Gestión de médicos")
-            print("[4] Opción 100 a que lo elije a Lampone")
-            print("[5] Opción no son tan incómodos esto tacos")
             print("---------------------------")
             print("[0] Salir del programa")
             print("---------------------------")
