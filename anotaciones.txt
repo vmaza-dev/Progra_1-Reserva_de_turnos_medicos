@@ -1,2 +1,0 @@
-RESPECTO A LA LÓGICA, USAREMOS VARIAS LISTAS DE: Nombres, Apellidos, Especialidades, etc para aleatorizar
-"pulls" de datos, además de los que ingresemos.
