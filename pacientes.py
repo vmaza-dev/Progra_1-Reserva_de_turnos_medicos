@@ -26,7 +26,7 @@ def crear_paciente(id):
     """
     Crea un paciente por teclado solicitando los datos al usuario
 
-    Parametros:
+    Args:
         id(int): id unico del paciente.
 
     Return:
@@ -45,7 +45,7 @@ def crear_pacientes_random(pacientes, cantCrear):
     """
     Crea una cantidad determinada de pacientes aleatorios y los agrega a la lista.
 
-    Parametros:
+    Args:
         pacientes(list): Lista donde se agregaran los pacientes.
         cantCrear: Numero de pacientes aleatorios a generar.
 
@@ -66,7 +66,7 @@ def imprimir_paciente(pacientes):
     """
     Muestra en pantalla los datos de los pacientes recibidos.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes a imprimir.
 
     Returns:
@@ -87,7 +87,7 @@ def leer_pacientes(pacientes):
     """
     Muestra todos los pacientes en la lista utilizando imprimir_paciente().
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -100,7 +100,7 @@ def buscar_id_paciente(pacientes):
     """
     Busca un paciente por ID y muestra sus datos.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -126,7 +126,7 @@ def actualizar_paciente(pacientes):
     """
     Permite modificar los datos de un paciente por ID.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -167,7 +167,7 @@ def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -190,7 +190,7 @@ def validacion_dni(dni):
     """
     Valida que el DNI tenga 8 dígitos.
 
-    Parametros:
+    Args:
         dni(int): DNI a validar.
 
     Returns:
@@ -205,7 +205,7 @@ def validacion_edad(edad):
     """
     Valida que la edad sea entre 3 y 98 años.
 
-    Parametros:
+    Args:
         edad(int): Edad a validar.
 
     Returns:
@@ -220,7 +220,7 @@ def generacion_dni_realista(edad):
     """
     Genera un DNI aproximado segun la edad del paciente.
 
-    Parametros:
+    Args:
         edad(int): Edad del paciente.
 
     Returns:
@@ -245,7 +245,7 @@ def promedio_edades(pacientes):
     extrae la edad de cada paciente y devuelve el promedio.
     devuelve 0 si la lista de pacientes en el caso de que este vacia.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la edad en la posicion 3.
 
     Returns:
@@ -260,7 +260,7 @@ def pacientes_por_obra(pacientes):
 
     Extrae la obra social de cada paciente y devuelve una lista de tuplas con el nombre de la obra y la cantidad de pacientes.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la obra social en la posicion 4.
 
     Returns:
@@ -275,7 +275,7 @@ def porcentaje_por_obra(pacientes):
 
     Devuelve una lista de tuplas con el nombre de la obra y el porcentaje de pacientes que tienen esa obra.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -293,7 +293,7 @@ def mostrar_estadisticas_pacientes(pacientes):
     Imprime promedio de edades, cantidad de pacientes por obra social y porcentaje
     de pacientes por obra social, usando colores y negrita en la terminal.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -333,7 +333,7 @@ def generar_usuario(nombre_completo):
 
     en esta situacion toma los primeros 3 caracteres del nombre y todo el apellido, todo en minusculas.
 
-    Parametros:
+    Args:
         nombre_completo(str): Nombre completo del paciente (nombre + apellido).
 
     Returns:
@@ -351,7 +351,7 @@ def mostrar_usuarios(pacientes):
     """
     Muestra en pantalla los nombres de usuario generados para cada paciente.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde el nombre completo esta en la posicion 2.
 
     Returns:
