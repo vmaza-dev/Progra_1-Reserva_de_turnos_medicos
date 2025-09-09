@@ -184,12 +184,20 @@ medicos = [
 idsUsados = [1001, 9999]
 # Acá inicialice dos médicos para hacer pruebas de lectura.
 
-crear_medicos_random(medicos, 5, idsUsados)
-#crear_medico(medicos, idsUsados)
+#### lo puse dentro de una funcion para poder llamarlo en main
+# comenté las otras funciones para que no se ejecuten
 
-#actu_medico(medicos[0], medicos[0][1])
+def principal_medicos():
+    
+    crear_medicos_random(medicos, 5, idsUsados)
+    return medicos
+    #crear_medico(medicos, idsUsados)
 
-leer_medicos(medicos)
-leer_medico_id(medicos, 1001)
+    #actu_medico(medicos[0], medicos[0][1])
 
-#elim_medico(medicos)
+    # auxiliares.limpiar_terminal()
+    # leer_medicos(medicos)
+
+    #leer_medico_id(medicos, 1001)
+
+    #elim_medico(medicos)

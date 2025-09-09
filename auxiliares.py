@@ -37,7 +37,7 @@ def ingresar_entero_positivo(mensaje):
     """
     Valida el ingreso por teclado de un número entero positivo.
 
-    Parámetros:
+    Args:
         mensaje(str): Pedido de ingreso de datos.
 
     Returns:
@@ -57,7 +57,7 @@ def ingresar_respuesta_str(mensaje):
     Permite el ingreso de una respuesta de tipo str, por ejemplo nombre del paciente,
     especialidad médica, s/n, etc,
 
-    Parámetros:
+    Args:
         mensaje(str): Pedido de ingreso de datos.
 
     Returns:
@@ -72,7 +72,7 @@ def imprimir_lista(mi_lista, num = False, contador = 0):
     
     Admite la numeración de los elementos.
 
-    Parámetros:
+    Args:
         mi_lista(list): Lista de elementos.
         num(bool):
             False: Por defecto. Omite numeración
@@ -97,7 +97,7 @@ def validar_fecha(d, m, a):
 
     Toma en cuenta anios bisiestos, meses de 30 y 31 días.
 
-    Parámetros:
+    Args:
         d(int): Día del mes.
         m(int): Mes.
         a(int): Anio.
@@ -147,7 +147,7 @@ def crear_matriz(filas, columnas, n0 = 0, n = 99):
     """
     Crea una matriz con valores enteros aleatorios.
 
-    Parámetros:
+    Args:
         filas(int): Cantidad de filas de la matriz.
         columnas(int): Cantidad de columnas de la matriz.
         n0(int): Valor mínimo aleatorio. Default = 0.
@@ -170,7 +170,7 @@ def imprimir_matriz(matriz):
     """
     Imprime la matriz en formato tabulado.
 
-    Parámetros:
+    Args:
         matriz(list[list]): Matriz a imprimir.
     """
     filas = len(matriz)
@@ -180,11 +180,27 @@ def imprimir_matriz(matriz):
             print(matriz[i][j], end = "\t")
         print()
 
+def transponer_matriz(matriz):
+    """
+    Transpone una matriz dada.
+    
+    Args:
+    
+    Returns:
+    """
+    filas = len(matriz)
+    columnas = len(matriz[0])
+    transpuesta = [[0] * filas for i in range(columnas)]
+    for i in range(filas):
+        for j in range(columnas):
+            transpuesta[j][i] = matriz[i][j]
+    return transpuesta
+
 def imprimir_datos(encabezado, matriz):
     """
     Imprime un conjunto de datos con encabezado y matriz.
 
-    Parámetros:
+    Args:
         encabezado(list): Lista de títulos para las columnas.
         matriz(list[list]): Datos a imprimir.
     """
@@ -233,7 +249,7 @@ apellidos = [
     "Maidana", "Acuña", "Leiva", "Duarte", "Moyano",
     "Campos", "Iturria", "Maza", "Seijo", "Aliano",
     "Escándalo", "Quito", "Gimenez", "Herrera", "Suárez",
-    "Aguirre", "Gutiérrez", "Pereyra", "Molina", "Castro", "Grimes"
+    "Aguirre", "Gutiérrez", "Pereyra", "Molina", "Castro", "Grimes",
     "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
 ]
 

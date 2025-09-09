@@ -54,7 +54,7 @@ def crear_pacientes_random(pacientes, cantCrear):
     """
     for i in range(cantCrear):
         nombreCompleto = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
-        edad = validacion_edad(random.randint(3, 99))
+        edad = validacion_edad(random.randint(3, 98))
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
         estado = 1
@@ -375,10 +375,19 @@ def mostrar_usuarios(pacientes):
 # BLOQUE PRINCIPAL
 # ==============================================================================
 
-crear_pacientes_random(pacientes, 10)
-leer_pacientes(pacientes)
-#buscar_id_paciente(pacientes)
-eliminar_paciente(pacientes)
-leer_pacientes(pacientes)
-#actualizar_paciente(pacientes)
+#### lo puse dentro de una funcion para poder llamarlo en main
+# comenté las otras funciones para que no se ejecuten, cuando estaban
+# sueltas y arrancaba el main importando este módulo ejecutaba todas la 
+# funciones por eso se pisaban entre sí
 
+def principal_pacientes():
+    crear_pacientes_random(pacientes, 10)
+    return pacientes
+    # leer_pacientes(pacientes)
+    # #buscar_id_paciente(pacientes)
+    # eliminar_paciente(pacientes)
+    # leer_pacientes(pacientes)
+    # actualizar_paciente(pacientes)
+
+# crear_pacientes_random(pacientes, 10)
+# print(pacientes)
