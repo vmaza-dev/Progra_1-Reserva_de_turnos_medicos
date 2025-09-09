@@ -10,8 +10,6 @@
 
 La idea es que todos tengamos la misma info de como vamos a hacer el TP. La extensión de este archivo es `.md` que es MarkDown que es una forma de escribir en texto plano. Para verlo lindo en VSCode tiene que ir la parte superior izquierda de la ventana en la que ven el código y cliquear en el icono que parace un libro y una lupa o una pizza a la pala y el cortador. Les va a aparecer el archivo formateado.
 
-Espero que sea de ayuda y si están de acuerdo con este archivo lo dejamos, lo sacamos, lo modificamos (MarkDown es sencillo). Cambienlo como quieran, agreguenle lo que les parezca y vamos viendo.
-
 ## Convención de commits y merge
 
 Cada uno hace alguna funcionalidad, commitea y mergea.
@@ -53,7 +51,7 @@ Aspectos clave:
 
 - Segunda línea: En blanco (opcional si la docstring es de una sola línea).
 
-- Cuerpo: Explicación detallada, parámetros y valores de retorno si es necesario.
+- Cuerpo: Explicación detallada, argumentos y valores de retorno si es necesario.
 
 - Estilo: Frases en modo imperativo ("Devuelve X", no "Devuelve X.") y evitar redundancias.
 
@@ -76,7 +74,7 @@ def validar_fecha(d, m, a):
 
     Toma en cuenta anios bisiestos, meses de 30 y 31 días.
 
-    Parámetros:
+    Args:
         d(int): Día del mes.
         m(int): Mes.
         a(int): Anio.
@@ -97,13 +95,13 @@ El profe dijo que vamos a usar módulo para hacer el TP. Los módulos son archiv
     - turnos.py
     - medicos.py
     - pacientes.py
-    - aux.py
+    - auxiliares.py
 
 La idea es que en `main` escribamos el programa final sin funcionalidades extras. Por ejemplo el menú principal, nuestro logo, todo el código que vaya a usar las funciones de los otros módulos. 
 
 En `turnos`, `medicos` y `pacientes`, todo lo que tenga que ver especificamente con cada uno. Por ejemplo en médicos la creacion de su matriz, sus especialidades, bueno eso se me ocurre hasta ahora. 
 
-En `fun_aux` todas la funciones generales que se puedan usar en todo el programa. Por ejemplo validar una fecha, pedir el ingreso de un número, la función de crear una matriz.
+En `auxiliares` todas la funciones generales que se puedan usar en todo el programa. Por ejemplo validar una fecha, pedir el ingreso de un número, la función de crear una matriz.
 
 **Otro archivos**
 
@@ -174,7 +172,7 @@ remote:
 To github.com:gorila-dev/gorilavshombre.git.git
  * [new branch]      feature/nueva-rama -> feature/nueva-rama
 ```
-Entonces hay que ir a GitHub y hacer una `Pull Request` y ver si hay conflicto con lo que ya esta ecrito (que no debería pasar *ajajaj, nada puede malir sal*) y después unimos todo (`merge`).
+Entonces hay que ir a GitHub y hacer una `Pull Request` y ver si hay conflicto con lo que ya esta ecrito (que no debería pasar *nada puede malir sal*) y después unimos todo (`merge`).
 
 **Para actualizar tu rama con la última version del repo**
 

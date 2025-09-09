@@ -16,26 +16,24 @@ El proyecto tiene como objetivo brindar funcionalidades CRUD con tres entidades 
 ## Estructura general
 
 ```
-├── anotaciones.txt
-├── fun_aux.py
+├── actualizar_elimiar_turnos.py
+├── auxiliares.py
+├── calendario.py
+├── crear_leer_turnos.py
 ├── info_general.md
 ├── LICENSE
 ├── main.py
 ├── medicos.py
 ├── pacientes.py
-├── README.md
-└── turnos
-    ├── act_elim.py
-    ├── calendario.py
-    ├── cre_leer.py
-    └── __init__.py
+└── README.md
 ```
 
 **Paquetes de Pyhton utlizados:**
 
-- random:
-- datatime:
-- calendar: 
+- random: Para creación randomizada de datos de prueba en los módulos.
+- re: Uso de expresiones regulares.
+- datetime: Para manejo de fechas y creación de horarios.
+- calendar: Para manejo de ultimos días del mes.
 
 ## Descripción de cada módulo/paquete
 
@@ -63,44 +61,51 @@ MENÚ PRINCIPAL
 [1] Gestión de turnos
 [2] Gestión de pacientes
 [3] Gestión de médicos
-[4] Opción 100 a que lo elije a Lampone
-[5] Opción no son tan incómodos esto tacos 
 ---------------------------
 [0] Salir del programa
 ---------------------------
-
-Seleccione una opción: 
 ```
 
-### Paquete Turnos
+### Módulo Turnos
 
-Paquete con los módulos de las funcionalidades CRUD del módulo turnos. Adiccionalmente se crearon módulos auxiliares con objetivos específicos para el paquete. 
-
-Estructura paquete turnos:
+Originalmente era un sólo módulo, por comodidad de trabajo se uso como strategia la división del módulo en dos módulos por separado. Cada módulo representa funcionalidades CRUD específicas de la entidad turnos, existiendo el módulo auxiliar `calendario.py` específico para la implementación visual de un calendario mensual.
 
 ```
-└── turnos
-    ├── act_elim.py
-    ├── calendario.py
-    ├── cre_leer.py
-    └── __init__.py
+├── actualizar_elimiar_turnos.py
+├── calendario.py
+├── crear_leer_turnos.py
+
 ```
+
 **Módulos principales:**
 
-- cre_leer.py
-- act_elim.py
+- crear_leer_turnos.py
+- actualizar_eliminar_turnos.py
 
 **Módulos auxiliares:**
 
 - calendario.py
 
-### Paquete Médicos
+### Módulo Médicos
 
-### Paquete Pacientes
+Módulo con funcionalidades CRUD específicas de la entidad médicos.
 
+```
+├── medicos.py
+
+```
+
+### Módulo Pacientes
+
+Módulo con funcionalidades CRUD específicas de la entidad pacientes.
+
+```
+├── pacientes.py
+
+```
 # Modalidad de trabajo
 
-Se establecieron convenciones generales en el archivo `info_general.md` y se procedío a la división de tarea dentro del equipo.
+Se establecieron convenciones generales en el archivo `info_general.md` y se procedio a la división de tarea dentro del equipo.
 
 ## División de tareas
 
@@ -110,7 +115,7 @@ Se establecieron convenciones generales en el archivo `info_general.md` y se pro
 
 ## Uso responsable de IA
 
-Se utilizó la ayuda de asistentes de IA para los siguiente:
+Se utilizó la ayuda de asistentes de IA para lo siguiente:
 
- - Consulta de funcionalidad de paquetes `datatime` y `calendar` con el correspondiete chequeo y estudio de documentación oficial de Pyhton.
+ - Consulta de funcionalidad de paquetes `datetime` y `calendar` con el correspondiete chequeo y estudio de documentación oficial de Python.
  - Creación de nombres de pacientes y médicos.

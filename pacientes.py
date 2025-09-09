@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, fun_aux
+import random, auxiliares
 pacientes = []
 print("l")
 
@@ -53,7 +53,7 @@ def crear_pacientes_random(pacientes, cantCrear):
         None.
     """
     for i in range(cantCrear):
-        nombreCompleto = random.choice(fun_aux.nombres) + " " + random.choice(fun_aux.apellidos)
+        nombreCompleto = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
         edad = validacion_edad(random.randint(3, 99))
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
