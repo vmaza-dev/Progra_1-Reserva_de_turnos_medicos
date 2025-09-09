@@ -4,7 +4,8 @@
 # Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
-import random
+import random 
+
 def limpiar_terminal():
     """
     Limpia la terminal usando un código ANSI de escape.
@@ -32,7 +33,10 @@ def grupo6_dev_logo():
 | |_| |_| | |  | | | | (_) \__ \ | | | | | |  __/ (_| | | (_| (_) \__ \
  \__|\__,_|_|  |_| |_|\___/|___/ |_| |_| |_|\___|\__,_|_|\___\___/|___/
 """)
-    
+
+def footer_general(ancho):
+    print("="*ancho)
+
 def ingresar_entero_positivo(mensaje):
     """
     Valida el ingreso por teclado de un número entero positivo.
