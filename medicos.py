@@ -4,6 +4,7 @@
 # Descripción: 
 # Fecha de creación: 10/08/2025
 # ==============================================================================
+ANCHO = 111
 
 import random, auxiliares
 def ingresar_nombre_medico():
@@ -127,15 +128,37 @@ def actu_medico(listaMed, nombreMed): #Si bien de listaMed se podria obtener el 
                 print("El médico", nombreMed, "ahora se encuentra dado de baja")
 
 def imprimir_medico(med):
-    print("---------------------------------------")
-    print(f"MÉDICO: {med[1]} | ID: {med[0]}")
-    print(f"ESPECIALIDAD: {med[2]}\nANTIGÜEDAD: {med[3]} años")
-    if (not med[4]): print(f"ESTADO: DE BAJA")
-    else: print(f"ESTADO: ACTIVO")
+    print(f"| {str(med[0]).ljust(6)}", end=" |")
+    print(f"| \033[1m{med[1].ljust(41)}\033[0m", end=" |")
+    print(f"| {med[2].ljust(21)}", end=" |")
+    print(f"| \033[33m{str(med[3]).ljust(11)}\033[0m", end=" |") if (med[3] > 25) else print(f"| {str(med[3]).ljust(11)}", end=" |")
+    if (med[4]):
+        print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
+    else:
+        print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
+
+def header_medicos(anchoTotal):
+    # ID 6 espacios + 4 de borde
+    # Nombre 41 espacios + 4 de borde
+    # Especialidad 21 espacios + 4 de borde
+    # ANTIGÜEDAD 11 espacios + 4 de borde
+    # Estado 12 espacios + 4 de borde
+    print("="*anchoTotal)
+
+    print(f"| \033[1;34m{'ID'.center(6)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'NOMBRE COMPLETO'.center(41)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'ESPECIALIDAD'.center(21)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'ANTIGÜEDAD'.center(11)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'ESTADO'.center(12)}\033[0m", end=" |")
+    print("\n" + "="*anchoTotal)
 
 def leer_medicos(meds):
+    header_medicos(ANCHO)
     for med in meds:
         imprimir_medico(med)
+        print("")
+        
+    fun_aux.footer_general(ANCHO)
 
 def leer_medico_id(meds, idMed):
     for med in meds:
@@ -177,15 +200,17 @@ def elim_medico(matrizMeds):
 
 """ MAIN """
 medicos = [
-    [1001, "Juan Pérez", "Traumatología", 5, 1],
-    [9999, "Ataúlfo Américo Djandjikian", "Otorrinonaringología", 23, 1]
+    [1001, "Juan Pérez", "Traumatología", 5, 0],
+    [9999, "Ataúlfo Américo Djandjikian", "Otorrinonaringología", 26, 1]
 ] #ID, Nombre, Especialidad, Antiguedad, Estado
 
 idsUsados = [1001, 9999]
 # Acá inicialice dos médicos para hacer pruebas de lectura.
 
+
 #### lo puse dentro de una funcion para poder llamarlo en main
 # comenté las otras funciones para que no se ejecuten
+
 
 def principal_medicos():
     
