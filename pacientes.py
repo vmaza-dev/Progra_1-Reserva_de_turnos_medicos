@@ -57,7 +57,7 @@ def crear_pacientes_random(pacientes, cantCrear):
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
         estado = 1
-        id = random.randint(1000, 9999)
+        id = id_unico(pacientes)
         pacientes.append([id, dni, nombreCompleto, edad, obra_social, estado])
 
 
@@ -183,7 +183,25 @@ def eliminar_paciente(pacientes):
 # ==============================================================================
 # VALIDACIONES
 # ==============================================================================
+def id_unico(pacientes):
+    """
+    Genera un ID aleatorio y que no se repite (osea unico).
 
+    Args:
+        pacientes(list): Lsita de pacientes.
+
+    Returns:
+        int: ID de 4 digitos.
+    """
+    existe = True
+    id = random.randint(1000,9999)
+    while existe:
+        existe = False
+        for i in pacientes:
+            if i[0] == id:
+                existe = True
+                id = random.randint(1000,9999)
+    return id
 
 def validacion_dni(dni):
     """
@@ -388,6 +406,6 @@ def principal_pacientes():
     # leer_pacientes(pacientes)
     # actualizar_paciente(pacientes)
 
-# crear_pacientes_random(pacientes, 10)
+#crear_pacientes_random(pacientes, 10)
 #leer_pacientes(pacientes)
 #buscar_id_paciente(pacientes)
