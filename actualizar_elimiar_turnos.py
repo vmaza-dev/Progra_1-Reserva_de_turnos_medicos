@@ -5,8 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-from cre_leer import *
-from fun_aux import *
+import auxiliares
 
 
 
@@ -19,7 +18,7 @@ def elim_turno(m_turnos):
     Cancela un turno cambiando el estado
     """
     print("-"*10, "BAJA DE TURNO", "-"*10)
-    id_turno = fun_aux.ingresar_entero_positivo("Ingresar id del turno: ")
+    id_turno = auxiliares.ingresar_entero_positivo("Ingresar id del turno: ")
 
     for turno in m_turnos:
         if turno [0] == id_turno:
@@ -36,13 +35,13 @@ def edit_turnos(m_turnos):
   Modifica un turno cargado de la matriz
   """
   print("-"*10,"EDITAR TURNO","-"*10)
-  id_turno = fun_aux.ingresar_entero_positivo("Ingresar id del turno: ")
+  id_turno = auxiliares.ingresar_entero_positivo("Ingresar id del turno: ")
 
   for turno in m_turnos:
       if turno[0] == id_turno:
           print("Seleccione campo a modificar")
           print("1 - Fecha\n2 - Hora\n3 - Paciente\n4 - Especialidad\n5 - Médico\n6 - Tipo de consulta\n7 - Estado")
-          opcion = fun_aux.ingresar_entero_positivo("Opcion: ")
+          opcion = auxiliares.ingresar_entero_positivo("Opcion: ")
 
           match opcion:
                 case 1:
@@ -59,7 +58,7 @@ def edit_turnos(m_turnos):
                 case 6:
                     turno[6] = generar_consulta_med(CONSULTA)
                 case 7:
-                    turno[7] = fun_aux.ingresar_respuesta_str("Ingrese nuevo estado: ")
+                    turno[7] = auxiliares.ingresar_respuesta_str("Ingrese nuevo estado: ")
 
           print("Turno editado")
           return 

@@ -10,10 +10,10 @@
 # MÓDULOS
 #-------------------------------------------------------------------------------
 
-# import pacientes
-from turnos import main_crear_leer, logo_turnos
-# import medicos
-import fun_aux
+from pacientes import principal_pacientes
+from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
+from medicos import principal_medicos
+import auxiliares
 
 
 # # ==============================================================================
@@ -24,11 +24,12 @@ def main():
     #-------------------------------------------------
     # Inicialización de variables que necesitemos
     #-------------------------------------------------
-    # matriz_medicos = medicos.crear_medicos_random()
-    # matriz_pacientes = crear_pacientes_random()
+    matriz_medicos = principal_medicos()
+    print(matriz_medicos)
+    matriz_pacientes = principal_pacientes()
     matriz_turnos = []
     # creo turnos random
-    main_crear_leer(matriz_turnos)
+    principal_crear_leer_turnos(matriz_turnos,matriz_medicos, matriz_pacientes)
 
 
     #-------------------------------------------------
@@ -36,7 +37,7 @@ def main():
     #-------------------------------------------------
     while True:
         while True:
-            fun_aux.grupo6_dev_logo()
+            auxiliares.grupo6_dev_logo()
             opciones = 5
             print()
             print("---------------------------")
@@ -45,8 +46,6 @@ def main():
             print("[1] Gestión de turnos")
             print("[2] Gestión de pacientes")
             print("[3] Gestión de médicos")
-            print("[4] Opción 100 a que lo elije a Lampone")
-            print("[5] Opción no son tan incómodos esto tacos")
             print("---------------------------")
             print("[0] Salir del programa")
             print("---------------------------")
@@ -92,12 +91,12 @@ def main():
                 elif opcion == "1":   # Opción 1
                     # Esta función debería tener como parámetros las matrice de los médicos y 
                     # pacientes 
-                    main_crear_leer(matriz_turnos, 1)
+                    principal_crear_leer_turnos(matriz_turnos, matriz_medicos, matriz_pacientes, 1)
                     # clientes = altaCliente(clientes)
                     # print("Dando de alta al cliente...")
                     
                 elif opcion == "2":   # Opción 2
-                    main_crear_leer(matriz_turnos, 2)
+                    principal_crear_leer_turnos(matriz_turnos, matriz_medicos, matriz_pacientes, 2)
                 elif opcion == "3":   # Opción 3
                     ...
                 elif opcion == "4":   # Opción 4

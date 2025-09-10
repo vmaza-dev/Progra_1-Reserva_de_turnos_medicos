@@ -8,14 +8,14 @@
 # Función del módulo: Imprimir calendario completo de un mes dado.
 # ==============================================================================
 
-import fun_aux
+import auxiliares
 from datetime import date
 
 def dia_siguiente(d, m, a, b = False):
     """
     Calcula la fecha siguiente a una fecha dada. 
 
-    Parámetros:
+    Args:
         d: Día inicial.
         m: Mes inicial.
         a: Año inicial.
@@ -57,7 +57,7 @@ def dia_de_la_semana(dia, mes, anio):
     Esta función implementa la congruencia de Zeller. Tener en cuenta que ya
     contempla los años bisiestos.
 
-    Parámetros:
+    Args:
         dia: Día del mes.
         mes: Mes.
         anio: Anio
@@ -86,7 +86,7 @@ def imprimir_calendario(calendario, mes, anio) :
     """
     Imprime por pantalla la matriz recibida.
 
-    Parámetros:
+    Args:
         calendario: Matriz con dias de samana.
     """
 
@@ -108,7 +108,7 @@ def mes_a_palabras(mes):
     """
     Recibe el mes en número y lo devuelve en una palabra.
 
-    Parámetros:
+    Args:
         mes: Mes en número.
     
     Returns:
@@ -124,7 +124,7 @@ def calendario_mes(mes, anio):
     """
     Crea e imprime un calendario del mes actual
 
-    Parámetros:
+    Args:
     
     Returns:
         Matriz con los días del mes.
@@ -147,7 +147,7 @@ def calendario_mes(mes, anio):
     # veo si es bisiesto, no se si es necesario dado que uso la funcion
     # con la congruencia de zeller, pero asi funciona y por ahora no lo
     # toco
-    fecha_valida, anio_bisiesto= fun_aux.validar_fecha(dia, mes, anio)
+    fecha_valida, anio_bisiesto= auxiliares.validar_fecha(dia, mes, anio)
     # me quedo con mi mes en palabras y el anio original por si paso de anio
     # eso no sería necesario pero por ahora lo dejo
     mes_ori = mes_a_palabras(mes)
@@ -193,4 +193,6 @@ def calendario_mes(mes, anio):
     print()
 
 
+
+                    
 
