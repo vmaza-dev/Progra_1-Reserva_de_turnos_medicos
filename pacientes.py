@@ -16,9 +16,8 @@ OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 # ==============================================================================
 
 def obtener_paciente_por_id(pacientes,id):
-    for i in pacientes:
-        if i[0] == id:
-            return i
+    for i in filter(lambda p: p[0] == id, pacientes):
+        return i
     return -1
 
 
@@ -26,18 +25,17 @@ def crear_paciente(id):
     """
     Crea un paciente por teclado solicitando los datos al usuario
 
-    Parametros:
+    Args:
         id(int): id unico del paciente.
 
     Return:
-        list: lista con los datos del paciente [id,dni,nombre,edad,obra_social,estado]
+        list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
     """
     dni = validacion_dni(int(input("Ingrese su dni: ")))
     nombreCompleto = input("Ingrese su nombre completo: ")
     edad = validacion_edad(int(input("Ingrese su edad: ")))
     obra_social = input("Ingrese su obra social: ")
-    estado = 1
-    paciente = [id, dni, nombreCompleto, edad, obra_social, estado]
+    paciente = [id, dni, nombreCompleto, edad, obra_social]
     return paciente
 
 
@@ -45,7 +43,7 @@ def crear_pacientes_random(pacientes, cantCrear):
     """
     Crea una cantidad determinada de pacientes aleatorios y los agrega a la lista.
 
-    Parametros:
+    Args:
         pacientes(list): Lista donde se agregaran los pacientes.
         cantCrear: Numero de pacientes aleatorios a generar.
 
@@ -57,16 +55,15 @@ def crear_pacientes_random(pacientes, cantCrear):
         edad = validacion_edad(random.randint(3, 98))
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
-        estado = 1
-        id = random.randint(1000, 9999)
-        pacientes.append([id, dni, nombreCompleto, edad, obra_social, estado])
+        id = id_unico(pacientes)
+        pacientes.append([id, dni, nombreCompleto, edad, obra_social])
 
 
 def imprimir_paciente(pacientes):
     """
     Muestra en pantalla los datos de los pacientes recibidos.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes a imprimir.
 
     Returns:
@@ -78,8 +75,6 @@ def imprimir_paciente(pacientes):
         print(f" PACIENTE: {pac[2]} ".center(ancho, "="))
         print(f"ID: {str(pac[0]).ljust(10)} | DNI: {str(pac[1]).ljust(12)}")
         print(f"EDAD: {str(pac[3]).ljust(8)} | OBRA SOCIAL: {pac[4]}")
-        estado_str = 'Activo ' if pac[5] == 1 else 'Inactivo '
-        print(f"ESTADO: {estado_str}".center(ancho))
         print("=" * ancho + "\n")
 
 
@@ -87,7 +82,7 @@ def leer_pacientes(pacientes):
     """
     Muestra todos los pacientes en la lista utilizando imprimir_paciente().
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -100,7 +95,7 @@ def buscar_id_paciente(pacientes):
     """
     Busca un paciente por ID y muestra sus datos.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -119,14 +114,13 @@ def buscar_id_paciente(pacientes):
         print(f"NOMBRE: {pac[2]}")
         print(f"EDAD: {pac[3]}")
         print(f"OBRA SOCIAL: {pac[4]}")
-        print(f"ESTADO: {pac[5]}")
         print("==============================\n")
 
 def actualizar_paciente(pacientes):
     """
     Permite modificar los datos de un paciente por ID.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -160,14 +154,12 @@ def actualizar_paciente(pacientes):
                         break
                     else:
                         print("Opción inválida, intente nuevamente.")
-            case 5:
-                pac[5] = int(input("Ingrese el nuevo Estado: "))
 
 def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -184,13 +176,31 @@ def eliminar_paciente(pacientes):
 # ==============================================================================
 # VALIDACIONES
 # ==============================================================================
+def id_unico(pacientes):
+    """
+    Genera un ID aleatorio y que no se repite (osea unico).
 
+    Args:
+        pacientes(list): Lsita de pacientes.
+
+    Returns:
+        int: ID de 4 digitos.
+    """
+    existe = True
+    id = random.randint(1000,9999)
+    while existe:
+        existe = False
+        for i in pacientes:
+            if i[0] == id:
+                existe = True
+                id = random.randint(1000,9999)
+    return id
 
 def validacion_dni(dni):
     """
     Valida que el DNI tenga 8 dígitos.
 
-    Parametros:
+    Args:
         dni(int): DNI a validar.
 
     Returns:
@@ -205,7 +215,7 @@ def validacion_edad(edad):
     """
     Valida que la edad sea entre 3 y 98 años.
 
-    Parametros:
+    Args:
         edad(int): Edad a validar.
 
     Returns:
@@ -220,7 +230,7 @@ def generacion_dni_realista(edad):
     """
     Genera un DNI aproximado segun la edad del paciente.
 
-    Parametros:
+    Args:
         edad(int): Edad del paciente.
 
     Returns:
@@ -245,7 +255,7 @@ def promedio_edades(pacientes):
     extrae la edad de cada paciente y devuelve el promedio.
     devuelve 0 si la lista de pacientes en el caso de que este vacia.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la edad en la posicion 3.
 
     Returns:
@@ -260,7 +270,7 @@ def pacientes_por_obra(pacientes):
 
     Extrae la obra social de cada paciente y devuelve una lista de tuplas con el nombre de la obra y la cantidad de pacientes.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la obra social en la posicion 4.
 
     Returns:
@@ -275,7 +285,7 @@ def porcentaje_por_obra(pacientes):
 
     Devuelve una lista de tuplas con el nombre de la obra y el porcentaje de pacientes que tienen esa obra.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -293,7 +303,7 @@ def mostrar_estadisticas_pacientes(pacientes):
     Imprime promedio de edades, cantidad de pacientes por obra social y porcentaje
     de pacientes por obra social, usando colores y negrita en la terminal.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes.
 
     Returns:
@@ -333,7 +343,7 @@ def generar_usuario(nombre_completo):
 
     en esta situacion toma los primeros 3 caracteres del nombre y todo el apellido, todo en minusculas.
 
-    Parametros:
+    Args:
         nombre_completo(str): Nombre completo del paciente (nombre + apellido).
 
     Returns:
@@ -351,7 +361,7 @@ def mostrar_usuarios(pacientes):
     """
     Muestra en pantalla los nombres de usuario generados para cada paciente.
 
-    Parametros:
+    Args:
         pacientes(list): Lista de pacientes, donde el nombre completo esta en la posicion 2.
 
     Returns:
@@ -384,10 +394,11 @@ def principal_pacientes():
     crear_pacientes_random(pacientes, 10)
     return pacientes
     # leer_pacientes(pacientes)
-    # #buscar_id_paciente(pacientes)
+    # buscar_id_paciente(pacientes)
     # eliminar_paciente(pacientes)
     # leer_pacientes(pacientes)
     # actualizar_paciente(pacientes)
 
-# crear_pacientes_random(pacientes, 10)
-# print(pacientes)
+#crear_pacientes_random(pacientes, 10)
+#leer_pacientes(pacientes)
+#buscar_id_paciente(pacientes)
