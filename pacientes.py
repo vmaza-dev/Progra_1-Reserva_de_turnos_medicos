@@ -29,14 +29,13 @@ def crear_paciente(id):
         id(int): id unico del paciente.
 
     Return:
-        list: lista con los datos del paciente [id,dni,nombre,edad,obra_social,estado]
+        list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
     """
     dni = validacion_dni(int(input("Ingrese su dni: ")))
     nombreCompleto = input("Ingrese su nombre completo: ")
     edad = validacion_edad(int(input("Ingrese su edad: ")))
     obra_social = input("Ingrese su obra social: ")
-    estado = 1
-    paciente = [id, dni, nombreCompleto, edad, obra_social, estado]
+    paciente = [id, dni, nombreCompleto, edad, obra_social]
     return paciente
 
 
@@ -56,9 +55,8 @@ def crear_pacientes_random(pacientes, cantCrear):
         edad = validacion_edad(random.randint(3, 98))
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
-        estado = 1
         id = id_unico(pacientes)
-        pacientes.append([id, dni, nombreCompleto, edad, obra_social, estado])
+        pacientes.append([id, dni, nombreCompleto, edad, obra_social])
 
 
 def imprimir_paciente(pacientes):
@@ -77,8 +75,6 @@ def imprimir_paciente(pacientes):
         print(f" PACIENTE: {pac[2]} ".center(ancho, "="))
         print(f"ID: {str(pac[0]).ljust(10)} | DNI: {str(pac[1]).ljust(12)}")
         print(f"EDAD: {str(pac[3]).ljust(8)} | OBRA SOCIAL: {pac[4]}")
-        estado_str = 'Activo ' if pac[5] == 1 else 'Inactivo '
-        print(f"ESTADO: {estado_str}".center(ancho))
         print("=" * ancho + "\n")
 
 
@@ -118,7 +114,6 @@ def buscar_id_paciente(pacientes):
         print(f"NOMBRE: {pac[2]}")
         print(f"EDAD: {pac[3]}")
         print(f"OBRA SOCIAL: {pac[4]}")
-        print(f"ESTADO: {pac[5]}")
         print("==============================\n")
 
 def actualizar_paciente(pacientes):
@@ -159,8 +154,6 @@ def actualizar_paciente(pacientes):
                         break
                     else:
                         print("Opción inválida, intente nuevamente.")
-            case 5:
-                pac[5] = int(input("Ingrese el nuevo Estado: "))
 
 def eliminar_paciente(pacientes):
     """
