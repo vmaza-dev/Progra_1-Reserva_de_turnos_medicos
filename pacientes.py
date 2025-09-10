@@ -16,9 +16,8 @@ OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 # ==============================================================================
 
 def obtener_paciente_por_id(pacientes,id):
-    for i in pacientes:
-        if i[0] == id:
-            return i
+    for i in filter(lambda p: p[0] == id, pacientes):
+        return i
     return -1
 
 
@@ -384,10 +383,11 @@ def principal_pacientes():
     crear_pacientes_random(pacientes, 10)
     return pacientes
     # leer_pacientes(pacientes)
-    # #buscar_id_paciente(pacientes)
+    # buscar_id_paciente(pacientes)
     # eliminar_paciente(pacientes)
     # leer_pacientes(pacientes)
     # actualizar_paciente(pacientes)
 
 # crear_pacientes_random(pacientes, 10)
-# print(pacientes)
+#leer_pacientes(pacientes)
+#buscar_id_paciente(pacientes)
