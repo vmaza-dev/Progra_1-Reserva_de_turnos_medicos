@@ -34,7 +34,7 @@ def grupo6_dev_logo():
  \__|\__,_|_|  |_| |_|\___/|___/ |_| |_| |_|\___|\__,_|_|\___\___/|___/
 """)
 
-def footer_general(ancho):
+def linea_iguales(ancho):
     print("="*ancho)
 
 def ingresar_entero_positivo(mensaje):

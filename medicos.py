@@ -7,6 +7,8 @@
 ANCHO = 111
 
 import random, auxiliares
+
+"""================================================ FUNCIONES C.R.U.D ====================================================================="""
 def ingresar_nombre_medico():
     """
     Solicita al usuario el nombre de un médico *ingresa el nombre* .
@@ -158,7 +160,7 @@ def leer_medicos(meds):
         imprimir_medico(med)
         print("")
         
-    fun_aux.footer_general(ANCHO)
+    auxiliares.footer_general(ANCHO)
 
 def leer_medico_id(meds, idMed):
     for med in meds:
@@ -198,6 +200,123 @@ def elim_medico(matrizMeds):
     else:
         print("Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
 
+"""================================================ FUNCIONES ESTADÍSTICAS ====================================================================="""
+def header_tres_encabezados(encab1, encab2, encab3, color1="", color2="", color3=""):
+
+    print(f"| {color1}{encab1.center(33)}\033[0m", end=" |")
+    print(f"| {color2}{encab2.center(33)}\033[0m", end=" |")
+    print(f"| {color3}{encab3.center(33)}\033[0m", end=" |")
+    print("")
+
+def header_porcentaje_estado(anchoTotal):
+    print("="*anchoTotal)
+
+    print(f"| \033[1;34m{'TOTAL DE MEDICOS'.center(33)}\033[0m", end=" |")
+    print(f"| \033[1;32m{'ACTIVOS'.center(33)}\033[0m", end=" |")
+    print(f"| \033[1;31m{'INACTIVOS'.center(33)}\033[0m", end=" |")
+    print("")
+
+def imprimir_porcentaje_estado(total, activos, inactivos):
+    auxiliares.linea_iguales(ANCHO)
+    header_tres_encabezados('TOTAL DE MEDICOS', 'ACTIVOS', 'INACTIVOS', '\033[1;34m', '\033[1;32m', '\033[1;31m')
+
+    pActivos = f"{activos:.1f}"
+    pInactivos = f"{inactivos:.1f}"
+
+    header_tres_encabezados(str(total), (str(pActivos)+' %'), (str(pInactivos)+' %'), "", '\033[32m', '\033[31m')
+    #print(f"| {str(total).center(33)}", end=" |")
+    #print(f"| \033[32m{(str(pActivos)+' %').center(33)}\033[0m", end=" |")
+    #print(f"| \033[31m{(str(pInactivos)+' %').center(33)}\033[0m", end=" |")
+    #print("")
+    auxiliares.linea_iguales(ANCHO)
+
+#ID, NOMBRE, ESPECIALIDAD, ANTIGUEDAD, ESTADO
+def porcentaje_estado(matrizMeds):
+    totalMeds = len(matrizMeds)
+    acumAct = 0
+    acumInac = 0
+
+    for med in matrizMeds:
+        if (med[4]):
+            acumAct+=1
+        else:
+            acumInac+=1
+
+    porcenAct = (acumAct*100)/totalMeds
+    porcenInac = (acumInac*100)/totalMeds
+
+    imprimir_porcentaje_estado(totalMeds, porcenAct, porcenInac)
+
+def header_porcentaje_espec(anchoTotal, espec):
+    auxiliares.linea_iguales(anchoTotal)
+
+    print("| ", end="")
+    print(f"PORCENTAJE DE MEDICOS DE ESPECIALIDAD {espec.upper()}".center(anchoTotal-4), end = " |\n")
+    print("-"*anchoTotal)
+    header_tres_encabezados('TOTAL DE MEDICOS', ('TOTAL '+ espec.upper()), 'PORCENTAJE SOBRE EL TOTAL', '\033[1;34m', '\033[1m', '\033[1m')
+
+def color_porcentaje_espec(porcentaje):
+    if (porcentaje < 35):
+        return "\033[31m"
+    elif (porcentaje > 65):
+        return "\033[32m"
+    else:
+        return "\033[33m"
+
+def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds):
+    header_porcentaje_espec(ANCHO, espec)
+
+    colorEspec = color_porcentaje_espec(porcenEspec)
+    porcenEspec = f"{porcenEspec:.1f}"
+
+    header_tres_encabezados(str(totalMeds), str(cantEspec), (porcenEspec+' %'), '\033[1;34m', colorEspec, colorEspec)
+    auxiliares.linea_iguales(ANCHO)
+
+def porcentaje_espec(matrizMeds, espec):
+    totalMeds = len(matrizMeds)
+    acumEspec = 0
+
+    for med in matrizMeds:
+        if med[2] == espec:
+            acumEspec += 1
+
+    imprimir_porcentaje_especs(espec, acumEspec, (acumEspec*100)/totalMeds, totalMeds)
+
+def header_prom_antig(anchoTotal):
+    print("="*anchoTotal)
+
+    print(f"| \033[1;34m{'ESPECIALIDAD'.center(33)}\033[0m", end=" |")
+    print(f"| \033[1;32m{'CANTIDAD MEDICOS'.center(33)}\033[0m", end=" |")
+    print(f"| \033[1;31m{'PROMEDIO ANTIGÜEDAD'.center(33)}\033[0m", end=" |")
+    print("")
+
+def crear_matriz_prom_antig(matrizMeds):
+    matAntig = [] #["Especialidad", SumaTotal, CantidadMedicos]
+    for med in matrizMeds:
+            for elem in matAntig:
+                if (med[2] == elem[0]): #Si la especialidad es igual a la especialidad de la lista
+                    existe = True
+                    elem[1] += med[3]
+                    elem[2] += 1
+                    break
+
+            if (not existe):
+                matAntig.append([med[2], med[3], 1]) # Se le agrega la especialidad, arranca el sumador con su antigüedad y el contador en 1
+    return matAntig
+
+def prom_antig_espec(matrizMeds):
+    matAntig = crear_matriz_prom_antig(matrizMeds) 
+    header_prom_antig(ANCHO)
+    
+    auxiliares.footer_general(ANCHO)
+
+
+#### lo puse dentro de una funcion para poder llamarlo en main
+# comenté las otras funciones para que no se ejecuten
+def principal_medicos():
+    crear_medicos_random(medicos, 5, idsUsados)
+    return medicos
+
 """ MAIN """
 medicos = [
     [1001, "Juan Pérez", "Traumatología", 5, 0],
@@ -206,23 +325,12 @@ medicos = [
 
 idsUsados = [1001, 9999]
 # Acá inicialice dos médicos para hacer pruebas de lectura.
+#crear_medico(medicos, idsUsados)
+#actu_medico(medicos[0], medicos[0][1])
+#leer_medicos(medicos)
+#leer_medico_id(medicos, 1001)
+#elim_medico(medicos)
 
-
-#### lo puse dentro de una funcion para poder llamarlo en main
-# comenté las otras funciones para que no se ejecuten
-
-
-def principal_medicos():
-    
-    crear_medicos_random(medicos, 5, idsUsados)
-    return medicos
-    #crear_medico(medicos, idsUsados)
-
-    #actu_medico(medicos[0], medicos[0][1])
-
-    # auxiliares.limpiar_terminal()
-    # leer_medicos(medicos)
-
-    #leer_medico_id(medicos, 1001)
-
-    #elim_medico(medicos)
+auxiliares.limpiar_terminal()
+crear_medicos_random(medicos, 5, idsUsados)
+porcentaje_estado(medicos)
