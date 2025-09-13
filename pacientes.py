@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, auxiliares
+import random, auxiliares, re
 pacientes = []
 print("l")
 
@@ -205,9 +205,12 @@ def validacion_dni(dni):
     Returns:
         int: DNI valido.
     """
-    while len(str(dni)) != 8:
-        dni = int(input("DNI invalido. Ingrese un dni de 8 digitos: "))
-    return dni
+
+    patron = r"^\d{8}$"
+    dni_str = str(dni)
+    while not re.match(patron, dni_str):
+        dni_str = input("DNI invalido. Debe ingresar un DNI de 8 digitos: ")
+    return int(dni_str)
 
 
 def validacion_edad(edad):
