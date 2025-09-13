@@ -132,7 +132,7 @@ def actualizar_paciente(pacientes):
         print("No se encontro al paciente.")
     else:
         print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
-        print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL\n5-ESTADO")
+        print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL")
         op = int(input("Ingrese el numero de la opcion: "))
         match op:
             case 1:
@@ -145,15 +145,14 @@ def actualizar_paciente(pacientes):
                 print("Seleccione una Obra Social válida:")
                 for n in range(len(OBRAS_SOCIALES)):
                     print(f"{n+1} - {OBRAS_SOCIALES[n]}")
-                while True:
-                    op_obra = int(input("Ingrese el número de la obra social: "))
-                    if 1 <= op_obra <= len(OBRAS_SOCIALES):
-                        pac[4] = OBRAS_SOCIALES[op_obra - 1]
-                        print("\nPerfil actualizado del paciente:")
-                        imprimir_paciente([pac])
-                        break
-                    else:
+                op_obra = 0
+                while op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
+                    op_obra = int(input("Ingrese el numero de la obra social:"))
+                    if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
                         print("Opción inválida, intente nuevamente.")
+                pac[4] = OBRAS_SOCIALES[op_obra - 1]
+                print("\nPerfil actualizado del paciente:")
+                imprimir_paciente([pac])
 
 def eliminar_paciente(pacientes):
     """
@@ -261,7 +260,7 @@ def promedio_edades(pacientes):
     Returns:
         float: Promedio de edades.
     """
-    edades = list(map(lambda p: p[3], pacientes))  # Extrae la edad de cada paciente
+    edades = list(map(lambda p: p[3], pacientes))
     return sum(edades)/len(edades) if edades else 0
 
 def pacientes_por_obra(pacientes):
@@ -276,7 +275,7 @@ def pacientes_por_obra(pacientes):
     Returns:
         list: Lista de tuplas (obra_social, cantidad)
     """
-    obras = list(map(lambda p: p[4], pacientes))  # Extrae la obra social
+    obras = list(map(lambda p: p[4], pacientes))
     return list(map(lambda o: (o, len(list(filter(lambda x: x==o, obras)))), set(obras)))
 
 def porcentaje_por_obra(pacientes):
