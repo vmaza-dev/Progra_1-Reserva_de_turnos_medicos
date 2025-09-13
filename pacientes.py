@@ -81,7 +81,7 @@ def imprimir_paciente(pacientes):
         print(f"\033[1m{pac[2].ljust(41)}\033[0m", end=" |")
         print(f"{str(pac[1]).ljust(21)}", end=" |")
         if pac[3] > 60:
-            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |")
+            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |") #Los pongo en amarillo para marcar cuales son jubilado
         else:
             print(f"{str(pac[3]).ljust(11)}", end=" |")
         print(f"\033[1;32m{pac[4].center(13)}\033[0m", end=" |\n")
