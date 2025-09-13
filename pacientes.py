@@ -69,13 +69,24 @@ def imprimir_paciente(pacientes):
     Returns:
         None.
     """
-    ancho = 60
+    if not pacientes:
+        print("No hay pacientes para mostrar.")
+        return
+    print("=" * 104)
+    print(f"| {'ID'.ljust(6)} | {'NOMBRE'.ljust(40)} | {'DNI'.ljust(20)} | {'EDAD'.ljust(10)} | {'OBRA SOCIAL'.center(12)} |")
+    print("=" * 104)
+
     for pac in pacientes:
-        print("=" * ancho)
-        print(f" PACIENTE: {pac[2]} ".center(ancho, "="))
-        print(f"ID: {str(pac[0]).ljust(10)} | DNI: {str(pac[1]).ljust(12)}")
-        print(f"EDAD: {str(pac[3]).ljust(8)} | OBRA SOCIAL: {pac[4]}")
-        print("=" * ancho + "\n")
+        print(f"| {str(pac[0]).ljust(6)}", end=" |")
+        print(f"\033[1m{pac[2].ljust(41)}\033[0m", end=" |")
+        print(f"{str(pac[1]).ljust(21)}", end=" |")
+        if pac[3] > 60:
+            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |")
+        else:
+            print(f"{str(pac[3]).ljust(11)}", end=" |")
+        print(f"\033[1;32m{pac[4].center(13)}\033[0m", end=" |\n")
+    
+    print("=" * 104)
 
 
 def leer_pacientes(pacientes):
@@ -401,6 +412,6 @@ def principal_pacientes():
     # leer_pacientes(pacientes)
     # actualizar_paciente(pacientes)
 
-#crear_pacientes_random(pacientes, 10)
-#leer_pacientes(pacientes)
+crear_pacientes_random(pacientes, 10)
+leer_pacientes(pacientes)
 #buscar_id_paciente(pacientes)
