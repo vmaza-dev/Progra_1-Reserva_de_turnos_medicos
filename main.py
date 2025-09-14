@@ -15,7 +15,6 @@ from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
 from medicos import menu_medicos, matrizMedicos
 from actualizar_eliminar_turnos import principal_actualizar_turnos, principal_eliminar_turnos
 import auxiliares
-import pacientes
 
 # # ==============================================================================
 # # ==============================PROGRAMA PRINCIPAL==============================
@@ -29,8 +28,7 @@ def main():
 
     matriz_turnos = []
     # creo turnos random
-    principal_crear_leer_turnos(matriz_turnos,matrizMedicos, matriz_pacientes)
-
+    principal_crear_leer_turnos(matriz_turnos, matrizMedicos, matriz_pacientes)
 
     #-------------------------------------------------
     # Bloque de menú
@@ -39,20 +37,7 @@ def main():
         while True:
             auxiliares.grupo6_dev_logo()
             opciones = 4
-            """
-            print()
-            print("---------------------------")
-            print("MENÚ PRINCIPAL")
-            print("---------------------------")
-            print("[1] Gestión de turnos")
-            print("[2] Gestión de pacientes")
-            print("[3] Gestión de médicos")
-            print("---------------------------")
-            print("[0] Salir del programa")
-            print("---------------------------")
-            print() 
-            """
-
+            
             auxiliares.linea_iguales(auxiliares.ANCHO)
             auxiliares.imprimir_un_encabezado('MENU PRINCIPAL', auxiliares.ANCHO)
             print("")
@@ -82,6 +67,7 @@ def main():
             matriz_pacientes = principal_pacientes(matriz_pacientes)
 
         elif opcion == "3":   # Opción 3
+            auxiliares.limpiar_terminal()
             menu_medicos()
         elif opcion == "4":   # Opción 4
             ...

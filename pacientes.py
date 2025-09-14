@@ -405,22 +405,6 @@ def principal_pacientes(pacientes):
         valida = False
         while not valida:
             opciones = 6
-            """
-            print()
-            print("---------------------------")
-            print("MENÚ PRINCIPAL > PACIENTES")
-            print("---------------------------")
-            print("[1] Crear paciente")
-            print("[2] Consultar pacientes")
-            print("[3] Actualizar paciente")
-            print("[4] Eliminar paciente")
-            print("[5] Estadísticas")
-            print("[6] Mostrar usuarios")
-            print("---------------------------")
-            print("[0] Volver al menú anterior")
-            print("---------------------------")
-            print()
-            """
 
             auxiliares.linea_iguales(auxiliares.ANCHO)
             auxiliares.imprimir_un_encabezado('MENU PACIENTES', auxiliares.ANCHO)

@@ -1,17 +1,17 @@
 # ==============================================================================
 # Materia: Programación 1 
-# Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
+# Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustin, Nicolás Seijo, Victor Maza
 # Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
 
 nombres = [
-    "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
-    "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
+    "Nicolás", "Victor", "Agustin", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
+    "Noah", "Lorenzo", "Julián", "Maria Jesús", "Jesús Maria", "Ciro", "Dante","Agustin", "Facundo",
     "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo", "Alan",
     "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
-    "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
+    "Alma", "Joaquin", "Franco", "Thiago", "Bautista", "Sofia", "Emilia", "Renata", "Valentina", "Pilar",
     "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
     "Fausto", "León", "Lucio", "Santino", "Lionel", "Lucas", "Nicolás", "Camilo", "Manuel", "Sebastián",
     "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros",
@@ -19,13 +19,13 @@ nombres = [
     "Bruna", "Luz","Melody", "Azul", "Constanza", "Eva", "India", "Paulina", "Greta", "Vera", "Xiomara",
     "Abril", "Ariadna", "Ailén", "Aurora", "Gianna", "Juana", "Nina", "Rosario", "Agostina", "Aline", 
     "Celina", "Guillermina", "Jesús", "Vitto", "Salvador", "Ignacio", "Amelie", "Aitana", "Alana",
-    "Brisa", "Iñaki", "Esteban", "Obi Wan", "John", "Anakin", "Arthas", "Guido", "Rick", "Jose Joaquín"
+    "Brisa", "Iñaki", "Esteban", "Obi Wan", "John", "Anakin", "Arthas", "Guido", "Rick", "Jose Joaquin"
 ]
 
 apellidos = [
-    "González", "Rodríguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
-    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi",
-    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini",
+    "González", "Rodriguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
+    "Martinez", "Diaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi",
+    "Garcia", "Sosa", "Benitez", "Ramirez", "Ruiz", "Isfrán", "Parisini",
     "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
     "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
     "Rios", "Morales", "Godoy", "Moreno", "Ferreyra", "Brito",
@@ -45,7 +45,7 @@ apellidos = [
     "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
 ]
 
-especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
+especialidades = ["Clinica Médica", "Psiquiatria", "Urologia", "Traumatologia", "Otorrinonaringologia"]
 
 import random, re
 ANCHO = 111
@@ -94,7 +94,7 @@ def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
 
 def imprimir_tres_encabezados(encab1, encab2, encab3, color1="", color2="", color3=""):
     """
-    Imprime tres encabezados especificados, con un color específicado para cada uno (o nada, si no se ingresa).
+    Imprime tres encabezados especificados, con un color especificado para cada uno (o nada, si no se ingresa).
 
     Parametros:
         encab1(str): Primer encabezado a imprimirse.
@@ -106,7 +106,7 @@ def imprimir_tres_encabezados(encab1, encab2, encab3, color1="", color2="", colo
         color3(str): Color a aplicar al tercer encabezado.
 
     Flujo: 
-        - Llama a la función 'imprimir_un_encabezado()' para imprimir cada encabezado, se le envía el ancho '37' ya que es 1/3 de '111
+        - Llama a la función 'imprimir_un_encabezado()' para imprimir cada encabezado, se le envia el ancho '37' ya que es 1/3 de '111
     """
 
     imprimir_un_encabezado(encab1, 37, color1)
@@ -117,7 +117,7 @@ def imprimir_tres_encabezados(encab1, encab2, encab3, color1="", color2="", colo
 
 def imprimir_un_encabezado(encab, anchoEncab, color=""):
     """
-    Imprime un encabezado especificado centrado en el ancho total, con un color también específicado (o nada, si no se ingresa).
+    Imprime un encabezado especificado centrado en el ancho total, con un color también especificado (o nada, si no se ingresa).
 
     Parametros:
         encab(str): Encabezado a imprimirse.
@@ -236,10 +236,10 @@ def validar_fecha(d, m, a):
     """
     Valida si tres números enteros positivos corresponden a una fecha válida.
 
-    Toma en cuenta anios bisiestos, meses de 30 y 31 días.
+    Toma en cuenta anios bisiestos, meses de 30 y 31 dias.
 
     Args:
-        d(int): Día del mes.
+        d(int): Dia del mes.
         m(int): Mes.
         a(int): Anio.
 
@@ -265,7 +265,7 @@ def validar_fecha(d, m, a):
     if m > 0 and m <= 12:
         m_valido = True
 
-    # valido día
+    # valido dia
     if 1 <= d <= 31 and m_valido:
         match m:
             case 1|3|5|7|8|10|12:
@@ -290,7 +290,7 @@ def crear_matriz(filas, columnas, n0 = 0, n = 99):
     Args:
         filas(int): Cantidad de filas de la matriz.
         columnas(int): Cantidad de columnas de la matriz.
-        n0(int): Valor mínimo aleatorio. Default = 0.
+        n0(int): Valor minimo aleatorio. Default = 0.
         n(int): Valor máximo aleatorio. Default = 99.
 
     Returns:
@@ -341,7 +341,7 @@ def imprimir_datos(encabezado, matriz):
     Imprime un conjunto de datos con encabezado y matriz.
 
     Args:
-        encabezado(list): Lista de títulos para las columnas.
+        encabezado(list): Lista de titulos para las columnas.
         matriz(list[list]): Datos a imprimir.
     """
     filas = len(matriz)

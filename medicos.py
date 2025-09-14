@@ -662,11 +662,11 @@ def menu_medicos():
 
 """ MAIN """
 matrizMedicos = [
-    [100000, "Juan Pérez", "Traumatología", 5, 0],
-    [999999, "Ataúlfo Américo Djandjikian", "Otorrinonaringología", 26, 1],
-    [156904, "Fernando Guerra", "Traumatología", 10, 1],
-    [777555, "Guillermo Smith", "Traumatología", 25, 1],
-    [321987, "Rodrigo Rodríguez", "Urología", 5, 0]
+    [100000, "Juan Pérez", "Traumatologia", 5, 0],
+    [999999, "Ataúlfo Américo Djandjikian", "Otorrinonaringologia", 26, 1],
+    [156904, "Fernando Guerra", "Traumatologia", 10, 1],
+    [777555, "Guillermo Smith", "Traumatologia", 25, 1],
+    [321987, "Rodrigo Rodríguez", "Urologia", 5, 0]
 ] #ID, Nombre, Especialidad, Antiguedad, Estado
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]
