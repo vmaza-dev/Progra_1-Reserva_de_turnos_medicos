@@ -5,7 +5,7 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, auxiliares
+import random, auxiliares, re
 pacientes = []
 print("l")
 
@@ -69,13 +69,24 @@ def imprimir_paciente(pacientes):
     Returns:
         None.
     """
-    ancho = 60
+    if not pacientes:
+        print("No hay pacientes para mostrar.")
+        return
+    print("=" * 104)
+    print(f"| {'ID'.ljust(6)} | {'NOMBRE'.ljust(40)} | {'DNI'.ljust(20)} | {'EDAD'.ljust(10)} | {'OBRA SOCIAL'.center(12)} |")
+    print("=" * 104)
+
     for pac in pacientes:
-        print("=" * ancho)
-        print(f" PACIENTE: {pac[2]} ".center(ancho, "="))
-        print(f"ID: {str(pac[0]).ljust(10)} | DNI: {str(pac[1]).ljust(12)}")
-        print(f"EDAD: {str(pac[3]).ljust(8)} | OBRA SOCIAL: {pac[4]}")
-        print("=" * ancho + "\n")
+        print(f"| {str(pac[0]).ljust(6)}", end=" |")
+        print(f"\033[1m{pac[2].ljust(41)}\033[0m", end=" |")
+        print(f"{str(pac[1]).ljust(21)}", end=" |")
+        if pac[3] > 60:
+            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |") #Lo marco en amarillo para marcar cuales so
+        else:
+            print(f"{str(pac[3]).ljust(11)}", end=" |")
+        print(f"\033[1;32m{pac[4].center(13)}\033[0m", end=" |\n")
+    
+    print("=" * 104)
 
 
 def leer_pacientes(pacientes):
@@ -132,7 +143,7 @@ def actualizar_paciente(pacientes):
         print("No se encontro al paciente.")
     else:
         print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
-        print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL\n5-ESTADO")
+        print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL")
         op = int(input("Ingrese el numero de la opcion: "))
         match op:
             case 1:
@@ -145,15 +156,14 @@ def actualizar_paciente(pacientes):
                 print("Seleccione una Obra Social válida:")
                 for n in range(len(OBRAS_SOCIALES)):
                     print(f"{n+1} - {OBRAS_SOCIALES[n]}")
-                while True:
-                    op_obra = int(input("Ingrese el número de la obra social: "))
-                    if 1 <= op_obra <= len(OBRAS_SOCIALES):
-                        pac[4] = OBRAS_SOCIALES[op_obra - 1]
-                        print("\nPerfil actualizado del paciente:")
-                        imprimir_paciente([pac])
-                        break
-                    else:
+                op_obra = 0
+                while op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
+                    op_obra = int(input("Ingrese el numero de la obra social:"))
+                    if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
                         print("Opción inválida, intente nuevamente.")
+                pac[4] = OBRAS_SOCIALES[op_obra - 1]
+                print("\nPerfil actualizado del paciente:")
+                imprimir_paciente([pac])
 
 def eliminar_paciente(pacientes):
     """
@@ -206,9 +216,12 @@ def validacion_dni(dni):
     Returns:
         int: DNI valido.
     """
-    while len(str(dni)) != 8:
-        dni = int(input("DNI invalido. Ingrese un dni de 8 digitos: "))
-    return dni
+
+    patron = r"^\d{8}$"
+    dni_str = str(dni)
+    while not re.match(patron, dni_str):
+        dni_str = input("DNI invalido. Debe ingresar un DNI de 8 digitos: ")
+    return int(dni_str)
 
 
 def validacion_edad(edad):
@@ -261,7 +274,7 @@ def promedio_edades(pacientes):
     Returns:
         float: Promedio de edades.
     """
-    edades = list(map(lambda p: p[3], pacientes))  # Extrae la edad de cada paciente
+    edades = list(map(lambda p: p[3], pacientes))
     return sum(edades)/len(edades) if edades else 0
 
 def pacientes_por_obra(pacientes):
@@ -276,7 +289,7 @@ def pacientes_por_obra(pacientes):
     Returns:
         list: Lista de tuplas (obra_social, cantidad)
     """
-    obras = list(map(lambda p: p[4], pacientes))  # Extrae la obra social
+    obras = list(map(lambda p: p[4], pacientes))
     return list(map(lambda o: (o, len(list(filter(lambda x: x==o, obras)))), set(obras)))
 
 def porcentaje_por_obra(pacientes):
@@ -390,14 +403,61 @@ def mostrar_usuarios(pacientes):
 # sueltas y arrancaba el main importando este módulo ejecutaba todas la 
 # funciones por eso se pisaban entre sí
 
-def principal_pacientes():
+def inicializar_pacientes_random():
     crear_pacientes_random(pacientes, 10)
     return pacientes
-    # leer_pacientes(pacientes)
-    # buscar_id_paciente(pacientes)
-    # eliminar_paciente(pacientes)
-    # leer_pacientes(pacientes)
-    # actualizar_paciente(pacientes)
+
+def principal_pacientes(pacientes):
+    opcion_p ="-1"
+    while opcion_p != "0":
+        valida = False
+        while not valida:
+            opciones = 6
+            print()
+            print("---------------------------")
+            print("MENÚ PRINCIPAL > PACIENTES")
+            print("---------------------------")
+            print("[1] Crear paciente")
+            print("[2] Consultar pacientes")
+            print("[3] Actualizar paciente")
+            print("[4] Eliminar paciente")
+            print("[5] Estadísticas")
+            print("[6] Mostrar usuarios")
+            print("---------------------------")
+            print("[0] Volver al menú anterior")
+            print("---------------------------")
+            print()
+
+            opcion_p = input("Selecciones una opcion: ")
+            valida = opcion_p in [str(i) for i in range(0, opciones + 1)]
+
+            if not valida:
+                input("Opción inválida. Presione ENTER para volver a seleccionar.")
+            print()
+
+            if opcion_p == "1":
+                pac_id = id_unico(pacientes)
+                nuevo = crear_paciente(pac_id)
+                pacientes.append(nuevo)
+                print("\nPaciente creado correctamente:")
+                imprimir_paciente([nuevo])
+
+            elif opcion_p == "2":
+                leer_pacientes(pacientes)
+
+            elif opcion_p == "3":
+                actualizar_paciente(pacientes)
+                
+            elif opcion_p == "4":
+                eliminar_paciente(pacientes)
+                
+            elif opcion_p == "5":
+                mostrar_estadisticas_pacientes(pacientes)
+
+            elif opcion_p == "6":
+                mostrar_usuarios(pacientes)
+
+    return pacientes
 
 #crear_pacientes_random(pacientes, 10)
 #leer_pacientes(pacientes)

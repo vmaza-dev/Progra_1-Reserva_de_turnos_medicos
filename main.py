@@ -10,11 +10,11 @@
 # MÓDULOS
 #-------------------------------------------------------------------------------
 
-from pacientes import principal_pacientes
+from pacientes import principal_pacientes,inicializar_pacientes_random
 from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
 from medicos import principal_medicos
 import auxiliares
-
+import pacientes
 
 # # ==============================================================================
 # # ==============================PROGRAMA PRINCIPAL==============================
@@ -26,7 +26,7 @@ def main():
     #-------------------------------------------------
     matriz_medicos = principal_medicos()
     print(matriz_medicos)
-    matriz_pacientes = principal_pacientes()
+    matriz_pacientes = inicializar_pacientes_random()
     matriz_turnos = []
     # creo turnos random
     principal_crear_leer_turnos(matriz_turnos,matriz_medicos, matriz_pacientes)
@@ -103,7 +103,8 @@ def main():
                     ...
 
         elif opcion == "2":   # Opción 2
-            ...
+            matriz_pacientes = principal_pacientes(matriz_pacientes)
+
         elif opcion == "3":   # Opción 3
             ...
         elif opcion == "4":   # Opción 4
@@ -117,13 +118,3 @@ def main():
 
 # Punto de entrada al programa
 main()
-
-
-
-
-
-
-
-
-
-
