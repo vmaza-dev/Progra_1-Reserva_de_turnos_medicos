@@ -23,7 +23,10 @@ from pacientes import crear_paciente
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
 #-------------------------------------------------------------------------------
 
+
 def mostrar_encabezado_consulta(encabezado):
+
+
     """
     Mustra encabezado personalizado de consulta.
 
@@ -165,6 +168,7 @@ def elegir_especialidad_med():
         espec(str): Especilidad elegida.
     """
     print("Seleccione el tipo de especialidad médica")
+
     print("_"*40)
     print(amarillo(f"{' ESPECIALIDADES ':=^40}"))
     auxiliares.imprimir_lista_opciones(auxiliares.especialidades, True)
@@ -200,6 +204,7 @@ def elegir_medico(matriz_turnos, fecha_turno, dia_semana, hora_turnos,
     # validación si es el primer turno del dia
     # 3 crear el menu de selección
     print(verde(f"Medicos y horarios disponibles parar el {dia_semana} {fecha_turno.strftime("%d/%m/%Y")}"))
+
     print()
     # transpongo mi matriz de turnos libres
     tras_medicos_turnos_libres = auxiliares.transponer_matriz(medicos_turnos_libres)
@@ -905,9 +910,11 @@ def leer_turnos(matriz_turnos, encabezados, matriz_pacs, matriz_meds,
                 case 0:# ID
                     print(f"|{turnos_ordenados[i][j]:<7}", end = "||")
                 case 1:# FECHA que salga formateado y que no ocupe tanto espacio
+
                     print(f"{turnos_ordenados[i][j].strftime("%d/%m/%Y"):^12}", end = "||")
                 case 2:# HORA  que no ocupen tanto espacio
                     print(f"{turnos_ordenados[i][j]:^7}", end = "||")
+        
                 case 3:# PACIENTE que muestre el nombre del paciente en lugar del DNI
                     # aca esta todo el nombre completo!
                     nombre_completo = devolver_paciente(matriz_pacs,turnos_ordenados[i][j])

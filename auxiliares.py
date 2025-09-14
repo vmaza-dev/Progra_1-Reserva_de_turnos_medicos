@@ -4,22 +4,7 @@
 # Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
-import random, re 
 
-#-------------------------------------------------------------------------------
-#---------------------------- CONSTANTES DEL MODULO -----------------------------
-#-------------------------------------------------------------------------------
-
-#-------------------------------------------------------------------------------
-# CONSTANTES ESTETICAS ---------------------------------------------------------
-#-------------------------------------------------------------------------------
-# la idea de esta constante es que todos usemos este ancho por defecto
-# para encuadradrar las salidas de nuestros módulos
-ANCHO_SALIDAS = 111
-
-#-------------------------------------------------------------------------------
-# DATOS COMUNES ----------------------------------------------------------------
-#-------------------------------------------------------------------------------
 
 nombres = [
     "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
@@ -62,9 +47,8 @@ apellidos = [
 
 especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
 
-#-------------------------------------------------------------------------------
-#---------------------------- FUNCIONES DEL MODULO -----------------------------
-#-------------------------------------------------------------------------------
+import random, re
+ANCHO = 111
 
 def limpiar_terminal():
     """
@@ -94,8 +78,55 @@ def grupo6_dev_logo():
  \__|\__,_|_|  |_| |_|\___/|___/ |_| |_| |_|\___|\__,_|_|\___\___/|___/
 """)
 
-def footer_general(ancho):
+def linea_iguales(ancho):
     print("="*ancho)
+
+def linea_guiones(ancho):
+    print("-"*ancho)
+
+def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
+    if (guiones):
+        linea_guiones(ANCHO)
+
+    textoImprimir = f"\033[{colorOpcion}m[{opcion}]\033[0m: \033[{colorTexto}m{texto}\033[0m"
+    espacios = len(textoImprimir) - len(f"[{opcion}]: {texto}")
+    print(f"| " + textoImprimir.ljust(ANCHO-4) + " " * espacios, end=" |\n")
+
+def imprimir_tres_encabezados(encab1, encab2, encab3, color1="", color2="", color3=""):
+    """
+    Imprime tres encabezados especificados, con un color específicado para cada uno (o nada, si no se ingresa).
+
+    Parametros:
+        encab1(str): Primer encabezado a imprimirse.
+        encab2(str): Segundo encabezado a imprimirse.
+        encab3(str): Tercer encabezado a imprimirse.
+
+        color1(str): Color a aplicar al primer encabezado.
+        color2(str): Color a aplicar al segundo encabezado.
+        color3(str): Color a aplicar al tercer encabezado.
+
+    Flujo: 
+        - Llama a la función 'imprimir_un_encabezado()' para imprimir cada encabezado, se le envía el ancho '37' ya que es 1/3 de '111
+    """
+
+    imprimir_un_encabezado(encab1, 37, color1)
+    imprimir_un_encabezado(encab2, 37, color2)
+    imprimir_un_encabezado(encab3, 37, color3)
+
+    print("")
+
+def imprimir_un_encabezado(encab, anchoEncab, color=""):
+    """
+    Imprime un encabezado especificado centrado en el ancho total, con un color también específicado (o nada, si no se ingresa).
+
+    Parametros:
+        encab(str): Encabezado a imprimirse.
+        color(str): Color a aplicar al encabezado.
+
+    Flujo: 
+        - Imprime 'encab' centrado en ANCHO-4 y coloreandolo de 'color'
+    """
+    print(f"| {color}{encab.center(anchoEncab-4)}\033[0m", end=" |")
 
 def ingresar_entero_positivo(mensaje):
     """
