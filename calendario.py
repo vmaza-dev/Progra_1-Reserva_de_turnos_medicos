@@ -120,16 +120,15 @@ def mes_a_palabras(mes):
     
     return mes_palabra[mes - 1]
 
-def calendario_mes(mes, anio):
+def calendario_mes(mes, anio, dia = 1):
     """
-    Crea e imprime un calendario del mes actual
+    Crea e imprime un calendario de un mes.
 
     Args:
     
     Returns:
         Matriz con los días del mes.
     """
-
     semanas = 6
     dias_semana = 7
     calendario_mes = []
@@ -142,14 +141,10 @@ def calendario_mes(mes, anio):
     # [Domingo, Lunes, Martes, Miercoles, Jueves, Viernes, Sábado],
     # ...]
 
-    # creo el primer día del mes actual
-    dia = 1
-    # veo si es bisiesto, no se si es necesario dado que uso la funcion
-    # con la congruencia de zeller, pero asi funciona y por ahora no lo
-    # toco
+    # veo si es bisiesto, para armar los dias del calendario
+    # en este 
     fecha_valida, anio_bisiesto= auxiliares.validar_fecha(dia, mes, anio)
     # me quedo con mi mes en palabras y el anio original por si paso de anio
-    # eso no sería necesario pero por ahora lo dejo
     mes_ori = mes_a_palabras(mes)
     anio_ori = anio
 

@@ -4,7 +4,50 @@
 # Descripción: Funciones auxiliares comunes a todos los módulos.
 # Fecha de creación: 10/08/2025
 # ==============================================================================
-import random
+
+
+nombres = [
+    "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
+    "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
+    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo", "Alan",
+    "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
+    "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
+    "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
+    "Fausto", "León", "Lucio", "Santino", "Lionel", "Lucas", "Nicolás", "Camilo", "Manuel", "Sebastián",
+    "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros",
+    "Victoria", "Josefina","Rufina", "Amparo", "Refugio", "Paz", "Lara", "Luna", "Malena", "Remedios",
+    "Bruna", "Luz","Melody", "Azul", "Constanza", "Eva", "India", "Paulina", "Greta", "Vera", "Xiomara",
+    "Abril", "Ariadna", "Ailén", "Aurora", "Gianna", "Juana", "Nina", "Rosario", "Agostina", "Aline", 
+    "Celina", "Guillermina", "Jesús", "Vitto", "Salvador", "Ignacio", "Amelie", "Aitana", "Alana",
+    "Brisa", "Iñaki", "Esteban", "Obi Wan", "John", "Anakin", "Arthas", "Guido", "Rick", "Jose Joaquín"
+]
+
+apellidos = [
+    "González", "Rodríguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
+    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi",
+    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini",
+    "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
+    "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
+    "Rios", "Morales", "Godoy", "Moreno", "Ferreyra", "Brito",
+    "Dominguez", "Carrizo", "Peralta", "Castillo", "Ledesma",
+    "Quiroga", "Vega", "Vera", "Muñoz", "Ojeda",
+    "Ponce", "Villalba", "Cardozo", "Navarro", "Coronel",
+    "Vazquez", "Ramos", "Vargas", "Caceres", "Arias",
+    "Figueroa", "Cordoba", "Correa", "Maldonado", "Paz",
+    "Rivero", "Miranda", "Mansilla", "Farias", "Roldan",
+    "Mendez", "Guzmán", "Aguero", "Hernández", "Lucero",
+    "Cruz", "Paez", "Escobar", "Mendoza", "Barrios", "Diaz"
+    "Bustos", "Avila", "Ayala", "Blanco", "Soria",
+    "Maidana", "Acuña", "Leiva", "Duarte", "Moyano",
+    "Campos", "Iturria", "Maza", "Seijo", "Aliano",
+    "Escándalo", "Quito", "Gimenez", "Herrera", "Suárez",
+    "Aguirre", "Gutiérrez", "Pereyra", "Molina", "Castro", "Grimes",
+    "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
+]
+
+especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
+
+import random, re
 ANCHO = 111
 
 def limpiar_terminal():
@@ -88,18 +131,31 @@ def imprimir_un_encabezado(encab, anchoEncab, color=""):
 def ingresar_entero_positivo(mensaje):
     """
     Valida el ingreso por teclado de un número entero positivo.
-
+    
     Args:
         mensaje(str): Pedido de ingreso de datos.
 
     Returns:
         Número entero positivo(int).
     """
-    n = int(input(f"{mensaje}"))
-    while n < 0:
-        print("Ingreso inválido: El número debe ser mayor a cero")
-        n = int(input(f"{mensaje}"))
-    return n
+    numero = ingresar_respuesta_str(mensaje)
+    numero_valido = False
+    while numero_valido  == False:
+        # valido que no ingrese letras
+        if re.findall("[a-zA-Z]", numero):
+            print("Ingrese una opción válida")
+            numero= ingresar_respuesta_str("")
+        # valido que no espacios ni ingreso vacio    
+        elif re.findall("[\s]", numero) or numero == "":
+            print("Ingrese una opción válida")
+            numero= ingresar_respuesta_str("")
+        # valido que no sea negativo   
+        elif int(numero) <= 0:
+            print("Ingrese una opción válida")
+            numero = ingresar_respuesta_str("")
+        else:
+            numero_valido = True
+    return int(numero)
 
 def ingresar_respuesta_str(mensaje):
         
@@ -117,6 +173,39 @@ def ingresar_respuesta_str(mensaje):
     """
     rta = input(mensaje)
     return rta
+
+def imprimir_lista_opciones(mi_lista, num = False, contador = 0):
+    """
+    Imprime los elementos de una lista de opciones.
+    
+    Admite la numeración de los elementos.
+
+    Args:
+        mi_lista(list): Lista de elementos.
+        num(bool):
+            False: Por defecto. Omite numeración
+            True: Opcional. Numera los elementos
+        contador(int): Inicio de la numeración. Por defecto 0.
+
+    Returns:
+    """
+    if num:
+        for i in mi_lista:
+            contador += 1
+            igual = "="*20
+            print(f"{igual:^40}")
+            texto = f"{contador}: {i}"
+            print(f"{texto:^40}", end="\n")
+            print(f"{igual:^40}")
+    else:
+        for i in mi_lista:
+            igual = "="*20
+            print(f"{igual:^40}")
+            texto = f"{i}"
+            print(f"{texto:^40}", end="\n")
+            print(f"{igual:^40}")       
+
+    print("")
 
 def imprimir_lista(mi_lista, num = False, contador = 0):
     """
@@ -185,14 +274,13 @@ def validar_fecha(d, m, a):
                 if d <= 30:
                     d_valido = True
             case 2:
-                if bisiesto and d <= 29:
-                    d_valido = True
-                elif d <= 28:
+                if (bisiesto and d <= 29) or (not bisiesto and d <= 28):
                     d_valido = True
 
     # valido si la fecha es válida            
     if d_valido and m_valido and a_valido:
         f_valida = True
+
     return f_valida, bisiesto
 
 def crear_matriz(filas, columnas, n0 = 0, n = 99):
@@ -266,45 +354,4 @@ def imprimir_datos(encabezado, matriz):
             print(f"{matriz[i][j]}", end = "\t")
         print()
 
-nombres = [
-    "Nicolás", "Victor", "Agustín", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
-    "Noah", "Lorenzo", "Julián", "María Jesús", "Jesús María", "Ciro", "Dante","Agustín", "Facundo",
-    "Santiago", "Jonathan", "Joseph", "Judas", "Gerónimo", "Lionel", "Dibu", "Dana", "Gildo", "Alan",
-    "Martina", "Catalina", "Emma", "Olivia", "Isabella", "Delfina", "Julieta", "Daniel", "Eduardo",
-    "Alma", "Joaquín", "Franco", "Thiago", "Bautista", "Sofía", "Emilia", "Renata", "Valentina", "Pilar",
-    "Lautaro", "Tiziano", "Gael", "Tomás", "Francisco", "Lisandro", "Ramiro", "Ignacio", "Luciano",
-    "Fausto", "León", "Lucio", "Santino", "Lionel", "Lucas", "Nicolás", "Camilo", "Manuel", "Sebastián",
-    "Juan","Pedro", "Pablo", "Alejandro", "Elias", "Amadeo", "Francisco", "Gianluca", "Milagros",
-    "Victoria", "Josefina","Rufina", "Amparo", "Refugio", "Paz", "Lara", "Luna", "Malena", "Remedios",
-    "Bruna", "Luz","Melody", "Azul", "Constanza", "Eva", "India", "Paulina", "Greta", "Vera", "Xiomara",
-    "Abril", "Ariadna", "Ailén", "Aurora", "Gianna", "Juana", "Nina", "Rosario", "Agostina", "Aline", 
-    "Celina", "Guillermina", "Jesús", "Vitto", "Salvador", "Ignacio", "Amelie", "Aitana", "Alana",
-    "Brisa", "Iñaki", "Esteban", "Obi Wan", "John", "Anakin", "Arthas", "Guido", "Rick", "Jose Joaquín"
-]
 
-apellidos = [
-    "González", "Rodríguez", "Gómez", "Fernández", "López", "Joestar", "Iscariote",
-    "Martínez", "Díaz", "Pérez", "Sánchez", "Romero", "Benávidez", "Messi",
-    "García", "Sosa", "Benítez", "Ramírez", "Ruiz", "Isfrán", "Parisini",
-    "Torres", "Flores", "Álvarez", "Acosta", "Rojas", "Guerrero", "Zapatero", "Caballero",
-    "Silva", "Nuñez", "Luna", "Juarez", "Cabrera", "Avellaneda", "del Corazón de Jesús Belgrano",
-    "Rios", "Morales", "Godoy", "Moreno", "Ferreyra", "Brito",
-    "Dominguez", "Carrizo", "Peralta", "Castillo", "Ledesma",
-    "Quiroga", "Vega", "Vera", "Muñoz", "Ojeda",
-    "Ponce", "Villalba", "Cardozo", "Navarro", "Coronel",
-    "Vazquez", "Ramos", "Vargas", "Caceres", "Arias",
-    "Figueroa", "Cordoba", "Correa", "Maldonado", "Paz",
-    "Rivero", "Miranda", "Mansilla", "Farias", "Roldan",
-    "Mendez", "Guzmán", "Aguero", "Hernández", "Lucero",
-    "Cruz", "Paez", "Escobar", "Mendoza", "Barrios", "Diaz"
-    "Bustos", "Avila", "Ayala", "Blanco", "Soria",
-    "Maidana", "Acuña", "Leiva", "Duarte", "Moyano",
-    "Campos", "Iturria", "Maza", "Seijo", "Aliano",
-    "Escándalo", "Quito", "Gimenez", "Herrera", "Suárez",
-    "Aguirre", "Gutiérrez", "Pereyra", "Molina", "Castro", "Grimes",
-    "Ortiz", "Perez", "Cisterna", "Ferro", "Connor", "Kenobi", "Skywalker", "Menethil", "Van Rossum"
-]
-
-especialidades = ["Clínica Médica", "Psiquiatría", "Urología", "Traumatología"]
-
-cobertura = ["Total", "Copago", "Particular"]
