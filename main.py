@@ -25,7 +25,6 @@ def main():
     # Inicialización de variables que necesitemos
     #-------------------------------------------------
     matriz_medicos = principal_medicos()
-    print(matriz_medicos)
     matriz_pacientes = principal_pacientes()
     matriz_turnos = []
     # creo turnos random
