@@ -18,6 +18,7 @@ from datetime import datetime, date, timedelta
 
 import auxiliares, calendario
 from pacientes import crear_paciente
+import actualizar_eliminar_turnos
 
 #-------------------------------------------------------------------------------
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
@@ -25,10 +26,8 @@ from pacientes import crear_paciente
 
 
 def mostrar_encabezado_consulta(encabezado):
-
-
     """
-    Mustra encabezado personalizado de consulta.
+    Muestra encabezado personalizado de consulta.
 
     Imprime por pantalla el encabezado en MAYÚSCULAS.
     
@@ -1029,23 +1028,26 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
                                  CONSULTA, ESTADO_TURNO, matriz_pacs,
                                    matriz_meds, N_TURNOS_RANDOM)
         case 1:
+
             while True:
                 logo_turnos()
                 while True:
                     opciones = 4
                     print()
-                    print("-------------------------------------")
-                    print("MENÚ PRINCIPAL > TURNOS > CREAR TURNO")
-                    print("-------------------------------------")
-                    print("[1] Crear turno")
-                    print("-------------------------------------")
+                    print("---------------------------")
+                    print("MENÚ PRINCIPAL > TURNOS")
+                    print("---------------------------")
+                    print("[1] Crear turnos")
+                    print("[2] Consultar turnos")
+                    print("[3] Actualizar turnos")
+                    print("[4] Eliminar turnos")
+                    print("---------------------------")
                     print("[0] Volver al menú anterior")
-                    print("-------------------------------------")
+                    print("---------------------------")
                     print()
                     
                     opcion = input("Seleccione una opción: ")
-                    # Sólo continua si se elije una opcion de menú válida
-                    if opcion in [str(i) for i in range(0, opciones + 1)]: 
+                    if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
                         break
                     else:
                         input("Opción inválida. Presione ENTER para volver a seleccionar.")
@@ -1054,45 +1056,156 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
                 if opcion == "0": # Opción salir del submenú
                     break # No salimos del programa, volvemos al menú anterior
                 elif opcion == "1":   # Opción 1
-                    crear_turno(matriz_turnos, horarios_atencion, CONSULTA,
-                                 matriz_pacs, matriz_meds, mes_numero, anio)
-                    input("\nPresione ENTER para volver al menú.")
-        case 2:
-            while True:
-                logo_turnos()
-                while True:
-                    opciones = 4
-                    print()
-                    print("-------------------------------------")
-                    print("MENÚ PRINCIPAL > TURNOS > CONSULTA")
-                    print("-------------------------------------")
-                    print("[1] Consultar todos los turnos")
-                    print("[2] Otras consultas")
-                    print("-------------------------------------")
-                    print("[0] Volver al menú anterior")
-                    print("-------------------------------------")
-                    print()
-                    
-                    opcion = input("Seleccione una opción: ")
-                    # Sólo continua si se elije una opcion de menú válida
-                    if opcion in [str(i) for i in range(0, opciones + 1)]: 
-                        break
-                    else:
-                        input("Opción inválida. Presione ENTER para volver a seleccionar.")
-                print()
+                    while True:
+                        logo_turnos()
+                        while True:
+                            opciones = 4
+                            print()
+                            print("-------------------------------------")
+                            print("MENÚ PRINCIPAL > TURNOS > CREAR TURNO")
+                            print("-------------------------------------")
+                            print("[1] Crear turno")
+                            print("-------------------------------------")
+                            print("[0] Volver al menú anterior")
+                            print("-------------------------------------")
+                            print()
+                            
+                            opcion = input("Seleccione una opción: ")
+                            # Sólo continua si se elije una opcion de menú válida
+                            if opcion in [str(i) for i in range(0, opciones + 1)]: 
+                                break
+                            else:
+                                input("Opción inválida. Presione ENTER para volver a seleccionar.")
+                        print()
 
-                if opcion == "0": # Opción salir del submenú
-                    break # No salimos del programa, volvemos al menú anterior
-                elif opcion == "1":   # Opción 1
-                    leer_turnos(matriz_turnos, ENCABEZADO_TURNOS, matriz_pacs,
-                                matriz_meds, mes_palabra, cant_dias_mes,
-                                horarios_atencion)
-                    input("\nPresione ENTER para volver al menú.")
+                        if opcion == "0": # Opción salir del submenú
+                            break # No salimos del programa, volvemos al menú anterior
+                        elif opcion == "1":   # Opción 1
+                            crear_turno(matriz_turnos, horarios_atencion, CONSULTA,
+                                        matriz_pacs, matriz_meds, mes_numero, anio)
+                            input("\nPresione ENTER para volver al menú.")
                     
                 elif opcion == "2":   # Opción 2
-                    consultar_turno(ENCABEZADO_TURNOS, matriz_turnos, mes_numero,
-                                    mes_palabra, cant_dias_mes, anio, matriz_pacs,
-                                    matriz_meds, ESTADO_TURNO, horarios_atencion)
-                    input("\nPresione ENTER para volver al menú.")
+                    while True:
+                        logo_turnos()
+                        while True:
+                            opciones = 4
+                            print()
+                            print("-------------------------------------")
+                            print("MENÚ PRINCIPAL > TURNOS > CONSULTA")
+                            print("-------------------------------------")
+                            print("[1] Consultar todos los turnos")
+                            print("[2] Otras consultas")
+                            print("-------------------------------------")
+                            print("[0] Volver al menú anterior")
+                            print("-------------------------------------")
+                            print()
+                            
+                            opcion = input("Seleccione una opción: ")
+                            # Sólo continua si se elije una opcion de menú válida
+                            if opcion in [str(i) for i in range(0, opciones + 1)]: 
+                                break
+                            else:
+                                input("Opción inválida. Presione ENTER para volver a seleccionar.")
+                        print()
+
+                        if opcion == "0": # Opción salir del submenú
+                            break # No salimos del programa, volvemos al menú anterior
+                        elif opcion == "1":   # Opción 1
+                            leer_turnos(matriz_turnos, ENCABEZADO_TURNOS, matriz_pacs,
+                                        matriz_meds, mes_palabra, cant_dias_mes,
+                                        horarios_atencion)
+                            input("\nPresione ENTER para volver al menú.")
+                            
+                        elif opcion == "2":   # Opción 2
+                            consultar_turno(ENCABEZADO_TURNOS, matriz_turnos, mes_numero,
+                                            mes_palabra, cant_dias_mes, anio, matriz_pacs,
+                                            matriz_meds, ESTADO_TURNO, horarios_atencion)
+                            input("\nPresione ENTER para volver al menú.")
+
+                elif opcion == "3":   # Opción 3
+                    hora_turnos = ["08:00","08:30","09:00","09:30","10:00"] 
+                    actualizar_eliminar_turnos.principal_actualizar_turnos(matriz_turnos, hora_turnos)   
+                elif opcion == "4":   # Opción 4
+                    actualizar_eliminar_turnos.principal_eliminar_turnos(matriz_turnos)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #     while True:
+        #         logo_turnos()
+        #         while True:
+        #             opciones = 4
+        #             print()
+        #             print("-------------------------------------")
+        #             print("MENÚ PRINCIPAL > TURNOS > CREAR TURNO")
+        #             print("-------------------------------------")
+        #             print("[1] Crear turno")
+        #             print("-------------------------------------")
+        #             print("[0] Volver al menú anterior")
+        #             print("-------------------------------------")
+        #             print()
+                    
+        #             opcion = input("Seleccione una opción: ")
+        #             # Sólo continua si se elije una opcion de menú válida
+        #             if opcion in [str(i) for i in range(0, opciones + 1)]: 
+        #                 break
+        #             else:
+        #                 input("Opción inválida. Presione ENTER para volver a seleccionar.")
+        #         print()
+
+        #         if opcion == "0": # Opción salir del submenú
+        #             break # No salimos del programa, volvemos al menú anterior
+        #         elif opcion == "1":   # Opción 1
+        #             crear_turno(matriz_turnos, horarios_atencion, CONSULTA,
+        #                          matriz_pacs, matriz_meds, mes_numero, anio)
+        #             input("\nPresione ENTER para volver al menú.")
+        # case 2:
+        #     while True:
+        #         logo_turnos()
+        #         while True:
+        #             opciones = 4
+        #             print()
+        #             print("-------------------------------------")
+        #             print("MENÚ PRINCIPAL > TURNOS > CONSULTA")
+        #             print("-------------------------------------")
+        #             print("[1] Consultar todos los turnos")
+        #             print("[2] Otras consultas")
+        #             print("-------------------------------------")
+        #             print("[0] Volver al menú anterior")
+        #             print("-------------------------------------")
+        #             print()
+                    
+        #             opcion = input("Seleccione una opción: ")
+        #             # Sólo continua si se elije una opcion de menú válida
+        #             if opcion in [str(i) for i in range(0, opciones + 1)]: 
+        #                 break
+        #             else:
+        #                 input("Opción inválida. Presione ENTER para volver a seleccionar.")
+        #         print()
+
+        #         if opcion == "0": # Opción salir del submenú
+        #             break # No salimos del programa, volvemos al menú anterior
+        #         elif opcion == "1":   # Opción 1
+        #             leer_turnos(matriz_turnos, ENCABEZADO_TURNOS, matriz_pacs,
+        #                         matriz_meds, mes_palabra, cant_dias_mes,
+        #                         horarios_atencion)
+        #             input("\nPresione ENTER para volver al menú.")
+                    
+        #         elif opcion == "2":   # Opción 2
+        #             consultar_turno(ENCABEZADO_TURNOS, matriz_turnos, mes_numero,
+        #                             mes_palabra, cant_dias_mes, anio, matriz_pacs,
+        #                             matriz_meds, ESTADO_TURNO, horarios_atencion)
+        #             input("\nPresione ENTER para volver al menú.")
                     
 
