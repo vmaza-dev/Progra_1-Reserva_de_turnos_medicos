@@ -81,7 +81,7 @@ def imprimir_paciente(pacientes):
         print(f"\033[1m{pac[2].ljust(41)}\033[0m", end=" |")
         print(f"{str(pac[1]).ljust(21)}", end=" |")
         if pac[3] > 60:
-            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |") #Los pongo en amarillo para marcar cuales son jubilado
+            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |") #Lo marco en amarillo para marcar cuales so
         else:
             print(f"{str(pac[3]).ljust(11)}", end=" |")
         print(f"\033[1;32m{pac[4].center(13)}\033[0m", end=" |\n")
@@ -403,15 +403,62 @@ def mostrar_usuarios(pacientes):
 # sueltas y arrancaba el main importando este módulo ejecutaba todas la 
 # funciones por eso se pisaban entre sí
 
-def principal_pacientes():
+def inicializar_pacientes_random():
     crear_pacientes_random(pacientes, 10)
     return pacientes
-    # leer_pacientes(pacientes)
-    # buscar_id_paciente(pacientes)
-    # eliminar_paciente(pacientes)
-    # leer_pacientes(pacientes)
-    # actualizar_paciente(pacientes)
 
-crear_pacientes_random(pacientes, 10)
-leer_pacientes(pacientes)
+def principal_pacientes(pacientes):
+    opcion_p ="-1"
+    while opcion_p != "0":
+        valida = False
+        while not valida:
+            opciones = 6
+            print()
+            print("---------------------------")
+            print("MENÚ PRINCIPAL > PACIENTES")
+            print("---------------------------")
+            print("[1] Crear paciente")
+            print("[2] Consultar pacientes")
+            print("[3] Actualizar paciente")
+            print("[4] Eliminar paciente")
+            print("[5] Estadísticas")
+            print("[6] Mostrar usuarios")
+            print("---------------------------")
+            print("[0] Volver al menú anterior")
+            print("---------------------------")
+            print()
+
+            opcion_p = input("Selecciones una opcion: ")
+            valida = opcion_p in [str(i) for i in range(0, opciones + 1)]
+
+            if not valida:
+                input("Opción inválida. Presione ENTER para volver a seleccionar.")
+            print()
+
+            if opcion_p == "1":
+                pac_id = id_unico(pacientes)
+                nuevo = crear_paciente(pac_id)
+                pacientes.append(nuevo)
+                print("\nPaciente creado correctamente:")
+                imprimir_paciente([nuevo])
+
+            elif opcion_p == "2":
+                leer_pacientes(pacientes)
+
+            elif opcion_p == "3":
+                actualizar_paciente(pacientes)
+                
+            elif opcion_p == "4":
+                eliminar_paciente(pacientes)
+                
+            elif opcion_p == "5":
+                mostrar_estadisticas_pacientes(pacientes)
+
+            elif opcion_p == "6":
+                mostrar_usuarios(pacientes)
+
+    return pacientes
+
+#crear_pacientes_random(pacientes, 10)
+#leer_pacientes(pacientes)
 #buscar_id_paciente(pacientes)

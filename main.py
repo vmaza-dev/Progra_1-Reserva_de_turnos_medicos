@@ -10,7 +10,7 @@
 # MÓDULOS
 #-------------------------------------------------------------------------------
 
-from pacientes import principal_pacientes
+from pacientes import principal_pacientes,inicializar_pacientes_random
 from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
 from medicos import principal_medicos
 import auxiliares
@@ -26,7 +26,7 @@ def main():
     #-------------------------------------------------
     matriz_medicos = principal_medicos()
     print(matriz_medicos)
-    matriz_pacientes = principal_pacientes()
+    matriz_pacientes = inicializar_pacientes_random()
     matriz_turnos = []
     # creo turnos random
     principal_crear_leer_turnos(matriz_turnos,matriz_medicos, matriz_pacientes)
@@ -103,55 +103,8 @@ def main():
                     ...
 
         elif opcion == "2":   # Opción 2
-            opcion_p ="-1"
-            while opcion_p != "0":
-                valida = False
-                while not valida:
-                    opciones = 6
-                    print()
-                    print("---------------------------")
-                    print("MENÚ PRINCIPAL > PACIENTES")
-                    print("---------------------------")
-                    print("[1] Crear paciente")
-                    print("[2] Consultar pacientes")
-                    print("[3] Actualizar paciente")
-                    print("[4] Eliminar paciente")
-                    print("[5] Estadísticas")
-                    print("[6] Mostrar usuarios")
-                    print("---------------------------")
-                    print("[0] Volver al menú anterior")
-                    print("---------------------------")
-                    print()
+            matriz_pacientes = principal_pacientes(matriz_pacientes)
 
-                    opcion_p = input("Selecciones una opcion: ")
-                    valida = opcion_p in [str(i) for i in range(0, opciones + 1)]
-
-                    if not valida:
-                        input("Opción inválida. Presione ENTER para volver a seleccionar.")
-                print()
-
-                if opcion_p == "1":
-                    pac_id = pacientes.id_unico(matriz_pacientes)
-                    nuevo = pacientes.crear_paciente(pac_id)
-                    matriz_pacientes.append(nuevo)
-                    print("\nPaciente creado correctamente: ")
-                    pacientes.imprimir_paciente([nuevo])
-
-                elif opcion_p == "2":
-                    pacientes.leer_pacientes(matriz_pacientes)
-
-                elif opcion_p == "3":
-                    pacientes.actualizar_paciente(matriz_pacientes)
-                
-                elif opcion_p == "4":
-                    pacientes.eliminar_paciente(matriz_pacientes)
-                
-                elif opcion_p == "5":
-                    pacientes.mostrar_estadisticas_pacientes(matriz_pacientes)
-
-                elif opcion_p == "6":
-                    pacientes.mostrar_usuarios(matriz_pacientes)
-            ...
         elif opcion == "3":   # Opción 3
             ...
         elif opcion == "4":   # Opción 4
