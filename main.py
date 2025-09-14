@@ -12,6 +12,7 @@
 
 from pacientes import principal_pacientes,inicializar_pacientes_random
 from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
+from actualizar_eliminar_turnos import principal_actualizar_turnos, principal_eliminar_turnos
 from medicos import principal_medicos
 import auxiliares
 import pacientes
@@ -73,7 +74,7 @@ def main():
                     print("[1] Crear turnos")
                     print("[2] Consultar turnos")
                     print("[3] Actualizar turnos")
-                    print("[4] Elimiar turnos")
+                    print("[4] Eliminar turnos")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -98,9 +99,11 @@ def main():
                 elif opcion == "2":   # Opción 2
                     principal_crear_leer_turnos(matriz_turnos, matriz_medicos, matriz_pacientes, 2)
                 elif opcion == "3":   # Opción 3
-                    ...
-                elif opcion == "4":   # Opción 4
-                    ...
+                    hora_turnos = ["08:00","08:30","09:00","09:30","10:00"]
+                    principal_actualizar_turnos(matriz_turnos, hora_turnos)
+                elif opcion == "4":   # Eliminar turnos
+                    principal_eliminar_turnos(matriz_turnos)
+
 
         elif opcion == "2":   # Opción 2
             matriz_pacientes = principal_pacientes(matriz_pacientes)
