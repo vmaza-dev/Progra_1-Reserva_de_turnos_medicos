@@ -58,7 +58,7 @@ def main():
             auxiliares.linea_iguales(auxiliares.ANCHO)
             auxiliares.imprimir_opcion(1, 'GESTION DE TURNOS', '1;33', False)
             auxiliares.imprimir_opcion(2, 'GESTION DE PACIENTES', '1;34')
-            auxiliares.imprimir_opcion(3, 'GESTION DE MEDICOS', '1;34')
+            auxiliares.imprimir_opcion(3, 'GESTION DE MEDICOS', '1;35')
             auxiliares.imprimir_opcion(0, 'SALIR DEL PROGRAMA', '1;36')
             auxiliares.linea_iguales(auxiliares.ANCHO)
             
@@ -109,15 +109,16 @@ def main():
                 elif opcion == "2":   # Opción 2
                     principal_crear_leer_turnos(matriz_turnos, matrizMedicos, matriz_pacientes, 2)
                 elif opcion == "3":   # Opción 3
-                    menu_medicos()
+                    ...
                 elif opcion == "4":   # Opción 4
                     ...
 
         elif opcion == "2":   # Opción 2
+            auxiliares.limpiar_terminal()
             matriz_pacientes = principal_pacientes(matriz_pacientes)
 
         elif opcion == "3":   # Opción 3
-            ...
+            menu_medicos()
         elif opcion == "4":   # Opción 4
             ...
         elif opcion == "5":   # Opción 5

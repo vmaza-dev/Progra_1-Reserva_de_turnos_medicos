@@ -20,7 +20,6 @@ def obtener_paciente_por_id(pacientes,id):
         return i
     return -1
 
-
 def crear_paciente(id):
     """
     Crea un paciente por teclado solicitando los datos al usuario
@@ -37,7 +36,6 @@ def crear_paciente(id):
     obra_social = input("Ingrese su obra social: ")
     paciente = [id, dni, nombreCompleto, edad, obra_social]
     return paciente
-
 
 def crear_pacientes_random(pacientes, cantCrear):
     """
@@ -57,7 +55,6 @@ def crear_pacientes_random(pacientes, cantCrear):
         obra_social = random.choice(OBRAS_SOCIALES)
         id = id_unico(pacientes)
         pacientes.append([id, dni, nombreCompleto, edad, obra_social])
-
 
 def imprimir_paciente(pacientes):
     """
@@ -88,7 +85,6 @@ def imprimir_paciente(pacientes):
     
     print("=" * 104)
 
-
 def leer_pacientes(pacientes):
     """
     Muestra todos los pacientes en la lista utilizando imprimir_paciente().
@@ -100,7 +96,6 @@ def leer_pacientes(pacientes):
         None.
     """
     imprimir_paciente(pacientes)
-
 
 def buscar_id_paciente(pacientes):
     """
@@ -223,7 +218,6 @@ def validacion_dni(dni):
         dni_str = input("DNI invalido. Debe ingresar un DNI de 8 digitos: ")
     return int(dni_str)
 
-
 def validacion_edad(edad):
     """
     Valida que la edad sea entre 3 y 98 años.
@@ -237,7 +231,6 @@ def validacion_edad(edad):
     while edad < 2 or edad >= 99:
         edad = int(input("Edad invalida. Ingrese una edad entre 3 y 99: "))
     return edad
-
 
 def generacion_dni_realista(edad):
     """
@@ -369,7 +362,6 @@ def generar_usuario(nombre_completo):
     apellido = partes[-1].lower()
     return nombre + apellido
 
-
 def mostrar_usuarios(pacientes):
     """
     Muestra en pantalla los nombres de usuario generados para cada paciente.
@@ -413,6 +405,7 @@ def principal_pacientes(pacientes):
         valida = False
         while not valida:
             opciones = 6
+            """
             print()
             print("---------------------------")
             print("MENÚ PRINCIPAL > PACIENTES")
@@ -427,6 +420,21 @@ def principal_pacientes(pacientes):
             print("[0] Volver al menú anterior")
             print("---------------------------")
             print()
+            """
+
+            auxiliares.linea_iguales(auxiliares.ANCHO)
+            auxiliares.imprimir_un_encabezado('MENU PACIENTES', auxiliares.ANCHO)
+            print("")
+
+            auxiliares.linea_iguales(auxiliares.ANCHO)
+            auxiliares.imprimir_opcion(1, 'CREAR PACIENTE', '1;32', False)
+            auxiliares.imprimir_opcion(2, 'LEER PACIENTES', '1;34')
+            auxiliares.imprimir_opcion(3, 'ACTUALIZAR PACIENTE', '1;33')
+            auxiliares.imprimir_opcion(4, 'ELIMINAR PACIENTE', '1;31')
+            auxiliares.imprimir_opcion(5, 'ESTADISTICAS', '1;35')
+            auxiliares.imprimir_opcion(6, 'MOSTRAR USUARIOS', '1;97')
+            auxiliares.imprimir_opcion(0, 'SALIR DEL PROGRAMA', '1;36')
+            auxiliares.linea_iguales(auxiliares.ANCHO)
 
             opcion_p = input("Selecciones una opcion: ")
             valida = opcion_p in [str(i) for i in range(0, opciones + 1)]

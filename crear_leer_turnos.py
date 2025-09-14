@@ -27,8 +27,6 @@ import calendario # importo mi módulo calendario
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
 #-------------------------------------------------------------------------------
 
-
-
 def mostrar_encabezado_consulta(encabe):
     """
     Mustra encabezado personalizado de consulta.
@@ -203,8 +201,7 @@ def elegir_especialidad_med():
     espc = auxiliares.especialidades[seleccion]    
     return espc   
 
-def elegir_medico(mat_turnos, fecha_turno, dia_semana, hora_turnos,
-                                  meds, especialidad):
+def elegir_medico(mat_turnos, fecha_turno, dia_semana, hora_turnos, meds, especialidad):
     """
     Permite la elección de un medico disponible. 
     
@@ -229,7 +226,7 @@ def elegir_medico(mat_turnos, fecha_turno, dia_semana, hora_turnos,
     # validación si no hay turnos libres
     # validación si es el primer turno del dia
     # 3 crear el menu de selección
-    print(f"Medicos y horarios disponibles parar el {dia_semana} {fecha_turno.strftime("%d/%m/%Y")}")
+    print(f"Medicos y horarios disponibles parar el {dia_semana} {fecha_turno.strftime('d/%m/%Y')}")
     print()
     # transpongo mi matriz de turnos libres
     tras_medicos_turnos_libres = auxiliares.transponer_matriz(medicos_turnos_libres)
@@ -818,7 +815,7 @@ def leer_turnos(mat_turnos, encabezados, paci, meds, mes_palabra, encabe = True)
                 case 0|2:# ID | HORA  que no ocupen tanto espacio
                     print(f"{turnos_ordenados[i][j]:<9}", end = "")
                 case 1:# FECHA que salga formateado y que no ocupe tanto espacio
-                    print(f"{turnos_ordenados[i][j].strftime("%d/%m/%Y"):<12}", end = "")
+                    print(f"{turnos_ordenados[i][j].strftime('%d/%m/%Y'):<12}", end = "")
                 case 3:# PACIENTE que muestre el nombre del paciente en lugar del DNI
                     nombre_completo = devolver_paciente(paci,turnos_ordenados[i][j])# aca esta todo el nombre completo!
                     apellido = nombre_completo.split()[1]# separo apellido
