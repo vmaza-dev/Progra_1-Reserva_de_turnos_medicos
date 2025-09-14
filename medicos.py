@@ -4,8 +4,6 @@
 # Descripción: 
 # Fecha de creación: 10/08/2025
 # ==============================================================================
-ANCHO = 111
-
 import random, auxiliares
 
 """================================================ FUNCIONES C.R.U.D ====================================================================="""
@@ -129,18 +127,19 @@ def buscar_medico_id(meds, idMed):
     return med
 
 def menu_act_antig(med, nombreMed):
-    titulo = "ANTIGÜEDAD DE" + nombreMed + "ES" + str(med[3])
+    titulo = "LA ANTIGÜEDAD DE " + nombreMed + " ES " + str(med[3])
 
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado(titulo, ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > ACTUALIZAR MEDICO > ANTIGÜEDAD', auxiliares.ANCHO, '\033[1m')
     print("")
     
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_opcion(1, 'SUMAR 1 AÑO', '1;33', False)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_opcion('-', titulo, '1', False)
+    auxiliares.imprimir_opcion(1, 'SUMAR 1 AÑO', '1;33')
     auxiliares.imprimir_opcion(2, 'RESTAR 1 AÑO', '1;34')
     auxiliares.imprimir_opcion(3, 'INGRESAR MANUALMENTE ANTIGÜEDAD', '1;35')
     auxiliares.imprimir_opcion(0, 'VOLVER AL MENÚ ANTERIOR', '1;36')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcionAntig = ingresar_opcion(3)
     match opcionAntig:
@@ -164,17 +163,17 @@ def actu_medico(med, nombreMed): # Falta estandarizar la manera de mostrar este 
         - Permite modificar : nombre, especialidad, antiguedad o estado.
         - Actualiza directamente la lista del medico.
     """
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('INGRESE EL DATO A MODIFICAR DEL MEDICO', ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > ACTUALIZAR MEDICO', auxiliares.ANCHO, '\033[1m')
     print("")
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_opcion(1, 'NOMBRE Y APELLIDO', '1;33', False)
     auxiliares.imprimir_opcion(2, 'ESPECIALIDAD', '1;34')
     auxiliares.imprimir_opcion(3, 'ANTIGÜEDAD', '1;35')
     auxiliares.imprimir_opcion(4, 'ESTADO (DAR DE BAJA/ALTA)', '1;31')
     auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcion = ingresar_opcion(4)
     match opcion:
@@ -187,7 +186,6 @@ def actu_medico(med, nombreMed): # Falta estandarizar la manera de mostrar este 
             print("Especialidad modificada exitosamente a:", med[2])
         case 3:
             auxiliares.limpiar_terminal()
-            print("menu_act_antig")
             opcion = menu_act_antig(med, nombreMed)
         case 4:
             if (not med[4]):
@@ -202,7 +200,7 @@ def actu_medico(med, nombreMed): # Falta estandarizar la manera de mostrar este 
 
 def imprimir_medico(med):
     """
-   Imprime en un ancho de 111 cada elemento del médico, modificando su color según ciertas condiciones en algunos casos.
+   Imprime en un auxiliares.ANCHO de 111 cada elemento del médico, modificando su color según ciertas condiciones en algunos casos.
 
     Parametros:
         med (list): Lista que representa a un medico, en el formato:[ID, Nombre, Especialidad, Antiguedad, Estado]
@@ -229,7 +227,7 @@ def header_medicos(anchoTotal):
     Imprime el header para la impresión de médicos.
 
     Parametros:
-        anchoTotal (int): Ancho a utilizar para pasar al a función auxiliar "linea_iguales()"
+        anchoTotal (int): auxiliares.ANCHO a utilizar para pasar al a función auxiliar "linea_iguales()"
 
     Flujo: 
         - Llama a la función "linea_iguales()" para imprimir una linea de '='
@@ -260,12 +258,12 @@ def leer_medicos(meds):
         - Llama a la función auxiliar "linea_iguales()" para imprimri una línea de '='
     """
 
-    header_medicos(ANCHO)
+    header_medicos(auxiliares.ANCHO)
     for med in meds:
         imprimir_medico(med)
         print("")
         
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 def leer_medico_id(meds, idMed):
     """
@@ -285,10 +283,10 @@ def leer_medico_id(meds, idMed):
     """
     for med in meds:
         if (med[0] == idMed):
-            header_medicos(ANCHO)
+            header_medicos(auxiliares.ANCHO)
             imprimir_medico(med)
             print("")
-            auxiliares.linea_iguales(ANCHO)
+            auxiliares.linea_iguales(auxiliares.ANCHO)
             break
 
 def buscar_borrar_med(idElim, meds):
@@ -340,18 +338,18 @@ def imprimir_porcentaje_estado(total, activos, inactivos):
         - Redondea los porcentajes a un solo dígito decimal.
         - Imprime el total, activos e inactivos con porcentaje en los últimos 2
     """
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('PORCENTAJE DE MEDICOS ACTIVOS E INACTIVOS', ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('PORCENTAJE DE MEDICOS ACTIVOS E INACTIVOS', auxiliares.ANCHO, '\033[1m')
     print("")
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_tres_encabezados('TOTAL DE MEDICOS', 'ACTIVOS', 'INACTIVOS', '\033[1;34m', '\033[1;32m', '\033[1;31m')
-    auxiliares.linea_guiones(ANCHO)
+    auxiliares.linea_guiones(auxiliares.ANCHO)
 
     pActivos = f"{activos:.1f}"
     pInactivos = f"{inactivos:.1f}"
 
     auxiliares.imprimir_tres_encabezados(str(total), (str(pActivos)+' %'), (str(pInactivos)+' %'), "", '\033[32m', '\033[31m')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 #ID, NOMBRE, ESPECIALIDAD, ANTIGUEDAD, ESTADO
 def porcentaje_estado(matrizMeds):
@@ -419,18 +417,18 @@ def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds):
         - Redondea el porcentaje a un solo dígito decimal.
         - Imprime el total de medicos, el total de médicos por esa especialidad y el porcentaje que representa.
     """
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('PORCENTAJE DE MEDICOS DE ESPECIALIDAD ' + espec.upper(), ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('PORCENTAJE DE MEDICOS DE ESPECIALIDAD ' + espec.upper(), auxiliares.ANCHO, '\033[1m')
     print("")
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_tres_encabezados('TOTAL DE MEDICOS', ('TOTAL '+ espec.upper()), 'PORCENTAJE SOBRE EL TOTAL', '\033[1;34m', '\033[1m', '\033[1m')
 
     colorEspec = color_porcentaje_espec(porcenEspec)
     porcenEspec = f"{porcenEspec:.1f}"
 
-    auxiliares.linea_guiones(ANCHO)
+    auxiliares.linea_guiones(auxiliares.ANCHO)
     auxiliares.imprimir_tres_encabezados(str(totalMeds), str(cantEspec), (porcenEspec+' %'), '\033[1;34m', colorEspec, colorEspec)
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 def porcentaje_espec(matrizMeds, espec):
     """
@@ -510,13 +508,13 @@ def prom_antig_espec(matrizMeds):
     """
     matAntig = crear_matriz_prom_antig(matrizMeds)
 
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('PROMEDIO DE ANTIGÜEDAD POR ESPECIALIDAD', ANCHO, '\033[1m')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('PROMEDIO DE ANTIGÜEDAD POR ESPECIALIDAD', auxiliares.ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_tres_encabezados('ESPECIALIDAD', 'CANTIDAD MEDICOS', 'PROMEDIO ANTIGÜEDAD', '\033[1;34m', '\033[1;35m', '\033[1;36m')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     for antig in matAntig:
         prom = (antig[1]/antig[2])
@@ -526,7 +524,7 @@ def prom_antig_espec(matrizMeds):
 
         auxiliares.imprimir_tres_encabezados(str(antig[0]), str(antig[2]), prom, '\033[1m', "", colorProm)
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================================ MENU Y MAIN========================================================================="""
 def ingresar_opcion(max):
@@ -538,23 +536,23 @@ def ingresar_opcion(max):
 
 def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     if (guiones):
-        auxiliares.linea_guiones(ANCHO)
+        auxiliares.linea_guiones(auxiliares.ANCHO)
 
     textoImprimir = f"\033[{colorOpcion}m[{opcion}]\033[0m: \033[{colorTexto}m{texto}\033[0m"
     espacios = len(textoImprimir) - len(f"[{opcion}]: {texto}")
-    print(f"| " + textoImprimir.ljust(ANCHO-4) + " " * espacios, end=" |\n")
+    print(f"| " + textoImprimir.ljust(auxiliares.ANCHO-4) + " " * espacios, end=" |\n")
 
 def menu_leer_medicos(matrizMeds):
-   auxiliares.linea_iguales(ANCHO)
-   auxiliares.imprimir_un_encabezado('BIENVENIDO AL DE LECTURA DE MEDICOS', ANCHO, '\033[1m')
+   auxiliares.linea_iguales(auxiliares.ANCHO)
+   auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > LEER MEDICOS', auxiliares.ANCHO, '\033[1m')
    print("")
    
-   auxiliares.linea_iguales(ANCHO)
+   auxiliares.linea_iguales(auxiliares.ANCHO)
    auxiliares.imprimir_opcion(1, 'LEER TODOS LOS MEDICOS', '1;35', False)
    auxiliares.imprimir_opcion(2, 'LEER MEDICO POR ID', '1;33')
    auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
 
-   auxiliares.linea_iguales(ANCHO)
+   auxiliares.linea_iguales(auxiliares.ANCHO)
    
    opcion = ingresar_opcion(2)
    match opcion:
@@ -572,18 +570,18 @@ def menu_leer_medicos(matrizMeds):
    menu_leer_medicos(matrizMeds)
 
 def menu_crud_medicos(matrizMeds):
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('BIENVENIDO AL MENU DE C.R.U.D MEDICOS', ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D', auxiliares.ANCHO, '\033[1m')
     print("")
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_opcion(1, 'CREAR MEDICO', '1;33', False)
     auxiliares.imprimir_opcion(2, 'LEER MEDICOS', '1;34')
     auxiliares.imprimir_opcion(3, 'ACTUALIZAR MEDICO', '1;35')
     auxiliares.imprimir_opcion(4, 'ELIMINAR MEDICO', '1;31')
     auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcion = ingresar_opcion(4)
     match opcion:
@@ -608,16 +606,16 @@ def menu_crud_medicos(matrizMeds):
     menu_crud_medicos(matrizMeds)
 
 def menu_estadistica_medicos(matrizMeds):
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('BIENVENIDO AL MENU DE ESTADISTICAS DE MEDICOS', ANCHO, '\033[1m')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('MENU MEDICOS > ESTADISTICA', auxiliares.ANCHO, '\033[1m')
     print("")
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_opcion(1, 'PORCENTAJE DE MEDICOS ACTIVOS E INACTIVOS', '1;33', False)
     auxiliares.imprimir_opcion(2, 'PORCENTAJE DE MEDICOS POR ESPECIALIDAD', '1;34')
     auxiliares.imprimir_opcion(3, 'PROMEDIO DE ANTIGÜEDAD POR ESPECIALIDAD', '1;35')
     auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcion = ingresar_opcion(3)
     match opcion:
@@ -639,31 +637,31 @@ def menu_estadistica_medicos(matrizMeds):
     menu_estadistica_medicos(matrizMeds)
 
 def menu_medicos():
-    auxiliares.linea_iguales(ANCHO)
-    auxiliares.imprimir_un_encabezado('BIENVENIDO AL MENU DE MEDICOS', ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_un_encabezado('MENU MEDICOS', auxiliares.ANCHO)
     print("")
 
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_opcion(1, 'MENU DE CREACION, LECTURA, ACTUALIZACION O ELIMINACION DE MEDICOS (C.R.U.D)', '1;33', False)
     auxiliares.imprimir_opcion(2, 'MENU DE CONSULTAS ESTADISTICAS DE MEDICOS', '1;34')
     auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-    auxiliares.linea_iguales(ANCHO)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcion = ingresar_opcion(2)
     match opcion:
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            menu_crud_medicos(medicos)
+            menu_crud_medicos(matrizMedicos)
         case 2: 
             auxiliares.limpiar_terminal()
-            menu_estadistica_medicos(medicos)
+            menu_estadistica_medicos(matrizMedicos)
     
     auxiliares.limpiar_terminal()
     menu_medicos()
 
 """ MAIN """
-medicos = [
+matrizMedicos = [
     [100000, "Juan Pérez", "Traumatología", 5, 0],
     [999999, "Ataúlfo Américo Djandjikian", "Otorrinonaringología", 26, 1],
     [156904, "Fernando Guerra", "Traumatología", 10, 1],
@@ -672,7 +670,4 @@ medicos = [
 ] #ID, Nombre, Especialidad, Antiguedad, Estado
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]
-crear_medicos_random(medicos, 5, idsUsados)
-
-auxiliares.limpiar_terminal()
-menu_medicos()
+crear_medicos_random(matrizMedicos, 5, idsUsados)
