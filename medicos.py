@@ -569,7 +569,7 @@ def menu_leer_medicos(matrizMeds):
    auxiliares.limpiar_terminal()
    menu_leer_medicos(matrizMeds)
 
-def menu_crud_medicos(matrizMeds):
+def menu_crud_medicos(matrizMeds, idsUsados):
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D', auxiliares.ANCHO, '\033[1m')
     print("")
@@ -588,7 +588,7 @@ def menu_crud_medicos(matrizMeds):
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            crear_medico(matrizMeds)
+            crear_medico(matrizMeds, idsUsados)
         case 2: 
             auxiliares.limpiar_terminal()
             opcion = menu_leer_medicos(matrizMeds)
@@ -603,7 +603,7 @@ def menu_crud_medicos(matrizMeds):
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
 
     auxiliares.limpiar_terminal()
-    menu_crud_medicos(matrizMeds)
+    menu_crud_medicos(matrizMeds, idsUsados)
 
 def menu_estadistica_medicos(matrizMeds):
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -652,7 +652,7 @@ def menu_medicos():
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            menu_crud_medicos(matrizMedicos)
+            menu_crud_medicos(matrizMedicos, idsUsados)
         case 2: 
             auxiliares.limpiar_terminal()
             menu_estadistica_medicos(matrizMedicos)
