@@ -13,7 +13,6 @@
 from pacientes import principal_pacientes,inicializar_pacientes_random
 from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
 from medicos import menu_medicos, matrizMedicos
-from actualizar_eliminar_turnos import principal_actualizar_turnos, principal_eliminar_turnos
 import auxiliares
 
 # # ==============================================================================

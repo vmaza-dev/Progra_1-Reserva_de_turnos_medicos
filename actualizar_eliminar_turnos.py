@@ -16,10 +16,8 @@ def elim_turno(m_turnos):
             print("Turno de ID: [" + id_turno + "] cancelado exitosamente")
             input("Presione Enter para volver al menu anterior...")
             return True  
-        else:
-            print("Turno no encontrado.")
-            input("Presione Enter para volver al menu anterior...")
-            return False  # <-- turno no encontrado
+    print("Turno no encontrado.")
+    input("Presione Enter para volver al menu anterior...")
     return False  
 
 def edit_turnos(m_turnos, hora_turnos, mes, anio):
