@@ -230,15 +230,17 @@ def imprimir_medico(med): #🟨
         - Imprime la antigüedad del médico ajustada la izquierda en 11 caracteres, en caso de ser mayor a 25 se colorea de amarillo
         - Imprime el estado del médico, verde para activo, rojo para inactivo.
     """
-
-    print(f"| {str(med['ID']).ljust(6)}", end=" |")
-    print(f"| \033[1m{med['nyap'].ljust(41)}\033[0m", end=" |")
-    print(f"| {med['espec'].ljust(21)}", end=" |")
-    print(f"| \033[33m{str(med['antig']).ljust(11)}\033[0m", end=" |") if (med['antig'] > 25) else print(f"| {str(med['antig']).ljust(11)}", end=" |")
-    if (med['estado']):
-        print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
-    else:
-        print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
+    try:
+        print(f"| {str(med['ID']).ljust(6)}", end=" |")
+        print(f"| \033[1m{med['nyap'].ljust(41)}\033[0m", end=" |")
+        print(f"| {med['espec'].ljust(21)}", end=" |")
+        print(f"| \033[33m{str(med['antig']).ljust(11)}\033[0m", end=" |") if (med['antig'] > 25) else print(f"| {str(med['antig']).ljust(11)}", end=" |")
+        if (med['estado']):
+            print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
+        else:
+            print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
+    except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVALIDO")
+    except: auxiliares.imprimir_error("DESCONOCIDO")
 
 def header_medicos(anchoTotal): #✅
     """
@@ -711,8 +713,8 @@ listaMedicos = [
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]
 crear_medicos_random(listaMedicos, 5, idsUsados)
-auxiliares.limpiar_terminal()
-menu_medicos()
+#auxiliares.limpiar_terminal()
+#menu_medicos()
 
 # CAMBIOS A REALIZAR:
 # MEJORAR GESTION DE IDS USADOS
