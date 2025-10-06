@@ -355,3 +355,26 @@ def imprimir_datos(encabezado, matriz):
         print()
 
 
+def pedir_valor(mensaje, tipo=str, requerido=True, opciones=None):
+    """
+    Pide un valor al usuario de forma segura.
+    
+    Returns:
+        valor convertido al tipo especificado, o None si no es requerido y ENTER.
+    """
+    while True:
+        entrada = input(mensaje)
+        if not entrada:
+            if requerido:
+                print("Este campo es obligatorio, no puede estar vacio.")
+                continue
+            else:
+                return None
+        try:
+            valor = tipo(entrada)
+            if opciones is not None and valor not in opciones:
+                print(f"Valor invalido. Debe estar entre: {opciones}")
+                continue
+            return valor
+        except ValueError:
+            print(f"Entrada invalida. Debe ser de tipo {tipo.__name__}.")

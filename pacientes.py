@@ -30,9 +30,9 @@ def crear_paciente(id):
     Return:
         list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
     """
-    dni = validacion_dni(int(input("Ingrese su dni: ")))
-    nombreCompleto = input("Ingrese su nombre completo: ")
-    edad = validacion_edad(int(input("Ingrese su edad: ")))
+    dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
+    nombreCompleto = auxiliares.pedir_valor("Ingrese su nombre completo: ")
+    edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
     obra_social = input("Ingrese su obra social: ")
     paciente = [id, dni, nombreCompleto, edad, obra_social]
     return paciente
@@ -107,7 +107,7 @@ def buscar_id_paciente(pacientes):
     Returns:
         None.
     """
-    id = int(input("Ingrese el ID del paciente a buscar: "))
+    id = auxiliares.pedir_valor("Ingrese el ID del paciente a buscar: ", int)
     pac = obtener_paciente_por_id(pacientes,id)
     if pac == -1:
         print("No se encontro el paciente")
@@ -125,58 +125,62 @@ def buscar_id_paciente(pacientes):
 def actualizar_paciente(pacientes):
     """
     Permite modificar los datos de un paciente por ID.
-
-    Args:
-        pacientes(list): Lista de pacientes.
-
-    Returns:
-        None.
+    Incluye validacion de obra social.
     """
-    id = int(input("Ingrese el ID del paciente que desea modificar: "))
+
+    print("\n=== LISTADO DE PACIENTES DISPONIBLES ===")
+    imprimir_paciente(pacientes)
+    
+    id = auxiliares.pedir_valor("Ingrese el ID del paciente que desea modificar: ", int)
     pac = obtener_paciente_por_id(pacientes,id)
     if pac == -1:
         print("No se encontro al paciente.")
     else:
         print("INGRESE EL DATO A MODIFICAR DEL PACIENTE:")
         print("1-DNI\n2-NOMBRE\n3-EDAD\n4-OBRA SOCIAL")
-        op = int(input("Ingrese el numero de la opcion: "))
+        op = auxiliares.pedir_valor("Ingrese el numero de la opcion: ", int, True, opciones=[1,2,3,4])
         match op:
             case 1:
-                pac[1] = validacion_dni(int(input("Ingrese el nuevo DNI: ")))
+                pac[1] = validacion_dni(auxiliares.pedir_valor("Ingrese el nuevo DNI: ", int))
             case 2:
-                pac[2] = input("Ingrese el nuevo nombre: ")
+                while True:
+                    try:
+                        nombre = input("Ingrese el nuevo nombre: ").strip()
+                        assert nombre != "", "El nombre no puede estar vacio"
+                        pac[2] = nombre
+                        break 
+                    except AssertionError as e:
+                        print(f"Error: {e}. Intente nuevamente.")
             case 3:
-                pac[3] = validacion_edad(int(input("Ingrese la nueva edad: ")))
+                validacion_edad(auxiliares.pedir_valor("Ingrese la nueva edad: ", int))
             case 4:
-                print("Seleccione una Obra Social válida:")
+                print("Seleccione una Obra Social valida:")
                 for n in range(len(OBRAS_SOCIALES)):
                     print(f"{n+1} - {OBRAS_SOCIALES[n]}")
                 op_obra = 0
                 while op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
-                    op_obra = int(input("Ingrese el numero de la obra social:"))
+                    op_obra = auxiliares.pedir_valor("Ingrese el numero de la obra social: ", int, True, opciones=list(range(1, len(OBRAS_SOCIALES)+1)))
                     if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
-                        print("Opción inválida, intente nuevamente.")
+                        print("Opcion invalida, intente nuevamente.")
                 pac[4] = OBRAS_SOCIALES[op_obra - 1]
-                print("\nPerfil actualizado del paciente:")
+                print("Perfil actualizado del paciente:")
                 imprimir_paciente([pac])
 
 def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
-
-    Args:
-        pacientes(list): Lista de pacientes.
-
-    Returns:
-        None
+    Muestra un listado previo para facilitar la eleccion.
     """
-    id = int(input("Ingrese el ID del paciente que desea eliminar: "))
+    print("=== LISTADO DE PACIENTES DISPONIBLES ===")
+    imprimir_paciente(pacientes)
+    id = auxiliares.pedir_valor("Ingrese el ID del paciente a eliminar: ", int)
     pac = obtener_paciente_por_id(pacientes, id)
     if pac == -1:
-        print("El paciente no fue eliminado porque no pudo ser encontrado")
+        print("El paciente no fue eliminado porque no pudo ser encontrado.")
     else:
         pacientes.remove(pac)
-        print("El paciente fue eliminado")
+        print(f"Paciente '{pac[2]}' eliminado correctamente.")
+
 
 # ==============================================================================
 # VALIDACIONES
@@ -215,7 +219,7 @@ def validacion_dni(dni):
     patron = r"^\d{8}$"
     dni_str = str(dni)
     while not re.match(patron, dni_str):
-        dni_str = input("DNI invalido. Debe ingresar un DNI de 8 digitos: ")
+        dni_str = auxiliares.pedir_valor("DNI invalido. Debe ingresar un DNI de 8 digitos: ", str)
     return int(dni_str)
 
 def validacion_edad(edad):
@@ -229,7 +233,7 @@ def validacion_edad(edad):
         int: Edad valida.
     """
     while edad < 2 or edad >= 99:
-        edad = int(input("Edad invalida. Ingrese una edad entre 3 y 99: "))
+        edad = auxiliares.pedir_valor("Edad invalida. Ingrese una edad entre 3 y 98: ", int)
     return edad
 
 def generacion_dni_realista(edad):
@@ -420,12 +424,12 @@ def principal_pacientes(pacientes):
             auxiliares.imprimir_opcion(0, 'SALIR DEL PROGRAMA', '1;36')
             auxiliares.linea_iguales(auxiliares.ANCHO)
 
-            opcion_p = input("Selecciones una opcion: ")
-            valida = opcion_p in [str(i) for i in range(0, opciones + 1)]
-
-            if not valida:
-                input("Opción inválida. Presione ENTER para volver a seleccionar.")
-            print()
+            try:
+                opcion_p = input("Selecicone una opcion: ").strip()
+                assert opcion_p in [str(i) for i in range(0, opciones + 1)], "Opcion invalida"
+                valida = True
+            except AssertionError as e:
+                input(f"Error: {e}. Presione intro para volver a seleccionar.")
 
             if opcion_p == "1":
                 pac_id = id_unico(pacientes)
