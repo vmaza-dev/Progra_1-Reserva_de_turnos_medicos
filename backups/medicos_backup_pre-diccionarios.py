@@ -6,12 +6,8 @@
 # ==============================================================================
 import random, auxiliares
 
-#🟨 FALTA PROBAR
-#✅ PROBADO Y FUNCIONAL
-#🟥 CON ERRORESeS
-
-"""=========================================================== FUNCIONES C.R.U.D ====================================================================="""
-def ingresar_nombre_medico(): #✅
+"""================================================ FUNCIONES C.R.U.D ====================================================================="""
+def ingresar_nombre_medico():
     """
     Solicita al usuario el nombre de un médico *ingresa el nombre* .
 
@@ -21,7 +17,7 @@ def ingresar_nombre_medico(): #✅
     nombre = input("Ingrese el nombre del medico: ")
     return nombre
 
-def ingresar_espe(nombreMed="el médico"): #✅
+def ingresar_espe(nombreMed="el médico"):
     """
     Solicita al usuario la especialidad a ingresar del medico
     
@@ -34,7 +30,7 @@ def ingresar_espe(nombreMed="el médico"): #✅
     especialidad = input(f"Ingrese la especialidad de {nombreMed}: ") #Uso fPrints ya que el input no puede concatenar cadenas con ","
     return especialidad
 
-def ingresar_antig(nombreMed): #🟨
+def ingresar_antig(nombreMed):
     """
     Solicita al usuario la antiguedad (años de experiencia de un medico)
     
@@ -44,30 +40,18 @@ def ingresar_antig(nombreMed): #🟨
     Returns:
         int: Antiguedad en años.
     """
-    try:
-        while True:
-            antiguedad = int(input(f"Ingrese la antiguedad de {nombreMed}: "))
-            assert (antiguedad >= 0)
-            return antiguedad
-    except ValueError: auxiliares.imprimir_error("Ingrese un numero entero")
-    except AssertionError: auxiliares.imprimir_error("Error, ingrese un numero mayor o igual a cero")
+    antiguedad = int(input(f"Ingrese la antiguedad de {nombreMed}: "))
+    return antiguedad
 
-def ingresar_id(): #🟨
-    """idBuscado = int(input("Ingrese el ID del medico a buscar: "))
+def ingresar_id():
+    idBuscado = int(input("Ingrese el ID del medico a buscar: "))
     while (idBuscado < 100000 or idBuscado > 999999):
         print("ID INVALIDO INTENTE NUEVAMENTE")
         idBuscado = int(input("Ingrese el ID del medico a buscar: "))
-    return idBuscado"""
+    
+    return idBuscado
 
-    try:
-        while True:
-            idBuscado = int(input("Ingrese el ID del medico a buscar: "))
-            assert(idBuscado < 100000 or idBuscado > 999999)
-            return idBuscado
-    except ValueError: auxiliares.imprimir_error("Ingrese un numero entero")
-    except AssertionError: auxiliares.imprimir_error("El ID debe ser un número de 6 dígitos.")
-
-def generar_id(listaIDs): #✅
+def generar_id(listaIDs):
     """
     Genera aleatoriamente un ID de 6 dígitos
     
@@ -86,13 +70,12 @@ def generar_id(listaIDs): #✅
             idGenerado = random.randint(100000, 999999)
         return idGenerado
 
-"""================================================================= CREAR ============================================================================"""
-def crear_medico(listaMeds, listaIDs): #🟨
+def crear_medico(matrizMeds, listaIDs):
     """
     Crear un nuevo usuario medico y lo agrega a la matriz total de medicos.
     
     Parametros:
-        - listaMeds (list): Matriz que almacena los medicos registrados.
+        - matrizMeds (list): Matriz que almacena los medicos registrados.
         cada medico se guarda con el formato: [ID,Nombre, Especialidad, Antiguedad , Estado]
         - listaIDs (list): Lista que almacena los IDs ya utilizados, para evitar repeticiones.
 
@@ -108,14 +91,15 @@ def crear_medico(listaMeds, listaIDs): #🟨
         print("ERROR al crear medico. No hay más IDs disponibles")
         return
     listaIDs.append(idMed)
-    listaMeds.append({"ID": idMed, "nyap": nombreCompleto, "espec": ingresar_espe(nombreCompleto), "antig": ingresar_antig(nombreCompleto), "estado": True})
+    matrizMeds.append([idMed, nombreCompleto, ingresar_espe(nombreCompleto),
+                        ingresar_antig(nombreCompleto), True]) # False DE BAJA | True ACTIVO
 
-def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
+def crear_medicos_random(meds, cantCrear, listaIDs):
     """
     Crea una cantidad específica de medicos aleatorios
     
     Parametros:
-        - listaMeds (list): Matriz que almacena los medicos registrados. 
+        - matrizMeds (list): Matriz que almacena los medicos registrados. 
         Cada medico se guarda con el formato: [ID,Nombre, Especialidad, Antiguedad , Estado]
         - listaIDs (list): Lista que almacena los IDs ya utilizados, para evitar repeticiones.
 
@@ -134,17 +118,16 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
             return
         
         listaIDs.append(idMed)
-        listaMeds.append({"ID":idMed, "nyap":nyap, "espec":espe, "antig":random.randint(1,30), "estado":True})
+        meds.append([idMed, nyap, espe, random.randint(1,30), True])
 
-"""============================================================== ACTUALIZAR ============================================================================"""
-def buscar_medico_id(listaMeds, idMed): #🟨
-    for med in listaMeds:
-        if (med["ID"] == idMed):
-            return med
-    return False
+def buscar_medico_id(meds, idMed):
+    for med in meds:
+        if (med[0] == idMed):
+            break
+    return med
 
-def menu_act_antig(med, nombreMed): #🟨
-    titulo = "LA ANTIGÜEDAD DE " + nombreMed + " ES " + str(med["antig"])
+def menu_act_antig(med, nombreMed):
+    titulo = "LA ANTIGÜEDAD DE " + nombreMed + " ES " + str(med[3])
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > ACTUALIZAR MEDICO > ANTIGÜEDAD', auxiliares.ANCHO, '\033[1m')
@@ -161,13 +144,13 @@ def menu_act_antig(med, nombreMed): #🟨
     opcionAntig = ingresar_opcion(3)
     match opcionAntig:
         case 0: return 0
-        case 1: med["antig"] += 1
-        case 2: med["antig"] -= 1
-        case 3: med["antig"] = ingresar_antig(nombreMed)
-    print("\nAntigüedad modificada exitosamente a:", med["antig"])
+        case 1:med[3] += 1
+        case 2:med[3] -= 1
+        case 3:med[3] = ingresar_antig(nombreMed)
+    print("\nAntigüedad modificada exitosamente a:", med[3])
     return 0
 
-def actu_medico(med, nombreMed): #🟨
+def actu_medico(med, nombreMed): # Falta estandarizar la manera de mostrar este menu de actu
     """
     Permite modificar los datos de un medico que ya estaba registrado.
 
@@ -196,27 +179,26 @@ def actu_medico(med, nombreMed): #🟨
     match opcion:
         case 0: return 0
         case 1: 
-            med["nyap"] = ingresar_nombre_medico()
-            print("Nombre modificado exitosamente a:", med["nyap"])
+            med[1] = ingresar_nombre_medico()
+            print("Nombre modificado exitosamente a:", med[1])
         case 2: 
-            med["espec"] = ingresar_espe(nombreMed)
-            print("Especialidad modificada exitosamente a:", med["espec"])
+            med[2] = ingresar_espe(nombreMed)
+            print("Especialidad modificada exitosamente a:", med[2])
         case 3:
             auxiliares.limpiar_terminal()
             opcion = menu_act_antig(med, nombreMed)
         case 4:
-            if (not med["estado"]):
-                med["estado"] = True
+            if (not med[4]):
+                med[4] = True
                 print("El médico", nombreMed, "ahora se encuentra activo")
             else:
-                med["estado"] = False
+                med[4] = False
                 print("El médico", nombreMed, "ahora se encuentra dado de baja")
 
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
     return 0
 
-"""============================================================== LEER ==============================================================================="""
-def imprimir_medico(med): #🟨
+def imprimir_medico(med):
     """
    Imprime en un auxiliares.ANCHO de 111 cada elemento del médico, modificando su color según ciertas condiciones en algunos casos.
 
@@ -230,19 +212,17 @@ def imprimir_medico(med): #🟨
         - Imprime la antigüedad del médico ajustada la izquierda en 11 caracteres, en caso de ser mayor a 25 se colorea de amarillo
         - Imprime el estado del médico, verde para activo, rojo para inactivo.
     """
-    try:
-        print(f"| {str(med['ID']).ljust(6)}", end=" |")
-        print(f"| \033[1m{med['nyap'].ljust(41)}\033[0m", end=" |")
-        print(f"| {med['espec'].ljust(21)}", end=" |")
-        print(f"| \033[33m{str(med['antig']).ljust(11)}\033[0m", end=" |") if (med['antig'] > 25) else print(f"| {str(med['antig']).ljust(11)}", end=" |")
-        if (med['estado']):
-            print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
-        else:
-            print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
-    except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVALIDO")
-    except: auxiliares.imprimir_error("DESCONOCIDO")
 
-def header_medicos(anchoTotal): #✅
+    print(f"| {str(med[0]).ljust(6)}", end=" |")
+    print(f"| \033[1m{med[1].ljust(41)}\033[0m", end=" |")
+    print(f"| {med[2].ljust(21)}", end=" |")
+    print(f"| \033[33m{str(med[3]).ljust(11)}\033[0m", end=" |") if (med[3] > 25) else print(f"| {str(med[3]).ljust(11)}", end=" |")
+    if (med[4]):
+        print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
+    else:
+        print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
+
+def header_medicos(anchoTotal):
     """
     Imprime el header para la impresión de médicos.
 
@@ -265,7 +245,7 @@ def header_medicos(anchoTotal): #✅
 
     auxiliares.linea_iguales(anchoTotal)
 
-def leer_medicos(listaMeds): #✅
+def leer_medicos(meds):
     """
     Imprime el reporte completo de médicos utilizando las funciones 'header_medicos' y 'imprimir_medico()'
 
@@ -279,13 +259,13 @@ def leer_medicos(listaMeds): #✅
     """
 
     header_medicos(auxiliares.ANCHO)
-    for med in listaMeds:
+    for med in meds:
         imprimir_medico(med)
         print("")
         
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-def leer_medico_id(listaMeds, idMed): #✅
+def leer_medico_id(meds, idMed):
     """
     Imprime el reporte de un médico especificado por su ID utilizando las funciones 'header_medicos' y 'imprimir_medico()'
 
@@ -301,16 +281,15 @@ def leer_medico_id(listaMeds, idMed): #✅
             -- Llama a la función 'linea_iguales()' para imprimir una línea de '='
             -- Termina de recorrer la lista con 'break'
     """
-    for med in listaMeds:
-        if (med["ID"] == idMed):
+    for med in meds:
+        if (med[0] == idMed):
             header_medicos(auxiliares.ANCHO)
             imprimir_medico(med)
             print("")
             auxiliares.linea_iguales(auxiliares.ANCHO)
             break
 
-"""============================================================== ELIMINAR ============================================================================="""
-def buscar_borrar_med(idElim, listaMeds): #🟨
+def buscar_borrar_med(idElim, meds):
     """
     Busca un medico segun el id que tiene y lo elimina de la lista si es que lo encuentra.
 
@@ -322,30 +301,28 @@ def buscar_borrar_med(idElim, listaMeds): #🟨
         bool: True si se encontro y elimino al medico, false si no se encontro.
     """
     encontrado = False
-    for med in listaMeds:
-        if (med["ID"] == idElim):
+    for med in meds:
+        if (med[0] == idElim):
             encontrado = True
-            listaMeds.remove(med)
+            meds.remove(med)
             break
     return encontrado
 
-def elim_medico(listaMeds): #🟨
+def elim_medico(matrizMeds): # Hay que estandarizar la impresión  de esto
     """
     Solicita al usuario que ingrese el ID de un medico y lo modifica su estado a inactivo.
     
     Parametros: 
-        listaMeds(list): Lista de medicos.
+        MatrizMeds(list): Lista de medicos.
     """
-    auxiliares.linea_iguales(auxiliares.ANCHO)
     idElim = int(input("Ingrese el ID del médico a eliminar: "))
-    if (buscar_borrar_med(idElim, listaMeds)): # Devuelve True si lo encontro y borro, False si no lo encontró
+    if (buscar_borrar_med(idElim, matrizMeds)): # Devuelve True si lo encontro y borro, False si no lo encontró
         print("\n>> Medico de ID", idElim, "eliminado exitosamente.")
     else:
         print("\n>> Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
-    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================ FUNCIONES ESTADÍSTICAS ====================================================================="""
-def imprimir_porcentaje_estado(total, activos, inactivos): #✅
+def imprimir_porcentaje_estado(total, activos, inactivos):
     """
     Imprime utilizando las funciones 'imprimir_un_encabezado()', 'imprimir_tres_encabezados' y 'linea_iguales()' el total de médicos y el
     porcentaje de activos e inactivos
@@ -375,13 +352,13 @@ def imprimir_porcentaje_estado(total, activos, inactivos): #✅
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 #ID, NOMBRE, ESPECIALIDAD, ANTIGUEDAD, ESTADO
-def porcentaje_estado(listaMeds): #🟨
+def porcentaje_estado(matrizMeds):
     """
     Recorre la matriz y suma dos acumuladores: Uno para los medicos activos y otro para los inactivos, posteriormente calcula que porcentaje
     son sobre el total y llama a la funcion 'imprimir_porcentaje_estado()' para imprimir los resultados.
 
     Parametros:
-        listaMeds(list): Matriz de los médicos
+        matrizMeds(list): Matriz de los médicos
 
     Flujo: 
         - Obtiene el total de médicos en la matriz e inicializa los acumuladores en 0
@@ -390,19 +367,22 @@ def porcentaje_estado(listaMeds): #🟨
         - Realiza una regla de tres simple para obtener el porcentaje de activos e inactivos sobre el total.
         - Llama a la función 'imprimir_porcentaje_estado()' para imprimir los datos.
     """
-    totalMeds = len(listaMeds)
+    totalMeds = len(matrizMeds)
     acumAct = 0
     acumInac = 0
 
-    for med in listaMeds:
-        if (med["estado"]):
+    for med in matrizMeds:
+        if (med[4]):
             acumAct+=1
         else:
             acumInac+=1
 
-    imprimir_porcentaje_estado(totalMeds, (acumAct*100)/totalMeds, (acumInac*100)/totalMeds)
+    porcenAct = (acumAct*100)/totalMeds
+    porcenInac = (acumInac*100)/totalMeds
 
-def color_porcentaje_espec(porcentaje): #✅
+    imprimir_porcentaje_estado(totalMeds, porcenAct, porcenInac)
+
+def color_porcentaje_espec(porcentaje):
     """
     Según el porcentaje indicado, decide el color que tendrá al imprimirse.
 
@@ -419,7 +399,7 @@ def color_porcentaje_espec(porcentaje): #✅
     else:
         return "\033[33m"
 
-def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds): #✅
+def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds):
     """
     Imprime utilizando las funciones 'imprimir_un_encabezado()', 'imprimir_tres_encabezados' y 'linea_iguales()' el total de médicos y el total de
     médicos, el total de medicos de una especialidad especifica y el porcentaje que implica sobre el total
@@ -450,12 +430,12 @@ def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds): #✅
     auxiliares.imprimir_tres_encabezados(str(totalMeds), str(cantEspec), (porcenEspec+' %'), '\033[1;34m', colorEspec, colorEspec)
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-def porcentaje_espec(listaMeds, espec): #🟨
+def porcentaje_espec(matrizMeds, espec):
     """
     Obtiene el total de médicos y posteriormente recorre la matriz de médicos para contar cuantos son de la especialidad indicada.
 
     Parametros:
-        listaMeds(list): La matriz con la totalidad de los médicos.
+        matrizMeds(list): La matriz con la totalidad de los médicos.
         espec(str): La especialidad del médico
 
     Flujo: 
@@ -463,56 +443,58 @@ def porcentaje_espec(listaMeds, espec): #🟨
         - Recorre la matriz y en caso de encontrar una coincidencia de la especialidad, aumenta en 1 el contador 'contEspec'
         - Llama a la funcion 'imprimir_porcentaje_especs()' para imprimir los resultados.
     """
-    totalMeds = len(listaMeds)
+    totalMeds = len(matrizMeds)
     contEspec = 0
 
-    for med in listaMeds:
-        if med["espec"] == espec:
+    for med in matrizMeds:
+        if med[2] == espec:
             contEspec += 1
 
     imprimir_porcentaje_especs(espec, contEspec, (contEspec*100)/totalMeds, totalMeds)
 
-def crear_matriz_prom_antig_espec(listaMeds): #🟨
+def crear_matriz_prom_antig(matrizMeds):
     """
     Obtiene el total de médicos y posteriormente recorre la matriz de médicos para contar cuantos son de la especialidad indicada.
 
     Parametros:
-        listaMeds(list): La matriz con la totalidad de los médicos.
+        matrizMeds(list): La matriz con la totalidad de los médicos.
 
     Return:
-        matEspecs(list): Matriz de antigüedades por especialidad, con formato [Especialidad, AcumuladorAntiguedad, CantidadMedicosAntiguedad]
+        matAntig(list): Matriz de antigüedades por especialidad, con formato [Especialidad, AcumuladorAntiguedad, CantidadMedicosAntiguedad]
 
     Flujo: 
         - Recorre la matriz de médicos, por cada médico:
             -- Inicializa la flag existe en False
-            -- Por cada antigüedad ingresada en matEspecs:
+            -- Por cada antigüedad ingresada en matAntig:
                 --- Verifica si coincide con la especialidad del médico
                 --- En caso de encontrar coincidencia, suma la antigüedad al acumulador en su índice 1 y aumenta en 1 el contador de medicos
                     de esa especialidad, también setea la flag de 'Existe' en True
                 --- Si no encuentra coincidencia en toda la matriz de antigüedad, agrega la antigüedad como nuevo elemento a la matriz. 
     """
-    matEspecs = []
-    for med in listaMeds:
+    matAntig = []
+
+    for med in matrizMeds:
             existe = False
-            for espec in matEspecs:
-                if (med["espec"] == espec[0]): #Si la especialidad es igual a la especialidad de la lista
+            for elem in matAntig:
+                if (med[2] == elem[0]): #Si la especialidad es igual a la especialidad de la lista
                     existe = True
-                    espec[1] += med["antig"]
-                    espec[2] += 1
+                    elem[1] += med[3]
+                    elem[2] += 1
                     break
             if (not existe):
-                matEspecs.append([med[2], med[3], 1]) 
+                matAntig.append([med[2], med[3], 1]) 
                 # Se le agrega la especialidad, arranca el sumador con su antigüedad y el contador en 1
-    return matEspecs
+    
+    return matAntig
 
-def prom_antig_espec(listaMeds): #🟨
+def prom_antig_espec(matrizMeds):
     """
     Crea una función de antigüedades por especialidad, posteriormente imprime los títulos y encabezados del reporte.
     Define los promedios y se les asigna un color según su valor, también se le quita la parte decimal si es nula, y sino, se redondea a 1 digito.
     Imprime los resultados.
 
     Parametros:
-        listaMeds(list): La matriz con la totalidad de los médicos.
+        matrizMeds(list): La matriz con la totalidad de los médicos.
 
     Flujo: 
         - Llama a la función 'crear_matriz_prom_antig()' para obtener las especialidades, la suma de las antigüedades por especialidad
@@ -524,7 +506,7 @@ def prom_antig_espec(listaMeds): #🟨
             contrario solo se redondea a 1 dígito decimal.
         - Se imprimen los resultados.
     """
-    matEspecs = crear_matriz_prom_antig_espec(listaMeds)
+    matAntig = crear_matriz_prom_antig(matrizMeds)
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('PROMEDIO DE ANTIGÜEDAD POR ESPECIALIDAD', auxiliares.ANCHO, '\033[1m')
@@ -534,39 +516,25 @@ def prom_antig_espec(listaMeds): #🟨
     auxiliares.imprimir_tres_encabezados('ESPECIALIDAD', 'CANTIDAD MEDICOS', 'PROMEDIO ANTIGÜEDAD', '\033[1;34m', '\033[1;35m', '\033[1;36m')
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-    for espec in matEspecs:
-        prom = (espec[1]/espec[2])
+    for antig in matAntig:
+        prom = (antig[1]/antig[2])
         colorProm = '\033[1;31m' if prom>=25 else '\033[1;32m' if prom<=5 else '\033[1;33m'
         prom = str(int(prom)) if prom == int(prom) else str(round(prom,1))
 
-        auxiliares.imprimir_tres_encabezados(str(espec[0]), str(espec[2]), prom, '\033[1m', "", colorProm)
+
+        auxiliares.imprimir_tres_encabezados(str(antig[0]), str(antig[2]), prom, '\033[1m', "", colorProm)
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================================ MENU Y MAIN========================================================================="""
-def ingresar_opcion(max): #🟨
-    """
+def ingresar_opcion(max):
     opcion = int(input("Ingrese la opcion deseada: "))
     while (opcion < 0 or opcion > max):
         print("Opcion no valida, intente nuevamente.")
         opcion = int(input("Ingrese la opcion deseada: "))
     return opcion
-    """
 
-    while True:
-        try:
-            opcion = int(input(auxiliares.mensaje_ingreso("Ingrese la opcion deseada: ")))
-            assert(opcion >= 0 and opcion <= max)
-            return opcion
-        except ValueError:
-            #print("Error, ingrese un numero entero.")
-            auxiliares.imprimir_error("Ingrese un numero entero")
-            
-        except AssertionError:
-            #mensajeError = "Error, ingrese un numero entre 0 y" + str(max)
-            auxiliares.imprimir_error("Error, ingrese un numero entre 0 y" + str(max))
-
-def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''): #✅
+def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     if (guiones):
         auxiliares.linea_guiones(auxiliares.ANCHO)
 
@@ -574,7 +542,7 @@ def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     espacios = len(textoImprimir) - len(f"[{opcion}]: {texto}")
     print(f"| " + textoImprimir.ljust(auxiliares.ANCHO-4) + " " * espacios, end=" |\n")
 
-def menu_leer_medicos(listaMeds): #✅
+def menu_leer_medicos(matrizMeds):
    auxiliares.linea_iguales(auxiliares.ANCHO)
    auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > LEER MEDICOS', auxiliares.ANCHO, '\033[1m')
    print("")
@@ -591,17 +559,17 @@ def menu_leer_medicos(listaMeds): #✅
        case 0: return 0
        case 1:
         auxiliares.limpiar_terminal()
-        leer_medicos(listaMeds)
+        leer_medicos(matrizMeds)
        case 2: 
         auxiliares.limpiar_terminal()
-        leer_medico_id(listaMeds, ingresar_id())
+        leer_medico_id(matrizMeds, ingresar_id())
 
    if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
 
    auxiliares.limpiar_terminal()
-   menu_leer_medicos(listaMeds)
+   menu_leer_medicos(matrizMeds)
 
-def menu_crud_medicos(listaMeds, idsUsados): #🟨
+def menu_crud_medicos(matrizMeds, idsUsados):
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D', auxiliares.ANCHO, '\033[1m')
     print("")
@@ -620,25 +588,24 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            crear_medico(listaMeds, idsUsados)
+            crear_medico(matrizMeds, idsUsados)
         case 2: 
             auxiliares.limpiar_terminal()
-            opcion = menu_leer_medicos(listaMeds)
-        case 3: #
+            opcion = menu_leer_medicos(matrizMeds)
+        case 3:
             auxiliares.limpiar_terminal()
-            medico = buscar_medico_id(listaMeds, ingresar_id())
-            if (medico): opcion = actu_medico(medico, medico["nyap"])
-            else: print("Medico no encontrado")
+            medico = buscar_medico_id(matrizMeds, ingresar_id())
+            opcion = actu_medico(medico, medico[1])
         case 4:
             auxiliares.limpiar_terminal()
-            elim_medico(listaMeds)
+            elim_medico(matrizMeds)
 
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
 
     auxiliares.limpiar_terminal()
-    menu_crud_medicos(listaMeds, idsUsados)
+    menu_crud_medicos(matrizMeds, idsUsados)
 
-def menu_estadistica_medicos(listaMeds): #🟨
+def menu_estadistica_medicos(matrizMeds):
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > ESTADISTICA', auxiliares.ANCHO, '\033[1m')
     print("")
@@ -655,21 +622,21 @@ def menu_estadistica_medicos(listaMeds): #🟨
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            porcentaje_estado(listaMeds)
+            porcentaje_estado(matrizMeds)
         case 2: 
             auxiliares.limpiar_terminal()
-            porcentaje_espec(listaMeds, ingresar_espe())
+            porcentaje_espec(matrizMeds, ingresar_espe())
         case 3:
             auxiliares.limpiar_terminal()
-            prom_antig_espec(listaMeds)
+            prom_antig_espec(matrizMeds)
 
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
     opcion = 0
 
     auxiliares.limpiar_terminal()
-    menu_estadistica_medicos(listaMeds)
+    menu_estadistica_medicos(matrizMeds)
 
-def menu_medicos(): #🟨
+def menu_medicos():
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS', auxiliares.ANCHO)
     print("")
@@ -685,41 +652,22 @@ def menu_medicos(): #🟨
         case 0: return 0
         case 1: 
             auxiliares.limpiar_terminal()
-            menu_crud_medicos(listaMedicos, idsUsados)
+            menu_crud_medicos(matrizMedicos, idsUsados)
         case 2: 
             auxiliares.limpiar_terminal()
-            menu_estadistica_medicos(listaMedicos)
+            menu_estadistica_medicos(matrizMedicos)
     
     auxiliares.limpiar_terminal()
     menu_medicos()
 
 """ MAIN """
-"""matrizMedicos = [
+matrizMedicos = [
     [100000, "Juan Pérez", "Traumatologia", 5, 0],
     [999999, "Ataúlfo Américo Djandjikian", "Otorrinonaringologia", 26, 1],
     [156904, "Fernando Guerra", "Traumatologia", 10, 1],
     [777555, "Guillermo Smith", "Traumatologia", 25, 1],
     [321987, "Rodrigo Rodríguez", "Urologia", 5, 0]
-] #ID, Nombre, Especialidad, Antiguedad, Estado"""
-
-# ID, nyap, espec, antig, estado
-listaMedicos = [
-    {"ID": 100000, "nyap": "Juan Pérez", "espec":"Traumatologia", "antig":5, "estado":0},
-    {"ID": 999999, "nyap": "Ataúlfo Américo Djandjikian", "espec":"Otorrinonaringologia", "antig":26, "estado":1},
-    {"ID": 156904, "nyap": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
-    {"ID": 777555, "nyap": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
-    {"ID": 321987, "nyap": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
-]
+] #ID, Nombre, Especialidad, Antiguedad, Estado
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]
-crear_medicos_random(listaMedicos, 5, idsUsados)
-#auxiliares.limpiar_terminal()
-#menu_medicos()
-
-# CAMBIOS A REALIZAR:
-# MEJORAR GESTION DE IDS USADOS
-# ADAPTAR FUNCIONES A DICCIONARIOS 🟨
-# CORREGIR PEQUEÑOS ERRORES QUE QUEDARON 
-# CAMBIAR VALIDACIONES POR TRY-CATCH
-
-
+crear_medicos_random(matrizMedicos, 5, idsUsados)
