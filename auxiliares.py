@@ -84,6 +84,9 @@ def linea_iguales(ancho):
 def linea_guiones(ancho):
     print("-"*ancho)
 
+def linea_numeral(ancho):
+    print('#'*ancho)
+
 def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     if (guiones):
         linea_guiones(ANCHO)
@@ -128,6 +131,18 @@ def imprimir_un_encabezado(encab, anchoEncab, color=""):
     """
     print(f"| {color}{encab.center(anchoEncab-4)}\033[0m", end=" |")
 
+def imprimir_error(texto):
+    linea_numeral(ANCHO)
+
+    textoImprimir = f"\033[1;31m[ERROR]\033[0m: \033[0;33m{texto}\033[0m"
+    espacios = len(textoImprimir) - len(f"[ERROR]: {texto}")
+    print(f"| " + textoImprimir.ljust(ANCHO-4) + " " * espacios, end=" |\n")
+
+    linea_numeral(ANCHO)
+
+def mensaje_ingreso(texto):
+    return (f">> \033[0;34m{texto}\033[0m")
+    
 def ingresar_entero_positivo(mensaje):
     """
     Valida el ingreso por teclado de un número entero positivo.
