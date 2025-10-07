@@ -11,7 +11,7 @@
 #-------------------------------------------------------------------------------
 
 from pacientes import principal_pacientes,inicializar_pacientes_random
-from crear_leer_turnos import principal_crear_leer_turnos, logo_turnos
+from turnos import principal_crear_leer_turnos
 from medicos import menu_medicos, matrizMedicos
 import auxiliares
 

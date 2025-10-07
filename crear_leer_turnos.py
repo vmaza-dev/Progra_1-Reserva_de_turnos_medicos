@@ -185,7 +185,7 @@ def elegir_medico(matriz_turnos, fecha_turno, dia_semana, hora_turnos,
         matriz_turnos(list[list]): Matriz de turnos del mes.
         fecha_turno(date): Fecha seleccionada para el turno.
         dia_semana(str): Nombre del día de la fecha.
-        horario_turno(str): Hora del turno seleccionada para el turno.
+        hora_turno(str): Hora del turno seleccionada para el turno.
         matriz_meds(list[list]): Matriz de médicos.
         especialidad(str): Especialidad seleccionada para el turno.
     
@@ -232,8 +232,8 @@ def elegir_medico(matriz_turnos, fecha_turno, dia_semana, hora_turnos,
     print()
     print(contraste("Seleccione médico"))
     print()
-    op_medico = ingresar_opcion_elegida(encabezado) 
-    medico_selec = encabezado[op_medico]
+    matricula_med = ingresar_opcion_elegida(encabezado) 
+    medico_selec = encabezado[matricula_med]
     # selecciono hoarario
     print()
     print(contraste("Seleccione horario"))
@@ -350,6 +350,7 @@ def crear_id_turno(matriz_turnos):
     if len(matriz_turnos) == 0:
         id_t = str(1).zfill(6)
         return id_t
+    # el indice de la ultima posición coincide con el id porque empece en 1 y no en 0
     else:
         id_t = str(len(matriz_turnos) + 1).zfill(6)
         return id_t
@@ -378,15 +379,9 @@ def crear_horario_atencion(inicio, fin, freq = 30):
 def crear_mes():
     """
     Genera todas las fechas del mes actual.
-    
-    Args:
-    
+
     Returns:
-        rango_fechas(list[date]): Lista con las fechas generadas.
-        mes_numero(int)
-        mes_palabra(str)
-        anio(int)
-        int: Número de dias del mes.
+        mes(dict): Informacion del mes actual
     """
     hoy = date.today()
     mes_numero = hoy.month# pido el mes actual
@@ -396,7 +391,12 @@ def crear_mes():
     inicio_mes = date(2025, mes_numero, 1)
     fin_mes = date(2025, mes_numero, ultimo_dia )
     rango_fechas = [inicio_mes + timedelta(days=i) for i in range((fin_mes - inicio_mes).days + 1)]
-    return rango_fechas, mes_numero, mes_palabra, anio, len(rango_fechas)
+    mes = {'fechas': rango_fechas,
+           'mes_en_numero':mes_numero,
+           'mes_en_palabra': mes_palabra,
+           'anio': anio,
+           'cantidad_dias_mes': len(rango_fechas)}
+    return mes
     
 def devolver_paciente(matriz_pacs, dni_paciente):
     """
@@ -437,7 +437,7 @@ def devolver_medico(matriz_meds, mat_med):
     return nombre
 
 def validar_turno(matriz_turnos, fecha, mat_med, dni_paciente, especialidad,
-                   hora_turno, random = True):
+                   hora_turno, random = True):# TODO Modificar los argumentos
     """
     Valida el turno a asignar.
 
@@ -732,59 +732,65 @@ contraste = lambda texto:f"\033[7m{texto}\033[0m"
 # FUNCIONES CREAR LEER CONSULTAR -----------------------------------------------
 #-------------------------------------------------------------------------------
 
-def crear_turnos_random(matriz_turnos, mes_completo, horarios_atencion, 
-                        tipo_consultas, estado, matriz_pacs,
-                          matriz_meds , n_turnos):
+def crear_turnos_random(matriz_turnos, matriz_pacs, matriz_meds, info_turnos, info_mes, n_turnos = 5):
     """
-    Crea una matriz de turnos al azar.
+    Crea una lista de diccionarios.
 
     Usa las matrices creadas en los módulos pacientes y médicos.
     
     Args:
         matriz_turnos(list[list]): Matriz de turnos.
-        mes_completo(list[date]): Lista de los días del mes. 
-        horarios_atencion(list): Lista con los horarios de los turnos.
-        tipo_consultas(list): Lista con el tipo de consultas.
-        estado(list): Lista de estados.
-        paci(list[list]): Matriz de pacientes.
+        matriz_pacs(list[list]): Matriz de pacientes.
         matriz_meds(list[list]): Matriz de médicos.
+        info_turnos(list[dict]): Datos para la generacion del turno.
+        info_mes(list[dict]): Datos del mes.
         n_turnos(int): Número de turnos a generar.
-
-    Returns:
     """
-    max_turnos_medicos = len(horarios_atencion)
-    max_turnos_fecha = max_turnos_medicos * len(matriz_meds)
+    max_turnos_fecha = len(list(info_turnos['horarios'].values())) * len(matriz_meds)
+    nuevo_turno = {'id':"void",
+                'fecha':"void",
+                'hora':"void",
+                'paciente':"void",
+                'especialidad_medica':"void",
+                'medico':"void",
+                'tipo_consulta':"void",
+                'estado_turno':"void"}
     
     for i in range(n_turnos):
-        # print("ACAAAA")
-        consulta = random.choice(tipo_consultas)
-        estado_turno = random.choice(estado)
+        consulta = random.choice(list(info_turnos['tipo_consulta'].values()))
+        nuevo_turno.update({'tipo_consulta':consulta})
+        estado_turno = random.choice(list(info_turnos['estado'].values()))
+        nuevo_turno.update({'estado_turno':estado_turno})
 
         # valido número de turnos por fecha
-        fecha = random.choice(mes_completo)
-        matriz_turnos_fecha= filtrar_turnos(matriz_turnos, fecha)
+        fecha = random.choice(list(info_mes['fechas']))
+        matriz_turnos_fecha= filtrar_turnos(matriz_turnos, fecha)# TODO Modificar, porque ahora uso diccionarios
         while len(matriz_turnos_fecha) == max_turnos_fecha:
-            fecha = random.choice(mes_completo)
-
+            fecha = random.choice(list(info_mes['fechas']))
+        nuevo_turno.update({'fecha':fecha})
         # valido que no haya superposición de turnos
         medico = random.choice(matriz_meds)# fila de la matriz
         matricula_med = medico[0]
+        especialidad = medico[2]
         paciente = random.choice(matriz_pacs)# fila de la matriz
         dni_pac = paciente[1]
-        hora_turno = random.choice(horarios_atencion)# un horario
-        especialidad = medico[2]
-        turno_valido, mensaje = validar_turno(matriz_turnos, fecha, matricula_med , dni_pac,especialidad, hora_turno)
+        hora_turno = random.choice(list(info_turnos['horarios'].values()))# un horario
+        nuevo_turno.update({'medico':matricula_med, 'paciente':dni_pac, 'hora':fecha, 'especilidad_medica':fecha})
+        turno_valido, mensaje = validar_turno(matriz_turnos,nuevo_turno)
         while turno_valido == False:
             medico = random.choice(matriz_meds)
             matricula_med = medico[0]
+            especialidad = medico[2]
             paciente = random.choice(matriz_pacs)
             dni_pac = paciente[1]
-            hora_turno = random.choice(horarios_atencion)
-            turno_valido, mensaje = validar_turno(matriz_turnos, fecha, matricula_med, dni_pac,especialidad, hora_turno)
+            hora_turno = random.choice(list(info_turnos['horarios'].values()))
+            nuevo_turno.update({'medico':matricula_med, 'paciente':dni_pac, 'hora':fecha, 'especilidad_medica':fecha})
+            turno_valido, mensaje = validar_turno(matriz_turnos,nuevo_turno)
 
         id = crear_id_turno(matriz_turnos)
-        matriz_turnos.append([id, fecha, hora_turno, dni_pac, especialidad, matricula_med, 
-                    consulta, estado_turno])
+        nuevo_turno.update({'id':id})
+        
+        matriz_turnos.append(nuevo_turno)
 
 def crear_turno(matriz_turnos, horarios_atencion, tipo_consultas, 
                 matriz_pacs, matriz_meds, mes_numero, anio):
@@ -805,33 +811,34 @@ def crear_turno(matriz_turnos, horarios_atencion, tipo_consultas,
     # TODO: EN ESTA PARTE NECESITARÍA INTEGRAR LA CREACIÓN DE UN PACIENTE 
     # O LA ELECCIÓN DE UN PACIENTE EXISTENTE
     paciente = random.choice(matriz_pacs)# simulo ingreso de un paciente
+    dni_pac = paciente[1]
     print(f"Paciente ingresado: {paciente}")
     ############################################################################
     print()
     # seleccionar tipo consulta y especialidad
-    tipo_consulta = elgir_consulta_med(tipo_consultas)# ✅
+    consulta = elgir_consulta_med(tipo_consultas)# ✅
     especialidad = elegir_especialidad_med()# ✅    
     # seleccionar fecha
     fecha_turno, dia_semana = elegir_fecha(mes_numero, anio)# ✅
 
     # seleccionar médico y hora
-    op_medico, horario_turno = elegir_medico(matriz_turnos, fecha_turno,# ✅
+    matricula_med, hora_turno = elegir_medico(matriz_turnos, fecha_turno,# ✅
                                 dia_semana, horarios_atencion,
                                 matriz_meds, especialidad)
     # paso final
     # verificación de superpoción de turnos
-    turno_valido, mensaje = validar_turno(matriz_turnos, fecha_turno, op_medico,
-                                paciente[1],especialidad, horario_turno)
+    turno_valido, mensaje = validar_turno(matriz_turnos, fecha_turno, matricula_med,
+                                dni_pac,especialidad, hora_turno)
     while turno_valido == False:
         print(mensaje)
         # seleccionar médico y hora
-        op_medico, horario_turno = elegir_medico(matriz_turnos, fecha_turno,
+        matricula_med, hora_turno = elegir_medico(matriz_turnos, fecha_turno,
                                     dia_semana, horarios_atencion,
                                     matriz_meds, especialidad)
         # paso final
         # verificación de superpoción de turnos
-        turno_valido, mensaje = validar_turno(matriz_turnos, fecha_turno, op_medico,
-                                    paciente[1],especialidad, horario_turno)
+        turno_valido, mensaje = validar_turno(matriz_turnos, fecha_turno, matricula_med,
+                                    dni_pac,especialidad, hora_turno)
         
     # if turno_valido == "opcion":# TODO: para implementar
     #   # recordar que en validar turno debo poner False para que funcione
@@ -840,17 +847,24 @@ def crear_turno(matriz_turnos, horarios_atencion, tipo_consultas,
     
     # no hay superposición procedo a confirmar y a crear
     id = crear_id_turno(matriz_turnos)
-    turno = [id, fecha_turno, horario_turno, paciente[1], 
-             especialidad, op_medico, tipo_consulta, "Activo"]
+   
+    nuevo_turno = {'id':id,
+                'fecha':fecha_turno,
+                'hora':hora_turno,
+                'paciente':dni_pac,
+                'especialidad_medica':especialidad,
+                'medico':matricula_med,
+                'tpo_consulta': consulta,
+                'estado_turno':"Activo"}
     
-    confirmacion = confirmar_turno(turno, dia_semana, matriz_pacs, matriz_meds)
+    confirmacion = confirmar_turno(nuevo_turno, dia_semana, matriz_pacs, matriz_meds)
 
     if confirmacion == False:
         print("CREACION DE TURNO CANCELADO")
         input("\nPresione ENTER para volver al menú.")
         return
 
-    matriz_turnos.append(turno)
+    matriz_turnos.append(nuevo_turno)
     print(f"Turno generado exitosamente!")
 
 def leer_turnos(matriz_turnos, encabezados, matriz_pacs, matriz_meds,
@@ -988,141 +1002,3 @@ def consultar_turno(encabezados, matriz_turnos, mes_numero,
                     consultar_por_paciente(encabezados, matriz_turnos, mes_palabra,cant_dias_mes, horarios_atencion, matriz_pacs, matriz_meds)
                     input("\nPresione ENTER para volver al menú.")
 
-# ==============================================================================
-# ===============================FUNCION PRINCIPAL==============================
-# ==============================================================================
-
-def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion = 0):
-    """
-    Función principal del módulo turnos.
-
-    Args:
-        matriz_turnos(list[list])
-        opcion(int): Opción elegida. Por defecto = 0 para generar turnos random.
-        matriz_pacs[list[list]]: Matriz de pacientes.
-        matriz_meds[list[list]]: Matriz de médicos.
-    """
-    #-------------------------------------------------
-    # Inicialización de variables necesarias
-    #-------------------------------------------------
-    ENCABEZADO_TURNOS = ["ID","FECHA", "HORA","PACIENTE","ESPECIALIDAD", "MEDICO","CONSULTA","ESTADO"]
-    ESTADO_TURNO = ["Activo", "Cancelado", "Finalizado"]
-    CONSULTA = ["Control", "Revisión", "Urgencia"]
-    # Pongo una fecha cualquiera lo que importa es la hora
-    INICIO_TURNOS = datetime(2025, 1, 1, 9,0)
-    # Pongo una fecha cualquiera lo que importa es la hora
-    FIN_TURNOS = datetime(2025, 1, 1, 16,0)
-    N_TURNOS_RANDOM = 10
-    horarios_atencion = crear_horario_atencion(INICIO_TURNOS, FIN_TURNOS)
-    # creo las fechas del mes actual y guardo su informacion
-    mes_completo, mes_numero, mes_palabra, anio, cant_dias_mes = crear_mes()
-
-    #-------------------------------------------------
-    # Bloque de menú
-    #-------------------------------------------------
-    auxiliares.limpiar_terminal()
-    logo_turnos()
-    match opcion:
-        case 0:
-            crear_turnos_random(matriz_turnos, mes_completo, horarios_atencion,
-                                 CONSULTA, ESTADO_TURNO, matriz_pacs,
-                                   matriz_meds, N_TURNOS_RANDOM)
-        case 1:
-
-            while True:
-                logo_turnos()
-                while True:
-                    opciones = 4
-                    auxiliares.linea_iguales(auxiliares.ANCHO)
-                    auxiliares.imprimir_un_encabezado('MENU TURNOS', auxiliares.ANCHO)
-                    print("")
-
-                    auxiliares.linea_iguales(auxiliares.ANCHO)
-                    auxiliares.imprimir_opcion(1, 'CREAR TURNOS', '1;33', False)
-                    auxiliares.imprimir_opcion(2, 'CONSULTAR TURNOS', '1;34')
-                    auxiliares.imprimir_opcion(3, 'ACTUALIZAR TURNOS', '1;35')
-                    auxiliares.imprimir_opcion(4, 'ELIMINAR TURNOS', '1;31')
-                    auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-                    auxiliares.linea_iguales(auxiliares.ANCHO)
-            
-                    
-                    opcion = input("Seleccione una opción: ")
-                    if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
-                        break
-                    else:
-                        input("Opción inválida. Presione ENTER para volver a seleccionar.")
-                print()
-
-                if opcion == "0": # Opción salir del submenú
-                    break # No salimos del programa, volvemos al menú anterior
-                elif opcion == "1":   # Opción 1
-                    while True:
-                        logo_turnos()
-                        while True:
-                            opciones = 4
-
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            auxiliares.imprimir_un_encabezado('MENÚ TURNOS > CREAR TURNO', auxiliares.ANCHO)
-                            print("")
-
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            auxiliares.imprimir_opcion(1, 'CREAR TURNO', '1;33', False)
-                            auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            
-                            opcion = input("Seleccione una opción: ")
-                            # Sólo continua si se elije una opcion de menú válida
-                            if opcion in [str(i) for i in range(0, opciones + 1)]: 
-                                break
-                            else:
-                                input("Opción inválida. Presione ENTER para volver a seleccionar.")
-                        print()
-
-                        if opcion == "0": # Opción salir del submenú
-                            break # No salimos del programa, volvemos al menú anterior
-                        elif opcion == "1":   # Opción 1
-                            crear_turno(matriz_turnos, horarios_atencion, CONSULTA,
-                                        matriz_pacs, matriz_meds, mes_numero, anio)
-                            input("\nPresione ENTER para volver al menú.")
-                    
-                elif opcion == "2":   # Opción 2
-                    while True:
-                        logo_turnos()
-                        while True:
-                            opciones = 4
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            auxiliares.imprimir_un_encabezado('MENÚ TURNOS > CONSULTA', auxiliares.ANCHO)
-                            print("")
-
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            auxiliares.imprimir_opcion(1, 'CONSULTAR TODOS LOS TURNOS', '1;33', False)
-                            auxiliares.imprimir_opcion(2, 'OTRAS CONSULTAS', '1;34', False)
-                            auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
-                            auxiliares.linea_iguales(auxiliares.ANCHO)
-                            
-                            opcion = input("Seleccione una opción: ")
-                            # Sólo continua si se elije una opcion de menú válida
-                            if opcion in [str(i) for i in range(0, opciones + 1)]: 
-                                break
-                            else:
-                                input("Opción inválida. Presione ENTER para volver a seleccionar.")
-                        print()
-
-                        if opcion == "0": # Opción salir del submenú
-                            break # No salimos del programa, volvemos al menú anterior
-                        elif opcion == "1":   # Opción 1
-                            leer_turnos(matriz_turnos, ENCABEZADO_TURNOS, matriz_pacs,
-                                        matriz_meds, mes_palabra, cant_dias_mes,
-                                        horarios_atencion)
-                            input("\nPresione ENTER para volver al menú.")
-                            
-                        elif opcion == "2":   # Opción 2
-                            consultar_turno(ENCABEZADO_TURNOS, matriz_turnos, mes_numero,
-                                            mes_palabra, cant_dias_mes, anio, matriz_pacs,
-                                            matriz_meds, ESTADO_TURNO, horarios_atencion)
-                            input("\nPresione ENTER para volver al menú.")
-
-                elif opcion == "3":   # Opción 3
-                    actualizar_eliminar_turnos.principal_actualizar_turnos(matriz_turnos, horarios_atencion, mes_numero, anio)   
-                elif opcion == "4":   # Opción 4
-                    actualizar_eliminar_turnos.principal_eliminar_turnos(matriz_turnos)
