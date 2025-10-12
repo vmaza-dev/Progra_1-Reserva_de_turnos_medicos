@@ -16,7 +16,7 @@ OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 # ==============================================================================
 
 def obtener_paciente_por_id(pacientes,id):
-    for i in filter(lambda p: p[0] == id, pacientes):
+    for i in filter(lambda p: p['id'] == id, pacientes):
         return i
     return -1
 
@@ -34,7 +34,11 @@ def crear_paciente(id):
     nombreCompleto = auxiliares.pedir_valor("Ingrese su nombre completo: ")
     edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
     obra_social = input("Ingrese su obra social: ")
-    paciente = [id, dni, nombreCompleto, edad, obra_social]
+
+    paciente = {
+        'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social
+    }
+
     return paciente
 
 def crear_pacientes_random(pacientes, cantCrear):
@@ -54,7 +58,8 @@ def crear_pacientes_random(pacientes, cantCrear):
         dni = generacion_dni_realista(edad)
         obra_social = random.choice(OBRAS_SOCIALES)
         id = id_unico(pacientes)
-        pacientes.append([id, dni, nombreCompleto, edad, obra_social])
+        
+        pacientes.append({'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social})
 
 def imprimir_paciente(pacientes):
     """
@@ -74,14 +79,14 @@ def imprimir_paciente(pacientes):
     print("=" * 104)
 
     for pac in pacientes:
-        print(f"| {str(pac[0]).ljust(6)}", end=" |")
-        print(f"\033[1m{pac[2].ljust(41)}\033[0m", end=" |")
-        print(f"{str(pac[1]).ljust(21)}", end=" |")
-        if pac[3] > 60:
-            print(f"\033[33m{str(pac[3]).ljust(11)}\033[0m", end=" |") #Lo marco en amarillo para marcar cuales so
+        print(f"| {str(pac['id']).ljust(6)} |", end="")
+        print(f"\033[1m{pac['nombre'].ljust(41)}\033[0m |", end="")
+        print(f"{str(pac['dni']).ljust(21)} |", end="")
+        if pac["edad"] > 60:
+            print(f"\033[33m{str(pac['edad']).ljust(11)}\033[0m |", end="")
         else:
-            print(f"{str(pac[3]).ljust(11)}", end=" |")
-        print(f"\033[1;32m{pac[4].center(13)}\033[0m", end=" |\n")
+            print(f"{str(pac['edad']).ljust(11)} |", end="")
+        print(f"\033[1;32m{pac['obra_social'].center(13)}\033[0m |")
     
     print("=" * 104)
 
@@ -115,11 +120,11 @@ def buscar_id_paciente(pacientes):
         print("\n==============================")
         print("PACIENTE ENCONTRADO")
         print("-------------------------------")
-        print(f"ID: {pac[0]}")
-        print(f"DNI: {pac[1]}")
-        print(f"NOMBRE: {pac[2]}")
-        print(f"EDAD: {pac[3]}")
-        print(f"OBRA SOCIAL: {pac[4]}")
+        print(f"ID: {pac['id']}")
+        print(f"DNI: {pac['dni']}")
+        print(f"NOMBRE: {pac['nombre']}")
+        print(f"EDAD: {pac['edad']}")
+        print(f"OBRA SOCIAL: {pac['obra_social']}")
         print("==============================\n")
 
 def actualizar_paciente(pacientes):
@@ -141,18 +146,18 @@ def actualizar_paciente(pacientes):
         op = auxiliares.pedir_valor("Ingrese el numero de la opcion: ", int, True, opciones=[1,2,3,4])
         match op:
             case 1:
-                pac[1] = validacion_dni(auxiliares.pedir_valor("Ingrese el nuevo DNI: ", int))
+                pac['dni'] = validacion_dni(auxiliares.pedir_valor("Ingrese el nuevo DNI: ", int))
             case 2:
                 while True:
                     try:
                         nombre = input("Ingrese el nuevo nombre: ").strip()
                         assert nombre != "", "El nombre no puede estar vacio"
-                        pac[2] = nombre
+                        pac['nombre'] = nombre
                         break 
                     except AssertionError as e:
                         print(f"Error: {e}. Intente nuevamente.")
             case 3:
-                validacion_edad(auxiliares.pedir_valor("Ingrese la nueva edad: ", int))
+                pac['edad'] = validacion_edad(auxiliares.pedir_valor("Ingrese la nueva edad: ", int))
             case 4:
                 print("Seleccione una Obra Social valida:")
                 for n in range(len(OBRAS_SOCIALES)):
@@ -162,7 +167,7 @@ def actualizar_paciente(pacientes):
                     op_obra = auxiliares.pedir_valor("Ingrese el numero de la obra social: ", int, True, opciones=list(range(1, len(OBRAS_SOCIALES)+1)))
                     if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
                         print("Opcion invalida, intente nuevamente.")
-                pac[4] = OBRAS_SOCIALES[op_obra - 1]
+                pac['obra_social'] = OBRAS_SOCIALES[op_obra - 1]
                 print("Perfil actualizado del paciente:")
                 imprimir_paciente([pac])
 
@@ -179,7 +184,7 @@ def eliminar_paciente(pacientes):
         print("El paciente no fue eliminado porque no pudo ser encontrado.")
     else:
         pacientes.remove(pac)
-        print(f"Paciente '{pac[2]}' eliminado correctamente.")
+        print(f"Paciente '{pac['nombre']}' eliminado correctamente.")
 
 
 # ==============================================================================
@@ -200,7 +205,7 @@ def id_unico(pacientes):
     while existe:
         existe = False
         for i in pacientes:
-            if i[0] == id:
+            if i['id'] == id:
                 existe = True
                 id = random.randint(1000,9999)
     return id
@@ -271,7 +276,7 @@ def promedio_edades(pacientes):
     Returns:
         float: Promedio de edades.
     """
-    edades = list(map(lambda p: p[3], pacientes))
+    edades = list(map(lambda p: p['edad'], pacientes))
     return sum(edades)/len(edades) if edades else 0
 
 def pacientes_por_obra(pacientes):
@@ -286,7 +291,7 @@ def pacientes_por_obra(pacientes):
     Returns:
         list: Lista de tuplas (obra_social, cantidad)
     """
-    obras = list(map(lambda p: p[4], pacientes))
+    obras = list(map(lambda p: p['obra_social'], pacientes))
     return list(map(lambda o: (o, len(list(filter(lambda x: x==o, obras)))), set(obras)))
 
 def porcentaje_por_obra(pacientes):
@@ -386,8 +391,8 @@ def mostrar_usuarios(pacientes):
     print(f"{rojo}{'=' * ancho}{default}\n")
 
     for pac in pacientes:
-        usuario = generar_usuario(pac[2])
-        print(f"{pac[2]:<30} -> {negrita}{usuario:<20}{default}")
+        usuario = generar_usuario(pac['nombre'])
+        print(f"{pac['nombre']:<30} -> {negrita}{usuario:<20}{default}")
 
     print(f"\n{rojo}{'=' * ancho}{default}")
 # ==============================================================================
@@ -455,6 +460,5 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-#crear_pacientes_random(pacientes, 10)
-#leer_pacientes(pacientes)
-#buscar_id_paciente(pacientes)
+#inicializar_pacientes_random()
+#principal_pacientes(pacientes)
