@@ -5,6 +5,9 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
+from datetime import datetime, date, timedelta
+import random, re, calendar, calendario
+ANCHO = 111
 
 nombres = [
     "Nicolás", "Victor", "Agustin", "Simon", "Juan Manuel", "Mateo", "Valentino", "Benicio", 
@@ -47,8 +50,13 @@ apellidos = [
 
 especialidades = ["Clinica Médica", "Psiquiatria", "Urologia", "Traumatologia", "Otorrinonaringologia"]
 
-import random, re
-ANCHO = 111
+estado_turno = {'activo':"Activo",
+                'cancelado':"Cancelado",
+                'finalizado':"Finalizado"}
+    
+tipo_consulta = {'control':"Control",
+                'revision':"Revisión",
+                'urgencia':"Urgencia"}
 
 def limpiar_terminal():
     """
@@ -369,7 +377,6 @@ def imprimir_datos(encabezado, matriz):
             print(f"{matriz[i][j]}", end = "\t")
         print()
 
-
 def pedir_valor(mensaje, tipo=str, requerido=True, opciones=None):
     """
     Pide un valor al usuario de forma segura.
@@ -393,3 +400,48 @@ def pedir_valor(mensaje, tipo=str, requerido=True, opciones=None):
             return valor
         except ValueError:
             print(f"Entrada invalida. Debe ser de tipo {tipo.__name__}.")
+
+def crear_mes():
+    """
+    Genera datos del mes actual.
+
+    Returns:
+        mes(dict): Informacion del mes actual
+    """
+    hoy = date.today()
+    mes_numero = hoy.month# pido el mes actual
+    anio = hoy.year
+    mes_palabra = calendario.mes_a_palabras(mes_numero)
+    ultimo_dia = calendar.monthrange(anio, mes_numero)[1]
+    inicio_mes = date(2025, mes_numero, 1)
+    fin_mes = date(2025, mes_numero, ultimo_dia )
+    rango_fechas = [inicio_mes + timedelta(days=i) for i in range((fin_mes - inicio_mes).days + 1)]
+    mes = {'fechas': rango_fechas,
+           'mes_en_numero':mes_numero,
+           'mes_en_palabra': mes_palabra,
+           'anio': anio,
+           'cantidad_dias_mes': len(rango_fechas)}
+    return mes
+
+def crear_horario_atencion():
+    """
+    Crea el horario de atención del consultorio.
+
+    Por defecto cada turno de se asigna cada media hora.
+    
+    Returns:
+        list[str]: Lista con los horarios de los turnos.
+    """
+    # Pongo una fecha cualquiera lo que importa es la hora
+    inicio = datetime(2025, 1, 1, 9,0)
+    # Pongo una fecha cualquiera lo que importa es la hora
+    fin = datetime(2025, 1, 1, 16,0)
+    freq = 30
+    h_turnos = [inicio.strftime("%H:%M")]
+    h_turno =  inicio
+    while h_turno <= fin:
+        h_turno += timedelta(minutes = freq)# sumo la frequencia
+        h_turnos.append(h_turno.strftime("%H:%M"))# convierto en un string en el
+        # formato que quiero que se vea, horas:minutos
+
+    return h_turnos

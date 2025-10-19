@@ -208,3 +208,13 @@ __marimo__/
 
 # Code Runner temp
 tempCodeRunnerFile.py
+
+# Graphs
+graphs.py
+
+# Only for this project
+
+pruebas_personales.py
+requirements.txt
+*.png 
+*.dot 
