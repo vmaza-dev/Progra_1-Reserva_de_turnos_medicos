@@ -30,9 +30,24 @@ def crear_paciente(id):
     Return:
         list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
     """
-    dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
+
+    while True:
+        try:
+            dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
+            break
+        except ValueError:
+            print("El DNI es invalido")
+
     nombreCompleto = auxiliares.pedir_valor("Ingrese su nombre completo: ")
-    edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
+    
+    while True:
+        try:
+            edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
+            break
+        except ValueError:
+            print("Edad no valida")
+
+
     obra_social = input("Ingrese su obra social: ")
 
     paciente = {
@@ -460,5 +475,5 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-#inicializar_pacientes_random()
-#principal_pacientes(pacientes)
+inicializar_pacientes_random()
+principal_pacientes(pacientes)
