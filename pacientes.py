@@ -30,26 +30,10 @@ def crear_paciente(id):
     Return:
         list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
     """
-
-    while True:
-        try:
-            dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
-            break
-        except ValueError:
-            print("El DNI es invalido")
-
+    dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
     nombreCompleto = auxiliares.pedir_valor("Ingrese su nombre completo: ")
-    
-    while True:
-        try:
-            edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
-            break
-        except ValueError:
-            print("Edad no valida")
-
-
+    edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
     obra_social = input("Ingrese su obra social: ")
-
     paciente = {
         'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social
     }
@@ -197,7 +181,22 @@ def eliminar_paciente(pacientes):
     pac = obtener_paciente_por_id(pacientes, id)
     if pac == -1:
         print("El paciente no fue eliminado porque no pudo ser encontrado.")
+        return
     else:
+        archivo = "bajas_pacientes.txt"
+        try:
+            arch = open(archivo, "a", encoding="UTF-8")
+            linea = f"ID: {pac['id']} - NOMBRE: {pac['nombre']} - DNI: {pac['dni']} - EDAD:{pac['edad']} - OBRA SOCIAL: {pac['obra_social']}\n"
+            arch.write(linea)
+        except OSError:
+            print("No se pudo abrir el archivo ni guardar el paciente eliminado")
+            return
+        finally:
+            try:
+                arch.close()
+            except OSError:
+                print("Error al cerrar el archivo")
+                
         pacientes.remove(pac)
         print(f"Paciente '{pac['nombre']}' eliminado correctamente.")
 
