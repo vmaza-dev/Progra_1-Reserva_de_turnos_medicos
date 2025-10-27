@@ -27,10 +27,10 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
     Función principal del módulo turnos.
 
     Args:
-        matriz_turnos(list[list])
+        matriz_turnos(list[dic])
         opcion(int): Opción elegida. Por defecto = 0 para generar turnos random.
-        matriz_pacs[list[list]]: Matriz de pacientes.
-        matriz_meds[list[list]]: Matriz de médicos.
+        matriz_pacs[list[dic]]: Matriz de pacientes.
+        matriz_meds[list[dic]]: Matriz de médicos.
     """
 
     #-------------------------------------------------
@@ -97,7 +97,7 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
                         if opcion == "0": # Opción salir del submenú
                             break # No salimos del programa, volvemos al menú anterior
                         elif opcion == "1":   # Opción 1
-                            crear_leer_turnos.crear_turno(matriz_turnos,
+                            crear_leer_turnos.crear_turnos(matriz_turnos,
                                                           matriz_pacs,
                                                           matriz_meds)
                             input("\nPresione ENTER para volver al menú.")

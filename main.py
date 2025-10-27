@@ -12,7 +12,7 @@
 
 from pacientes import principal_pacientes,inicializar_pacientes_random
 from turnos import principal_crear_leer_turnos
-from medicos import menu_medicos, matrizMedicos
+from medicos import menu_medicos, listaMedicos
 import auxiliares
 
 # # ==============================================================================
@@ -27,7 +27,7 @@ def main():
 
     matriz_turnos = []
     # creo turnos random
-    principal_crear_leer_turnos(matriz_turnos, matrizMedicos, matriz_pacientes)
+    principal_crear_leer_turnos(matriz_turnos, listaMedicos, matriz_pacientes)
 
     #-------------------------------------------------
     # Bloque de menú
@@ -59,7 +59,7 @@ def main():
             exit() # También puede ser sys.exit() para lo cual hay que importar el módulo sys
 
         elif opcion == "1":   # Opción 1
-            principal_crear_leer_turnos(matriz_turnos, matrizMedicos, matriz_pacientes, 1)
+            principal_crear_leer_turnos(matriz_turnos, listaMedicos, matriz_pacientes, 1)
 
         elif opcion == "2":   # Opción 2
             auxiliares.limpiar_terminal()
