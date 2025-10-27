@@ -1,0 +1,72 @@
+[
+    {
+        "ID": 100000,
+        "nombre": "Juan Pérez",
+        "espec": "Traumatologia",
+        "antig": 5,
+        "estado": 0
+    },
+    {
+        "ID": 999999,
+        "nombre": "Ataúlfo Américo Djandjikian",
+        "espec": "Otorrinonaringologia",
+        "antig": 26,
+        "estado": 1
+    },
+    {
+        "ID": 156904,
+        "nombre": "Fernando Guerra",
+        "espec": "Traumatologia",
+        "antig": 10,
+        "estado": 1
+    },
+    {
+        "ID": 777555,
+        "nombre": "Guillermo Smith",
+        "espec": "Traumatologia",
+        "antig": 25,
+        "estado": 1
+    },
+    {
+        "ID": 321987,
+        "nombre": "Rodrigo Rodríguez",
+        "espec": "Urologia",
+        "antig": 5,
+        "estado": 0
+    },
+    {
+        "ID": 229767,
+        "nombre": "Josefina Escobar",
+        "espec": "Urologia",
+        "antig": 21,
+        "estado": true
+    },
+    {
+        "ID": 414359,
+        "nombre": "Amparo Van Rossum",
+        "espec": "Psiquiatria",
+        "antig": 26,
+        "estado": true
+    },
+    {
+        "ID": 271664,
+        "nombre": "Iñaki Coronel",
+        "espec": "Otorrinonaringologia",
+        "antig": 19,
+        "estado": true
+    },
+    {
+        "ID": 703046,
+        "nombre": "Pilar Torres",
+        "espec": "Otorrinonaringologia",
+        "antig": 30,
+        "estado": true
+    },
+    {
+        "ID": 568102,
+        "nombre": "Ricardo Pereyra",
+        "espec": "Oftamología",
+        "antig": 7,
+        "estado": true
+    }
+]
