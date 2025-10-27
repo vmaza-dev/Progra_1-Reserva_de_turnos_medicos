@@ -28,14 +28,35 @@ def crear_paciente(id):
         id(int): id unico del paciente.
 
     Return:
-        list: lista con los datos del paciente [id,dni,nombre,edad,obra_social]
+        diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
-    nombreCompleto = auxiliares.pedir_valor("Ingrese su nombre completo: ")
+    while True:
+        try:
+            nombreCompleto = input("Ingrese su nombre completo: ").strip()
+            if not nombreCompleto:
+                raise ValueError("El nombre no puede estar vacío")
+            # Validar que solo tenga letras y espacios
+            if not all(c.isalpha() or c.isspace() for c in nombreCompleto):
+                raise ValueError("El nombre solo puede contener letras y espacios")
+            break
+        except ValueError as e:
+            print(f"Error: {e}")
     edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
-    obra_social = input("Ingrese su obra social: ")
+    while True:
+        try:
+            obra_social = input("Ingrese su obra social: ").strip()
+            if obra_social not in OBRAS_SOCIALES:
+                raise ValueError(f"Obra social inválida. Opciones válidas: {', '.join(OBRAS_SOCIALES)}")
+            break
+        except ValueError as e:
+            print(f"Error: {e}")
     paciente = {
-        'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social
+        'id': id,
+        'dni': dni,
+        'nombre': nombreCompleto,
+        'edad': edad,
+        'obra_social': obra_social
     }
 
     return paciente
@@ -226,34 +247,43 @@ def id_unico(pacientes):
 
 def validacion_dni(dni):
     """
-    Valida que el DNI tenga 8 dígitos.
-
+    Valida que el DNI tenga 8 digitos.
+    
     Args:
-        dni(int): DNI a validar.
-
+        DNI a validar.
+    
     Returns:
-        int: DNI valido.
+        int: DNI válido.
     """
-
     patron = r"^\d{8}$"
-    dni_str = str(dni)
-    while not re.match(patron, dni_str):
-        dni_str = auxiliares.pedir_valor("DNI invalido. Debe ingresar un DNI de 8 digitos: ", str)
-    return int(dni_str)
+    while True:
+        try:
+            dni_str = str(dni)
+            if not re.match(patron, dni_str):
+                raise ValueError(f"DNI inválido: {dni}")
+            return int(dni_str)
+        except ValueError as e:
+            print(f"Error: {e}")
+            dni = auxiliares.pedir_valor("Ingrese un DNI válido (8 dígitos): ", int)
 
 def validacion_edad(edad):
     """
-    Valida que la edad sea entre 3 y 98 años.
-
+    Valida que la edad este entre 3 y 98.
+    
     Args:
-        edad(int): Edad a validar.
-
+        edad: Edad a validar.
+    
     Returns:
-        int: Edad valida.
+        int: Edad válida.
     """
-    while edad < 2 or edad >= 99:
-        edad = auxiliares.pedir_valor("Edad invalida. Ingrese una edad entre 3 y 98: ", int)
-    return edad
+    while True:
+        try:
+            if edad < 3 or edad > 98:
+                raise ValueError(f"Edad inválida: {edad}")
+            return edad
+        except ValueError as e:
+            print(f"Error: {e}")
+            edad = auxiliares.pedir_valor("Ingrese una edad válida (3-98): ", int)
 
 def generacion_dni_realista(edad):
     """
@@ -401,7 +431,7 @@ def mostrar_usuarios(pacientes):
     ancho = 60
 
     print(f"{rojo}{'=' * ancho}{default}")
-    print(f"{rojo}{'USUARIOS GENEADOS'.center(ancho)}{default}")
+    print(f"{rojo}{'USUARIOS GENERADOS'.center(ancho)}{default}")
     print(f"{rojo}{'=' * ancho}{default}\n")
 
     for pac in pacientes:
@@ -444,7 +474,7 @@ def principal_pacientes(pacientes):
             auxiliares.linea_iguales(auxiliares.ANCHO)
 
             try:
-                opcion_p = input("Selecicone una opcion: ").strip()
+                opcion_p = input("Seleccione una opcion: ").strip()
                 assert opcion_p in [str(i) for i in range(0, opciones + 1)], "Opcion invalida"
                 valida = True
             except AssertionError as e:
@@ -459,6 +489,7 @@ def principal_pacientes(pacientes):
 
             elif opcion_p == "2":
                 leer_pacientes(pacientes)
+                input("\nPresione Enter para volver al menú...")
 
             elif opcion_p == "3":
                 actualizar_paciente(pacientes)
@@ -471,6 +502,7 @@ def principal_pacientes(pacientes):
 
             elif opcion_p == "6":
                 mostrar_usuarios(pacientes)
+                input("\nPresione Enter para volver al menú...")
 
     return pacientes
 
