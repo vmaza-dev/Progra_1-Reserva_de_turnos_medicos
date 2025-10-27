@@ -11,42 +11,42 @@ import random, auxiliares
 #🟥 CON ERRORESeS
 
 """=========================================================== FUNCIONES C.R.U.D ====================================================================="""
-def ingresar_nombre_medico(): #✅
+def ingresar_nyap_medico(): #✅
     """
-    Solicita al usuario el nombre de un médico *ingresa el nombre* .
+    Solicita al usuario el nyap de un médico *ingresa el nyap* .
 
     Returns:
-        str: Nombre ingresado.
+        str: nyap ingresado.
     """
-    nombre = input("Ingrese el nombre del medico: ")
-    return nombre
+    nyap = input("Ingrese el nyap del medico: ")
+    return nyap
 
-def ingresar_espe(nombreMed="el médico"): #✅
+def ingresar_espe(nyapMed="el médico"): #✅
     """
     Solicita al usuario la especialidad a ingresar del medico
     
     Parametros
-        nombreMed (str): Nombre del medico utilizado para despues mostrar en el promp
+        nyapMed (str): nyap del medico utilizado para despues mostrar en el promp
         
     Returns:
         str: Especialidad ingresada.
     """
-    especialidad = input(f"Ingrese la especialidad de {nombreMed}: ") #Uso fPrints ya que el input no puede concatenar cadenas con ","
+    especialidad = input(f"Ingrese la especialidad de {nyapMed}: ") #Uso fPrints ya que el input no puede concatenar cadenas con ","
     return especialidad
 
-def ingresar_antig(nombreMed): #🟨
+def ingresar_antig(nyapMed): #🟨
     """
     Solicita al usuario la antiguedad (años de experiencia de un medico)
     
     Parametros:
-        nombreMed (str): Nombre del medico, utilizado para mostrar en el prompt
+        nyapMed (str): nyap del medico, utilizado para mostrar en el prompt
         
     Returns:
         int: Antiguedad en años.
     """
     try:
         while True:
-            antiguedad = int(input(f"Ingrese la antiguedad de {nombreMed}: "))
+            antiguedad = int(input(f"Ingrese la antiguedad de {nyapMed}: "))
             assert (antiguedad >= 0)
             return antiguedad
     except ValueError: auxiliares.imprimir_error("Ingrese un numero entero")
@@ -93,22 +93,22 @@ def crear_medico(listaMeds, listaIDs): #🟨
     
     Parametros:
         - listaMeds (list): Matriz que almacena los medicos registrados.
-        cada medico se guarda con el formato: [ID,Nombre, Especialidad, Antiguedad , Estado]
+        cada medico se guarda con el formato: [ID,nyap, Especialidad, Antiguedad , Estado]
         - listaIDs (list): Lista que almacena los IDs ya utilizados, para evitar repeticiones.
 
     Flujo:
         - Genera un ID aleatorio de 4 digitos
-        - Pide al usuario (nombre,especialidad y antiguedad)
+        - Pide al usuario (nyap,especialidad y antiguedad)
         - Define el estado inicial como activo (1)
         - Agrega la informacion del medico a la matriz
         """
-    nombreCompleto = ingresar_nombre_medico()
+    nyapCompleto = ingresar_nyap_medico()
     idMed = generar_id(listaIDs)
     if (idMed == -1):
         print("ERROR al crear medico. No hay más IDs disponibles")
         return
     listaIDs.append(idMed)
-    listaMeds.append({"ID": idMed, "nombre": nombreCompleto, "espec": ingresar_espe(nombreCompleto), "antig": ingresar_antig(nombreCompleto), "estado": True})
+    listaMeds.append({"ID": idMed, "nyap": nyapCompleto, "espec": ingresar_espe(nyapCompleto), "antig": ingresar_antig(nyapCompleto), "estado": True})
 
 def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
     """
@@ -116,17 +116,17 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
     
     Parametros:
         - listaMeds (list): Matriz que almacena los medicos registrados. 
-        Cada medico se guarda con el formato: [ID,Nombre, Especialidad, Antiguedad , Estado]
+        Cada medico se guarda con el formato: [ID,nyap, Especialidad, Antiguedad , Estado]
         - listaIDs (list): Lista que almacena los IDs ya utilizados, para evitar repeticiones.
 
     Flujo:
-        - Genera un nombre completo usando la función 'random.choice()' y listas auxiliares de nombres y apellidos
+        - Genera un nyap completo usando la función 'random.choice()' y listas auxiliares de nyaps y apellidos
         - Genera una especialidad aleatoria usando 'random.choice()' y una lista auxiliar de especialidades
         - Genera un ID aleatorio de 6 digitos
         - Agrega la informacion del medico a la matriz de Medicos, dejandolo con el estado "Activo" (True) por defecto.
     """
     for i in range(cantCrear):
-        nombre = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
+        nyap = random.choice(auxiliares.nyaps) + " " + random.choice(auxiliares.apellidos)
         espe = random.choice(auxiliares.especialidades)
         idMed = generar_id(listaIDs)
         if (idMed == -1):
@@ -134,7 +134,7 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
             return
         
         listaIDs.append(idMed)
-        listaMeds.append({"ID":idMed, "nombre":nombre, "espec":espe, "antig":random.randint(1,30), "estado":True})
+        listaMeds.append({"ID":idMed, "nyap":nyap, "espec":espe, "antig":random.randint(1,30), "estado":True})
 
 """============================================================== ACTUALIZAR ============================================================================"""
 def buscar_medico_id(listaMeds, idMed): #🟨
@@ -143,8 +143,8 @@ def buscar_medico_id(listaMeds, idMed): #🟨
             return med
     return False
 
-def menu_act_antig(med, nombreMed): #🟨
-    titulo = "LA ANTIGÜEDAD DE " + nombreMed + " ES " + str(med["antig"])
+def menu_act_antig(med, nyapMed): #🟨
+    titulo = "LA ANTIGÜEDAD DE " + nyapMed + " ES " + str(med["antig"])
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > ACTUALIZAR MEDICO > ANTIGÜEDAD', auxiliares.ANCHO, '\033[1m')
@@ -163,21 +163,21 @@ def menu_act_antig(med, nombreMed): #🟨
         case 0: return 0
         case 1: med["antig"] += 1
         case 2: med["antig"] -= 1
-        case 3: med["antig"] = ingresar_antig(nombreMed)
+        case 3: med["antig"] = ingresar_antig(nyapMed)
     print("\nAntigüedad modificada exitosamente a:", med["antig"])
     return 0
 
-def actu_medico(med, nombreMed): #🟨
+def actu_medico(med, nyapMed): #🟨
     """
     Permite modificar los datos de un medico que ya estaba registrado.
 
     Parametros:
-        listaMed (list): Lista que representa a un medico, en el formato:[ID, Nombre, Especialidad, Antiguedad, Estado]
-        nombreMed (str):Nombre del medico que solo se va a utilizar para mostrar mensajes
+        listaMed (list): Lista que representa a un medico, en el formato:[ID, nyap, Especialidad, Antiguedad, Estado]
+        nyapMed (str):nyap del medico que solo se va a utilizar para mostrar mensajes
 
     Flujo: 
         - Muestra un menu de opciones de edicion
-        - Permite modificar : nombre, especialidad, antiguedad o estado.
+        - Permite modificar : nyap, especialidad, antiguedad o estado.
         - Actualiza directamente la lista del medico.
     """
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -185,7 +185,7 @@ def actu_medico(med, nombreMed): #🟨
     print("")
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
-    auxiliares.imprimir_opcion(1, 'NOMBRE Y APELLIDO', '1;33', False)
+    auxiliares.imprimir_opcion(1, 'nyap Y APELLIDO', '1;33', False)
     auxiliares.imprimir_opcion(2, 'ESPECIALIDAD', '1;34')
     auxiliares.imprimir_opcion(3, 'ANTIGÜEDAD', '1;35')
     auxiliares.imprimir_opcion(4, 'ESTADO (DAR DE BAJA/ALTA)', '1;31')
@@ -196,21 +196,21 @@ def actu_medico(med, nombreMed): #🟨
     match opcion:
         case 0: return 0
         case 1: 
-            med["nombre"] = ingresar_nombre_medico()
-            print("Nombre modificado exitosamente a:", med["nombre"])
+            med["nyap"] = ingresar_nyap_medico()
+            print("nyap modificado exitosamente a:", med["nyap"])
         case 2: 
-            med["espec"] = ingresar_espe(nombreMed)
+            med["espec"] = ingresar_espe(nyapMed)
             print("Especialidad modificada exitosamente a:", med["espec"])
         case 3:
             auxiliares.limpiar_terminal()
-            opcion = menu_act_antig(med, nombreMed)
+            opcion = menu_act_antig(med, nyapMed)
         case 4:
             if (not med["estado"]):
                 med["estado"] = True
-                print("El médico", nombreMed, "ahora se encuentra activo")
+                print("El médico", nyapMed, "ahora se encuentra activo")
             else:
                 med["estado"] = False
-                print("El médico", nombreMed, "ahora se encuentra dado de baja")
+                print("El médico", nyapMed, "ahora se encuentra dado de baja")
 
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
     return 0
@@ -221,18 +221,18 @@ def imprimir_medico(med): #🟨
    Imprime en un auxiliares.ANCHO de 111 cada elemento del médico, modificando su color según ciertas condiciones en algunos casos.
 
     Parametros:
-        med (list): Lista que representa a un medico, en el formato:[ID, Nombre, Especialidad, Antiguedad, Estado]
+        med (list): Lista que representa a un medico, en el formato:[ID, nyap, Especialidad, Antiguedad, Estado]
 
     Flujo: 
         - Imprime el ID del médico centrado en 6 caracteres
-        - Imprime el nombre comleto del médico ajustado a la izquierda en 41 caracteres y en negrita.
+        - Imprime el nyap comleto del médico ajustado a la izquierda en 41 caracteres y en negrita.
         - Imprime la especialidad del médico ajustada a la izquierda en 21 caracteres.
         - Imprime la antigüedad del médico ajustada la izquierda en 11 caracteres, en caso de ser mayor a 25 se colorea de amarillo
         - Imprime el estado del médico, verde para activo, rojo para inactivo.
     """
     try:
         print(f"| {str(med['ID']).ljust(6)}", end=" |")
-        print(f"| \033[1m{med['nombre'].ljust(41)}\033[0m", end=" |")
+        print(f"| \033[1m{med['nyap'].ljust(41)}\033[0m", end=" |")
         print(f"| {med['espec'].ljust(21)}", end=" |")
         print(f"| \033[33m{str(med['antig']).ljust(11)}\033[0m", end=" |") if (med['antig'] > 25) else print(f"| {str(med['antig']).ljust(11)}", end=" |")
         if (med['estado']):
@@ -251,14 +251,14 @@ def header_medicos(anchoTotal): #✅
 
     Flujo: 
         - Llama a la función "linea_iguales()" para imprimir una linea de '='
-        - Imprime 'ID', 'NOMBRE COMPLETO', 'ESPECIALIDAD', 'ANTIGÜEDAD' Y 'ESTADO' todos centrados, en negrita y color azul.
+        - Imprime 'ID', 'nyap COMPLETO', 'ESPECIALIDAD', 'ANTIGÜEDAD' Y 'ESTADO' todos centrados, en negrita y color azul.
         - Llama nuevamente a la función auxiliar "linea_iguales()"
     """
 
     auxiliares.linea_iguales(anchoTotal)
 
     print(f"| \033[1;34m{'ID'.center(6)}\033[0m", end=" |")
-    print(f"| \033[1;34m{'NOMBRE COMPLETO'.center(41)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'nyap COMPLETO'.center(41)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ESPECIALIDAD'.center(21)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ANTIGÜEDAD'.center(11)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ESTADO'.center(12)}\033[0m", end=" |\n")
@@ -316,7 +316,7 @@ def buscar_borrar_med(idElim, listaMeds): #🟨
 
     Parametros: 
         idElim (int): ID del medico a eliminar.
-        meds (list): Lista de medicos, donde cada medico es una lista en el formato: [ID, Nombre, Especialidad, Antiguedad, Estado]
+        meds (list): Lista de medicos, donde cada medico es una lista en el formato: [ID, nyap, Especialidad, Antiguedad, Estado]
         
     Returns:
         bool: True si se encontro y elimino al medico, false si no se encontro.
@@ -374,7 +374,7 @@ def imprimir_porcentaje_estado(total, activos, inactivos): #✅
     auxiliares.imprimir_tres_encabezados(str(total), (str(pActivos)+' %'), (str(pInactivos)+' %'), "", '\033[32m', '\033[31m')
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-#ID, NOMBRE, ESPECIALIDAD, ANTIGUEDAD, ESTADO
+#ID, nyap, ESPECIALIDAD, ANTIGUEDAD, ESTADO
 def porcentaje_estado(listaMeds): #🟨
     """
     Recorre la matriz y suma dos acumuladores: Uno para los medicos activos y otro para los inactivos, posteriormente calcula que porcentaje
@@ -627,7 +627,7 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
         case 3: #
             auxiliares.limpiar_terminal()
             medico = buscar_medico_id(listaMeds, ingresar_id())
-            if (medico): opcion = actu_medico(medico, medico["nombre"])
+            if (medico): opcion = actu_medico(medico, medico["nyap"])
             else: print("Medico no encontrado")
         case 4:
             auxiliares.limpiar_terminal()
@@ -700,15 +700,15 @@ def menu_medicos(): #🟨
     [156904, "Fernando Guerra", "Traumatologia", 10, 1],
     [777555, "Guillermo Smith", "Traumatologia", 25, 1],
     [321987, "Rodrigo Rodríguez", "Urologia", 5, 0]
-] #ID, Nombre, Especialidad, Antiguedad, Estado"""
+] #ID, nyap, Especialidad, Antiguedad, Estado"""
 
-# ID, nombre, espec, antig, estado
+# ID, nyap, espec, antig, estado
 listaMedicos = [
-    {"ID": 100000, "nombre": "Juan Pérez", "espec":"Traumatologia", "antig":5, "estado":0},
-    {"ID": 999999, "nombre": "Ataúlfo Américo Djandjikian", "espec":"Otorrinonaringologia", "antig":26, "estado":1},
-    {"ID": 156904, "nombre": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
-    {"ID": 777555, "nombre": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
-    {"ID": 321987, "nombre": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
+    {"ID": 100000, "nyap": "Juan Pérez", "espec":"Traumatologia", "antig":5, "estado":0},
+    {"ID": 999999, "nyap": "Ataúlfo Américo Djandjikian", "espec":"Otorrinonaringologia", "antig":26, "estado":1},
+    {"ID": 156904, "nyap": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
+    {"ID": 777555, "nyap": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
+    {"ID": 321987, "nyap": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
 ]
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]

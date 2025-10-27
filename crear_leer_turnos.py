@@ -756,7 +756,7 @@ def consultar_por_fecha(matriz_turnos, matriz_pacs, matriz_meds):#✅
     # informo médico con mayor cantidad de turnos
     conteos_medicos = contar_ocurr_valor_turnos(turnos_fecha, 'medico', medicos_fecha )
     # print(conteos_medicos)
-    conteos_11320706medicos.sort(key= lambda fila: fila[1], reverse=True )
+    conteos_medicos.sort(key= lambda fila: fila[1], reverse=True )
 
     print(f"Médico con mayor cantidad de turnos\
     {devolver_nombre_persona(matriz_meds, conteos_medicos[0][0],'ID')}: {conteos_medicos[0][1]} turnos ")
