@@ -108,7 +108,7 @@ def crear_medico(listaMeds, listaIDs): #🟨
         print("ERROR al crear medico. No hay más IDs disponibles")
         return
     listaIDs.append(idMed)
-    listaMeds.append({"ID": idMed, "nyap": nombreCompleto, "espec": ingresar_espe(nombreCompleto), "antig": ingresar_antig(nombreCompleto), "estado": True})
+    listaMeds.append({"ID": idMed, "nombre": nombreCompleto, "espec": ingresar_espe(nombreCompleto), "antig": ingresar_antig(nombreCompleto), "estado": True})
 
 def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
     """
@@ -126,7 +126,7 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
         - Agrega la informacion del medico a la matriz de Medicos, dejandolo con el estado "Activo" (True) por defecto.
     """
     for i in range(cantCrear):
-        nyap = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
+        nombre = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
         espe = random.choice(auxiliares.especialidades)
         idMed = generar_id(listaIDs)
         if (idMed == -1):
@@ -134,7 +134,7 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
             return
         
         listaIDs.append(idMed)
-        listaMeds.append({"ID":idMed, "nyap":nyap, "espec":espe, "antig":random.randint(1,30), "estado":True})
+        listaMeds.append({"ID":idMed, "nombre":nombre, "espec":espe, "antig":random.randint(1,30), "estado":True})
 
 """============================================================== ACTUALIZAR ============================================================================"""
 def buscar_medico_id(listaMeds, idMed): #🟨
@@ -196,8 +196,8 @@ def actu_medico(med, nombreMed): #🟨
     match opcion:
         case 0: return 0
         case 1: 
-            med["nyap"] = ingresar_nombre_medico()
-            print("Nombre modificado exitosamente a:", med["nyap"])
+            med["nombre"] = ingresar_nombre_medico()
+            print("Nombre modificado exitosamente a:", med["nombre"])
         case 2: 
             med["espec"] = ingresar_espe(nombreMed)
             print("Especialidad modificada exitosamente a:", med["espec"])
@@ -232,7 +232,7 @@ def imprimir_medico(med): #🟨
     """
     try:
         print(f"| {str(med['ID']).ljust(6)}", end=" |")
-        print(f"| \033[1m{med['nyap'].ljust(41)}\033[0m", end=" |")
+        print(f"| \033[1m{med['nombre'].ljust(41)}\033[0m", end=" |")
         print(f"| {med['espec'].ljust(21)}", end=" |")
         print(f"| \033[33m{str(med['antig']).ljust(11)}\033[0m", end=" |") if (med['antig'] > 25) else print(f"| {str(med['antig']).ljust(11)}", end=" |")
         if (med['estado']):
@@ -627,7 +627,7 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
         case 3: #
             auxiliares.limpiar_terminal()
             medico = buscar_medico_id(listaMeds, ingresar_id())
-            if (medico): opcion = actu_medico(medico, medico["nyap"])
+            if (medico): opcion = actu_medico(medico, medico["nombre"])
             else: print("Medico no encontrado")
         case 4:
             auxiliares.limpiar_terminal()
@@ -702,13 +702,13 @@ def menu_medicos(): #🟨
     [321987, "Rodrigo Rodríguez", "Urologia", 5, 0]
 ] #ID, Nombre, Especialidad, Antiguedad, Estado"""
 
-# ID, nyap, espec, antig, estado
+# ID, nombre, espec, antig, estado
 listaMedicos = [
-    {"ID": 100000, "nyap": "Juan Pérez", "espec":"Traumatologia", "antig":5, "estado":0},
-    {"ID": 999999, "nyap": "Ataúlfo Américo Djandjikian", "espec":"Otorrinonaringologia", "antig":26, "estado":1},
-    {"ID": 156904, "nyap": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
-    {"ID": 777555, "nyap": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
-    {"ID": 321987, "nyap": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
+    {"ID": 100000, "nombre": "Juan Pérez", "espec":"Traumatologia", "antig":5, "estado":0},
+    {"ID": 999999, "nombre": "Ataúlfo Américo Djandjikian", "espec":"Otorrinonaringologia", "antig":26, "estado":1},
+    {"ID": 156904, "nombre": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
+    {"ID": 777555, "nombre": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
+    {"ID": 321987, "nombre": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
 ]
 
 idsUsados = [100000, 999999, 156904, 777555, 321987]
