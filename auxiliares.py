@@ -6,7 +6,7 @@
 # ==============================================================================
 
 from datetime import datetime, date, timedelta
-import random, re, calendar, calendario
+import random, re, calendar, calendario, json
 ANCHO = 111
 
 nombres = [
@@ -95,6 +95,11 @@ def linea_guiones(ancho):
 def linea_numeral(ancho):
     print('#'*ancho)
 
+def guardar_archivo_json(elemGuardar, ruta):
+    arch = open(ruta, "wt", encoding="UTF-8")
+    json.dump(elemGuardar, arch, ensure_ascii=False, indent=4)
+    arch.close()
+
 def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     if (guiones):
         linea_guiones(ANCHO)
@@ -144,6 +149,15 @@ def imprimir_error(texto):
 
     textoImprimir = f"\033[1;31m[ERROR]\033[0m: \033[0;33m{texto}\033[0m"
     espacios = len(textoImprimir) - len(f"[ERROR]: {texto}")
+    print(f"| " + textoImprimir.ljust(ANCHO-4) + " " * espacios, end=" |\n")
+
+    linea_numeral(ANCHO)
+
+def imprimir_error_desconocido():
+    linea_numeral(ANCHO)
+
+    textoImprimir = f"\033[1;31m[ERROR]\033[0m: \033[0;33mERROR DESCONOCIDO\033[0m"
+    espacios = len(textoImprimir) - len(f"[ERROR]: ERROR DESCONOCIDO")
     print(f"| " + textoImprimir.ljust(ANCHO-4) + " " * espacios, end=" |\n")
 
     linea_numeral(ANCHO)
