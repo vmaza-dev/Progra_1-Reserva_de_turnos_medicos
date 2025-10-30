@@ -765,19 +765,10 @@ def inicializar_modulo_medicos():
     {"ID": 321987, "nombre": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
 ]"""
 
-#cargar_listaMed_archivo(listaMedicos, "datos/arch_medicos.txt")
-#idsUsados = [100000, 999999, 156904, 777555, 321987]
-#crear_medicos_random(listaMedicos, 5, idsUsados)
-
 # inicializar_modulo_medicos()
 
-#auxiliares.limpiar_terminal()
-#menu_medicos()
-
 # CAMBIOS A REALIZAR:
-# MEJORAR GESTION DE IDS USADOS
 # ADAPTAR FUNCIONES A DICCIONARIOS 🟨
 # CORREGIR PEQUEÑOS ERRORES QUE QUEDARON 
-# CAMBIAR VALIDACIONES POR TRY-CATCH
 
 
