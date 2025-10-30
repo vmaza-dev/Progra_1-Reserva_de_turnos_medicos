@@ -507,4 +507,4 @@ def principal_pacientes(pacientes):
     return pacientes
 
 inicializar_pacientes_random()
-principal_pacientes(pacientes)
+# principal_pacientes(pacientes)

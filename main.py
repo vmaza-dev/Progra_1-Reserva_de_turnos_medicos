@@ -12,7 +12,7 @@
 
 from pacientes import principal_pacientes,inicializar_pacientes_random
 from turnos import principal_crear_leer_turnos
-from medicos import menu_medicos, listaMedicos
+from medicos import inicializar_modulo_medicos, obtener_medicos # Todo: Revisar!
 import auxiliares
 
 # # ==============================================================================
@@ -24,10 +24,10 @@ def main():
     # Inicialización de variables que necesitemos
     #-------------------------------------------------
     matriz_pacientes = inicializar_pacientes_random()
+    listaMedicos = obtener_medicos()# Todo: necesito la manera de crear el arhivo de los médicos
 
-    matriz_turnos = []
     # creo turnos random
-    principal_crear_leer_turnos(matriz_turnos, listaMedicos, matriz_pacientes)
+    principal_crear_leer_turnos(listaMedicos, matriz_pacientes)
 
     #-------------------------------------------------
     # Bloque de menú
@@ -59,7 +59,7 @@ def main():
             exit() # También puede ser sys.exit() para lo cual hay que importar el módulo sys
 
         elif opcion == "1":   # Opción 1
-            principal_crear_leer_turnos(matriz_turnos, listaMedicos, matriz_pacientes, 1)
+            principal_crear_leer_turnos(listaMedicos, matriz_pacientes, 1)
 
         elif opcion == "2":   # Opción 2
             auxiliares.limpiar_terminal()
@@ -67,7 +67,7 @@ def main():
 
         elif opcion == "3":   # Opción 3
             auxiliares.limpiar_terminal()
-            menu_medicos()
+            inicializar_modulo_medicos()
         elif opcion == "4":   # Opción 4
             ...
         elif opcion == "5":   # Opción 5
