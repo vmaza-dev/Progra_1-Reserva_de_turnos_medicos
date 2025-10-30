@@ -8,7 +8,8 @@
 #----------------------------- MODULOS DE PYTHON -------------------------------
 #-------------------------------------------------------------------------------
 
-from datetime import datetime
+from datetime import date
+import json
 
 #-------------------------------------------------------------------------------
 #---------------------------- MODULOS DEL PROYECTO -----------------------------
@@ -18,11 +19,71 @@ import auxiliares
 import crear_leer_turnos
 import actualizar_eliminar_turnos
 
+#-------------------------------------------------------------------------------
+# FUNCIONES LECTURA/ESCRITURA DE ARCHIVOS --------------------------------------
+#-------------------------------------------------------------------------------
+
+def crear_leer_matriz_turno():
+    """
+    Crea la base de datos de turnos, una lista.
+
+    En primer lugar verifica si el archivo existe, sino existe crea el 
+    archivo vacio.
+
+    """
+    try: 
+        with open('datos/archivo_turnos.json', 'r', encoding='UTF-8') as turnos:
+            lista_turnos = json.load(turnos)
+        # paso las fechas que son string a tipo date para poder trabajar en
+        # el modulo
+        for turno in lista_turnos:
+            turno['fecha'] = date.fromisoformat(turno['fecha'])
+
+        return lista_turnos
+    except FileNotFoundError:
+        try:
+            lista_turnos_vacia = []
+            with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
+                json.dump(lista_turnos_vacia, turnos, ensure_ascii=False, indent=4)
+            
+            return lista_turnos_vacia
+        except FileNotFoundError:
+            print('No se pudo crear el archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+        except OSError:
+            print('No se pudo crear el archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+    except OSError:
+        print('No se pudo inicializar el programa')
+        input('Presione un tecla para continuar: ')
+
+    return
+
+def escribir_turnos(matriz_turnos):
+    """
+    Actualiza la base de datos de turnos generados.
+    
+    Args:
+        matriz_turnos(list[dic]): Lista de diccionarios actualizada.
+    """
+    try:
+        with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
+                json.dump(matriz_turnos, turnos, ensure_ascii=False, indent=4, default=str)
+                # el default=str es para que pueda serializar el objeto tipo date
+                # que es la fecha, se va a guardar como string
+                # al deserilizar es necesario pasar a tipo date.
+    except FileNotFoundError:
+            print('No se pudo actualizar archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+    except OSError:
+            print('No se pudo actualizar el archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+
 # ==============================================================================
 # ===============================FUNCION PRINCIPAL==============================
 # ==============================================================================
 
-def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion = 0):
+def principal_crear_leer_turnos(matriz_meds, matriz_pacs, opcion = 0):
     """
     Función principal del módulo turnos.
 
@@ -40,12 +101,18 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
     crear_leer_turnos.logo_turnos()
     match opcion:
         case 0:
-            crear_leer_turnos.crear_turnos(matriz_turnos,
-                                matriz_pacs,
-                                matriz_meds, True)
+            # creo o cargo el archivo de turnos
+            matriz_turnos = crear_leer_matriz_turno()
+            if len(matriz_turnos) == 0:# este bloque es para que no sume mas turnos, solo me quedo con 10
+                crear_leer_turnos.crear_turnos(matriz_turnos,
+                                    matriz_pacs,
+                                    matriz_meds, True)
         case 1:
 
             while True:
+                # actualizo el archivo de turnos luego de hacer las operaciones con 
+                # las funciones del modulo
+                matriz_turnos = crear_leer_matriz_turno()
                 crear_leer_turnos.logo_turnos()
                 while True:
                     opciones = 4
@@ -128,18 +195,16 @@ def principal_crear_leer_turnos(matriz_turnos, matriz_meds, matriz_pacs, opcion 
                         if opcion == "0": # Opción salir del submenú
                             break # No salimos del programa, volvemos al menú anterior
                         elif opcion == "1":   # Opción 1
-                            crear_leer_turnos.leer_turnos(matriz_turnos,
-                                                          matriz_pacs,
+                            crear_leer_turnos.leer_turnos(matriz_turnos,matriz_pacs,
                                                           matriz_meds)
                             input("\nPresione ENTER para volver al menú.")
                             
                         elif opcion == "2":   # Opción 2
-                            crear_leer_turnos.consultar_turno(matriz_turnos,
-                                                              matriz_pacs,
+                            crear_leer_turnos.consultar_turno(matriz_turnos,matriz_pacs,
                                                               matriz_meds)
                             input("\nPresione ENTER para volver al menú.")
 
                 elif opcion == "3":   # Opción 3
-                    actualizar_eliminar_turnos.principal_actualizar_turnos(matriz_turnos, auxiliares.crear_horario_atencion(), auxiliares.crear_mes())   
+                    actualizar_eliminar_turnos.principal_actualizar_turnos(matriz_turnos, auxiliares.crear_horario_atencion(), auxiliares.crear_mes())  
                 elif opcion == "4":   # Opción 4
                     actualizar_eliminar_turnos.principal_eliminar_turnos(matriz_turnos)

@@ -80,12 +80,12 @@ def edit_turnos(m_turnos, hora_turnos, mes, anio):
     return False
 
 
-def principal_actualizar_turnos(matriz_turnos, hora_turnos, mes, anio):
+def principal_actualizar_turnos(matriz_turnos, hora_turnos, info_mes):
     try:
         if not matriz_turnos:
             print("No hay turnos cargados")
             return 0
-        return edit_turnos(matriz_turnos, hora_turnos, mes, anio)
+        return edit_turnos(matriz_turnos, hora_turnos, info_mes('mes'), info_mes('anio'))
     except Exception as e:
         print(f"Error al actualizar turnos: {e}")
         return 0

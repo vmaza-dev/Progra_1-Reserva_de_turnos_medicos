@@ -11,13 +11,15 @@
 
 import random, re
 from datetime import date
+import json
 
 #-------------------------------------------------------------------------------
 #---------------------------- MODULOS DEL PROYECTO -----------------------------
 #-------------------------------------------------------------------------------
 
 import auxiliares, calendario, turnos
-from pacientes import crear_paciente
+from pacientes import principal_pacientes
+from turnos import escribir_turnos
 
 #-------------------------------------------------------------------------------
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
@@ -103,6 +105,7 @@ def ingresar_opcion_elegida(lista_opciones):# TODO: Funciona bien pero refactori
             opcion = auxiliares.ingresar_respuesta_str("")
         else:
             opcion_valida = True
+            
     opcion_elegida = int(opcion)-1
     return opcion_elegida
 
@@ -298,8 +301,7 @@ def filtrar_personas_por_dato(lista_personas, key, valor):#✅
         persona = lista_personas[indice_fila]
         return persona
     else:
-        return -1
-    # TODO: Acá pordría ir un try/except?
+        raise Warning('Persona no encontrada')
 
 def devolver_turnos_med(matriz_turnos, mat_med, fecha, hora_turnos, libres = True):#✅
     """
@@ -409,6 +411,7 @@ def obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
     fecha, dia_semana = elegir_fecha(info_mes['mes_en_numero'], info_mes['anio'])
 
     # seleccionar médico y hora
+    
     try:
         matricula_medico, hora_turno = elegir_medico(matriz_turnos, matriz_meds,
                                                         especialidad_medico,
@@ -416,11 +419,10 @@ def obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
     except TypeError as mensaje_error:
         auxiliares.limpiar_terminal()
         print(mensaje_error)
-        auxiliares.ingresar_respuesta_str('Presione enter para empezar de nuevo ')
-        obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
+        auxiliares.ingresar_respuesta_str('Presione enter para empezar de nuevo')
+        # uso recursividad!
+        return obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
         
-    # TODO: Aca tiene que ir un bloque que pida otra fecha en caso de que no haya turnos libres
-    # Puede ir un raise error y usar try and execetp
     estado_turno = auxiliares.estado_turno['activo']
     datos_turno = {'fecha':fecha,
                 'hora':hora_turno,
@@ -665,15 +667,15 @@ def mostrar_opcion_turnos_medico(matriz_meds, medicos_horarios_libres, fecha_tur
 
     print("-"*56)
 
-def confirmar_ingreso_paciente(datos_del_paciente):# TODO: Está bien falta ver como son las keys de pacientes ✅
+def confirmar_ingreso_paciente(datos_del_paciente):
     """
     Confirma el ingreso de un paciente devolviendo su información.
     """
 
     print("----------------------------------")
     print("[ENTER] CONFIRMAR INGRESO PACIENTE")
-    print("----------------------------------")
     print("[0]     CANCELAR")
+    print("----------------------------------")
     print("#"*34)
     print(f"{datos_del_paciente['nombre']} DNI: {datos_del_paciente['dni']}"
           f" EDAD: {datos_del_paciente['edad']} OBRA SOCIAL: {datos_del_paciente['obra_social']}")
@@ -781,14 +783,15 @@ def consultar_por_paciente( matriz_turnos, matriz_pacs, matriz_meds):#✅
     info_mes = auxiliares.crear_mes()
     mostrar_encabezado_consulta("consulta por paciente")
     dni_paci = ingresar_dni_paciente()
-
-    datos_paci = filtrar_personas_por_dato(matriz_pacs, 'dni', dni_paci)
-    
-    if datos_paci == -1:
+    try:
+        datos_paci = filtrar_personas_por_dato(matriz_pacs, 'dni', dni_paci)
+    except Warning as mensaje:
+        print(f'{alerta(str(mensaje).upper())}')# Todo: acá usar la funcion de nico de imprimir error
         print(alerta("PACIENTE NO REGISTRADO"))
-        print(alerta("DIRIJASE A GESTIÓN PACIENTES"))
+        print(alerta("DIRIJASE A GESTIÓN PACIENTES > CREAR PACIENTES"))# Todo: llamar a pacientes
+        input("\nPresione ENTER para volver al menú.")
         return
-
+    
     confirmacion = confirmar_ingreso_paciente(datos_paci)
 
     if confirmacion == False:
@@ -883,6 +886,7 @@ def crear_turnos(matriz_turnos, matriz_pacs, matriz_meds, rnd = False):#✅
     if rnd == True:
         crear_turnos_random(matriz_turnos, matriz_pacs, matriz_meds, info_mes)
         return
+    
     nuevo_turno = {'id':"void"}
     datos_turno, dia_semana = obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
     
@@ -899,7 +903,10 @@ def crear_turnos(matriz_turnos, matriz_pacs, matriz_meds, rnd = False):#✅
     nuevo_turno.update({'id':id})
     nuevo_turno.update(datos_turno)
     matriz_turnos.append(nuevo_turno)
+    escribir_turnos(matriz_turnos)
     print(f"Turno generado exitosamente!")
+
+    return
 
 def crear_turnos_random(matriz_turnos, matriz_pacs, matriz_meds,info_mes, n_turnos = 10):
     """
@@ -929,8 +936,10 @@ def crear_turnos_random(matriz_turnos, matriz_pacs, matriz_meds,info_mes, n_turn
         id = crear_id_turno(matriz_turnos)
         nuevo_turno.update({'id':id})
         nuevo_turno.update(datos_turno)# acá esta el error
-
         matriz_turnos.append(nuevo_turno)
+
+    escribir_turnos(matriz_turnos)
+    
 
     return        
  

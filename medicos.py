@@ -769,7 +769,7 @@ def inicializar_modulo_medicos():
 #idsUsados = [100000, 999999, 156904, 777555, 321987]
 #crear_medicos_random(listaMedicos, 5, idsUsados)
 
-inicializar_modulo_medicos()
+# inicializar_modulo_medicos()
 
 #auxiliares.limpiar_terminal()
 #menu_medicos()
