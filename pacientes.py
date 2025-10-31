@@ -5,11 +5,29 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, auxiliares, re
+import random, auxiliares, re, json
 pacientes = []
-print("l")
 
+print("l")
 OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
+
+# ==============================================================================
+# FUNCIONES ARCHIVOS
+# ==============================================================================
+def cargar_pacientes_json():
+    try:
+        with open("arch_pacientes.json" , "r", encoding="UTF-8") as arch:
+            return json.load(arch)
+    except (FileNotFoundError):
+        print("El archivo no se pudo encontrar o esta vacio")
+        return []
+
+def guardar_pacientes_json(pacientes):
+    try:
+        with open("arch_pacientes.json" , "w", encoding="UTF-8") as arch:
+            json.dump(pacientes, arch, ensure_ascii=False, indent=4)
+    except OSError:
+        print("Error al guardar lso pacientes")
 
 # ==============================================================================
 # CRUD
@@ -30,6 +48,7 @@ def crear_paciente(id):
     Return:
         diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
+    pacientes = cargar_pacientes_json()
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
     while True:
         try:
@@ -59,6 +78,8 @@ def crear_paciente(id):
         'obra_social': obra_social
     }
 
+    pacientes.append(paciente)
+    guardar_pacientes_json(pacientes)
     return paciente
 
 def crear_pacientes_random(pacientes, cantCrear):
@@ -72,6 +93,7 @@ def crear_pacientes_random(pacientes, cantCrear):
     Returns:
         None.
     """
+    pacientes = cargar_pacientes_json()
     for i in range(cantCrear):
         nombreCompleto = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
         edad = validacion_edad(random.randint(3, 98))
@@ -80,6 +102,7 @@ def crear_pacientes_random(pacientes, cantCrear):
         id = id_unico(pacientes)
         
         pacientes.append({'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social})
+    guardar_pacientes_json(pacientes)
 
 def imprimir_paciente(pacientes):
     """
@@ -120,6 +143,7 @@ def leer_pacientes(pacientes):
     Returns:
         None.
     """
+    pacientes = cargar_pacientes_json()
     imprimir_paciente(pacientes)
 
 def buscar_id_paciente(pacientes):
@@ -152,6 +176,7 @@ def actualizar_paciente(pacientes):
     Permite modificar los datos de un paciente por ID.
     Incluye validacion de obra social.
     """
+    pacientes = cargar_pacientes_json()
 
     print("\n=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
@@ -188,14 +213,17 @@ def actualizar_paciente(pacientes):
                     if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
                         print("Opcion invalida, intente nuevamente.")
                 pac['obra_social'] = OBRAS_SOCIALES[op_obra - 1]
-                print("Perfil actualizado del paciente:")
-                imprimir_paciente([pac])
+
+        guardar_pacientes_json(pacientes)
+        print("Perfil actualizado del paciente:")
+        imprimir_paciente([pac])
 
 def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
     Muestra un listado previo para facilitar la eleccion.
     """
+    pacientes = cargar_pacientes_json()
     print("=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
     id = auxiliares.pedir_valor("Ingrese el ID del paciente a eliminar: ", int)
@@ -219,6 +247,7 @@ def eliminar_paciente(pacientes):
                 print("Error al cerrar el archivo")
                 
         pacientes.remove(pac)
+        guardar_pacientes_json(pacientes)
         print(f"Paciente '{pac['nombre']}' eliminado correctamente.")
 
 
@@ -449,8 +478,9 @@ def mostrar_usuarios(pacientes):
 # funciones por eso se pisaban entre sí
 
 def inicializar_pacientes_random():
-    crear_pacientes_random(pacientes, 10)
+    pacientes = cargar_pacientes_json()
     return pacientes
+
 
 def principal_pacientes(pacientes):
     opcion_p ="-1"
@@ -507,4 +537,5 @@ def principal_pacientes(pacientes):
     return pacientes
 
 inicializar_pacientes_random()
-# principal_pacientes(pacientes)
+
+#principal_pacientes(pacientes)
