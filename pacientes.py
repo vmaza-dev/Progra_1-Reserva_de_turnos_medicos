@@ -38,7 +38,7 @@ def obtener_paciente_por_id(pacientes,id):
         return i
     return -1
 
-def crear_paciente(id):
+def crear_paciente():
     """
     Crea un paciente por teclado solicitando los datos al usuario
 
@@ -49,6 +49,7 @@ def crear_paciente(id):
         diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
     pacientes = cargar_pacientes_json()
+    id = id_unico(pacientes)
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
     while True:
         try:
@@ -511,9 +512,7 @@ def principal_pacientes(pacientes):
                 input(f"Error: {e}. Presione intro para volver a seleccionar.")
 
             if opcion_p == "1":
-                pac_id = id_unico(pacientes)
-                nuevo = crear_paciente(pac_id)
-                pacientes.append(nuevo)
+                nuevo = crear_paciente()
                 print("\nPaciente creado correctamente:")
                 imprimir_paciente([nuevo])
 
