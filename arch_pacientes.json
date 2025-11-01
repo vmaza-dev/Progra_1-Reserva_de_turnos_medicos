@@ -61,5 +61,12 @@
         "nombre": "Xiomara Ramos",
         "edad": 37,
         "obra_social": "OSDE"
+    },
+    {
+        "id": 8955,
+        "dni": 47201888,
+        "nombre": "Tomas Fernandez",
+        "edad": 35,
+        "obra_social": "OSDE"
     }
 ]
