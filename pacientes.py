@@ -5,29 +5,57 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-import random, auxiliares, re, json
+import random, auxiliares, re, json, os
 pacientes = []
-
 print("l")
+
 OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 
 # ==============================================================================
-# FUNCIONES ARCHIVOS
+# CARGA DE JSON 
 # ==============================================================================
-def cargar_pacientes_json():
-    try:
-        with open("arch_pacientes.json" , "r", encoding="UTF-8") as arch:
-            return json.load(arch)
-    except (FileNotFoundError):
-        print("El archivo no se pudo encontrar o esta vacio")
-        return []
 
-def guardar_pacientes_json(pacientes):
+def cargar_pacientes_json(archivo_json="arch_pacientes.json"):
+    """
+    Carga la lista de pacientes desde el archivo JSON.
+    Maneja excepciones si el archivo no existe o está corrupto.
+    """
+    if not os.path.exists(archivo_json):
+        print("Advertencia: No se encontró 'arch_pacientes.json'.")
+        # Si no existe, llamamos al fallback para crear datos de prueba
+        return inicializar_pacientes_random() 
+
     try:
-        with open("arch_pacientes.json" , "w", encoding="UTF-8") as arch:
-            json.dump(pacientes, arch, ensure_ascii=False, indent=4)
-    except OSError:
-        print("Error al guardar lso pacientes")
+        with open(archivo_json, 'r', encoding='utf-8') as f:
+            datos = json.load(f)
+            if not datos: # Chequea si el JSON está vacío (ej: "[]")
+                 print("Advertencia: 'arch_pacientes.json' está vacío.")
+                 return inicializar_pacientes_random()
+            print(f"Se cargaron {len(datos)} pacientes desde '{archivo_json}'.")
+            return datos
+            
+    except json.JSONDecodeError:
+        print(f"Error: El archivo '{archivo_json}' está mal formateado (corrupto).")
+        # Si está corrupto, mejor no arriesgarse.
+        return inicializar_pacientes_random()
+    except Exception as e:
+        print(f"Error inesperado al cargar el JSON: {e}")
+        return inicializar_pacientes_random()
+
+def guardar_pacientes_json(pacientes_a_guardar, archivo_json="arch_pacientes.json"):
+    """
+    Guarda la lista de pacientes actual en el archivo JSON.
+    Usa indent=4 para que sea legible.
+    """
+    try:
+        with open(archivo_json, 'w', encoding='utf-8') as f:
+            # indent=4 es clave para que el JSON quede prolijo
+            json.dump(pacientes_a_guardar, f, indent=4, ensure_ascii=False)
+        print(f"Datos guardados exitosamente en '{archivo_json}'.")
+    except IOError as e:
+        print(f"Error al escribir en el archivo JSON: {e}")
+    except Exception as e:
+        print(f"Error inesperado al guardar el JSON: {e}")
 
 # ==============================================================================
 # CRUD
@@ -38,7 +66,7 @@ def obtener_paciente_por_id(pacientes,id):
         return i
     return -1
 
-def crear_paciente():
+def crear_paciente(id):
     """
     Crea un paciente por teclado solicitando los datos al usuario
 
@@ -48,15 +76,13 @@ def crear_paciente():
     Return:
         diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
-    pacientes = cargar_pacientes_json()
-    id = id_unico(pacientes)
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
     while True:
         try:
             nombreCompleto = input("Ingrese su nombre completo: ").strip()
             if not nombreCompleto:
                 raise ValueError("El nombre no puede estar vacío")
-            # Validar que solo tenga letras y espacios
+
             if not all(c.isalpha() or c.isspace() for c in nombreCompleto):
                 raise ValueError("El nombre solo puede contener letras y espacios")
             break
@@ -79,8 +105,6 @@ def crear_paciente():
         'obra_social': obra_social
     }
 
-    pacientes.append(paciente)
-    guardar_pacientes_json(pacientes)
     return paciente
 
 def crear_pacientes_random(pacientes, cantCrear):
@@ -88,13 +112,12 @@ def crear_pacientes_random(pacientes, cantCrear):
     Crea una cantidad determinada de pacientes aleatorios y los agrega a la lista.
 
     Args:
-        pacientes(list): Lista donde se agregaran los pacientes.
-        cantCrear: Numero de pacientes aleatorios a generar.
+        pacientes (list[dict]): Lista donde se agregaran los pacientes.
+        cantCrear (int): Numero de pacientes aleatorios a generar.
 
     Returns:
         None.
     """
-    pacientes = cargar_pacientes_json()
     for i in range(cantCrear):
         nombreCompleto = random.choice(auxiliares.nombres) + " " + random.choice(auxiliares.apellidos)
         edad = validacion_edad(random.randint(3, 98))
@@ -103,14 +126,13 @@ def crear_pacientes_random(pacientes, cantCrear):
         id = id_unico(pacientes)
         
         pacientes.append({'id': id, 'dni': dni, 'nombre': nombreCompleto, 'edad': edad, 'obra_social': obra_social})
-    guardar_pacientes_json(pacientes)
 
 def imprimir_paciente(pacientes):
     """
     Muestra en pantalla los datos de los pacientes recibidos.
 
     Args:
-        pacientes(list): Lista de pacientes a imprimir.
+        pacientes (list[dict]): Lista de pacientes a imprimir.
 
     Returns:
         None.
@@ -139,12 +161,11 @@ def leer_pacientes(pacientes):
     Muestra todos los pacientes en la lista utilizando imprimir_paciente().
 
     Args:
-        pacientes(list): Lista de pacientes.
+        pacientes (list[dict]): Lista de pacientes.
 
     Returns:
         None.
     """
-    pacientes = cargar_pacientes_json()
     imprimir_paciente(pacientes)
 
 def buscar_id_paciente(pacientes):
@@ -152,7 +173,7 @@ def buscar_id_paciente(pacientes):
     Busca un paciente por ID y muestra sus datos.
 
     Args:
-        pacientes(list): Lista de pacientes.
+        pacientes (list[dict]): Lista de pacientes.
 
     Returns:
         None.
@@ -176,8 +197,10 @@ def actualizar_paciente(pacientes):
     """
     Permite modificar los datos de un paciente por ID.
     Incluye validacion de obra social.
+
+    Args:
+        pacientes (list[dict]): Lista de pacientes.
     """
-    pacientes = cargar_pacientes_json()
 
     print("\n=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
@@ -214,17 +237,17 @@ def actualizar_paciente(pacientes):
                     if op_obra < 1 or op_obra > len(OBRAS_SOCIALES):
                         print("Opcion invalida, intente nuevamente.")
                 pac['obra_social'] = OBRAS_SOCIALES[op_obra - 1]
-
-        guardar_pacientes_json(pacientes)
-        print("Perfil actualizado del paciente:")
-        imprimir_paciente([pac])
+                print("Perfil actualizado del paciente:")
+                imprimir_paciente([pac])
 
 def eliminar_paciente(pacientes):
     """
     Elimina un paciente de la lista por su ID.
     Muestra un listado previo para facilitar la eleccion.
+    
+    Args:
+        pacientes (list[dict]): Lista de pacientes.
     """
-    pacientes = cargar_pacientes_json()
     print("=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
     id = auxiliares.pedir_valor("Ingrese el ID del paciente a eliminar: ", int)
@@ -248,7 +271,6 @@ def eliminar_paciente(pacientes):
                 print("Error al cerrar el archivo")
                 
         pacientes.remove(pac)
-        guardar_pacientes_json(pacientes)
         print(f"Paciente '{pac['nombre']}' eliminado correctamente.")
 
 
@@ -257,13 +279,13 @@ def eliminar_paciente(pacientes):
 # ==============================================================================
 def id_unico(pacientes):
     """
-    Genera un ID aleatorio y que no se repite (osea unico).
+    Genera un ID aleatorio y que no se repite (onico).
 
     Args:
-        pacientes(list): Lsita de pacientes.
+        pacientes (list[dict]): Lista de pacientes.
 
     Returns:
-        int: ID de 4 digitos.
+        int: ID de 4 digitos
     """
     existe = True
     id = random.randint(1000,9999)
@@ -277,10 +299,10 @@ def id_unico(pacientes):
 
 def validacion_dni(dni):
     """
-    Valida que el DNI tenga 8 digitos.
+    Valida que el DNI tenga 8 digitoS
     
     Args:
-        DNI a validar.
+        dni (int | str): DNI a validar.
     
     Returns:
         int: DNI válido.
@@ -298,10 +320,10 @@ def validacion_dni(dni):
 
 def validacion_edad(edad):
     """
-    Valida que la edad este entre 3 y 98.
+    Valida que la edad este entre 3 y 98
     
     Args:
-        edad: Edad a validar.
+        edad (int): Edad a validar.
     
     Returns:
         int: Edad válida.
@@ -320,7 +342,7 @@ def generacion_dni_realista(edad):
     Genera un DNI aproximado segun la edad del paciente.
 
     Args:
-        edad(int): Edad del paciente.
+        edad (int): Edad del paciente.
 
     Returns:
         int: DNI generado aleatoriamente.
@@ -341,11 +363,12 @@ def promedio_edades(pacientes):
     """
     Calcula el promedio de edades de los pacientes.
 
-    extrae la edad de cada paciente y devuelve el promedio.
-    devuelve 0 si la lista de pacientes en el caso de que este vacia.
+    extrae la edad de cada paciente (usando la clave edad) y devuelve el promedio.
+    Devuelve 0 si la lista de pacientes en el caso de que este vacia.
 
     Args:
-        pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la edad en la posicion 3.
+        pacientes (list[dict]): Lista de pacientes, donde cada paciente es un diccionario
+                                que incluye la clave 'edad'.
 
     Returns:
         float: Promedio de edades.
@@ -357,13 +380,15 @@ def pacientes_por_obra(pacientes):
     """
     Calcula la cantidad de pacientes por cada obra social.
 
-    Extrae la obra social de cada paciente y devuelve una lista de tuplas con el nombre de la obra y la cantidad de pacientes.
+    Extrae la obra social (clave 'obra_social') de cada paciente y devuelve
+    una lista de tuplas con el nombre de la obra y la cantidad de pacientes.
 
     Args:
-        pacientes(list): Lista de pacientes, donde cada paciente es una lista que incluye la obra social en la posicion 4.
+        pacientes (list[dict]): Lista de pacientes, donde cada paciente es un diccionario
+                                que incluye la clave 'obra_social'.
 
     Returns:
-        list: Lista de tuplas (obra_social, cantidad)
+        list[tuple]: Lista de tuplas (obra_social, cantidad)
     """
     obras = list(map(lambda p: p['obra_social'], pacientes))
     return list(map(lambda o: (o, len(list(filter(lambda x: x==o, obras)))), set(obras)))
@@ -375,7 +400,7 @@ def porcentaje_por_obra(pacientes):
     Devuelve una lista de tuplas con el nombre de la obra y el porcentaje de pacientes que tienen esa obra.
 
     Args:
-        pacientes(list): Lista de pacientes.
+        pacientes (list[dict]): Lista de pacientes.
 
     Returns:
         list: Lista de tuplas (obra_social, porcentaje)
@@ -393,7 +418,7 @@ def mostrar_estadisticas_pacientes(pacientes):
     de pacientes por obra social, usando colores y negrita en la terminal.
 
     Args:
-        pacientes(list): Lista de pacientes.
+        pacientes (list[dict]): Lista de pacientes.
 
     Returns:
         None.
@@ -450,7 +475,8 @@ def mostrar_usuarios(pacientes):
     Muestra en pantalla los nombres de usuario generados para cada paciente.
 
     Args:
-        pacientes(list): Lista de pacientes, donde el nombre completo esta en la posicion 2.
+        pacientes (list[dict]): Lista de pacientes, donde cada paciente es un diccionario
+                                que incluye la clave 'nombre'.
 
     Returns:
         None.
@@ -479,11 +505,25 @@ def mostrar_usuarios(pacientes):
 # funciones por eso se pisaban entre sí
 
 def inicializar_pacientes_random():
-    pacientes = cargar_pacientes_json()
+    """
+     la lista global 'pacientes' se llena con 10 registros aleatorios.
+
+    Returns:
+        list[dict]: La lista global de pacientes ya inicializada.
+    """
+    crear_pacientes_random(pacientes, 10)
     return pacientes
 
-
 def principal_pacientes(pacientes):
+    """
+    Ejecuta el menú principal del módulo de Pacientes.
+
+    Args:
+        pacientes (list[dict]): La lista de pacientes sobre la cual operar.
+    
+    Returns:
+        list[dict]: La lista de pacientes con las modificaciones realizadas.
+    """
     opcion_p ="-1"
     while opcion_p != "0":
         valida = False
@@ -512,7 +552,9 @@ def principal_pacientes(pacientes):
                 input(f"Error: {e}. Presione intro para volver a seleccionar.")
 
             if opcion_p == "1":
-                nuevo = crear_paciente()
+                pac_id = id_unico(pacientes)
+                nuevo = crear_paciente(pac_id)
+                pacientes.append(nuevo)
                 print("\nPaciente creado correctamente:")
                 imprimir_paciente([nuevo])
 
@@ -535,6 +577,6 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-inicializar_pacientes_random()
-
-#principal_pacientes(pacientes)
+pacientes = cargar_pacientes_json() 
+pacientes_actualizados = principal_pacientes(pacientes)
+guardar_pacientes_json(pacientes_actualizados)
