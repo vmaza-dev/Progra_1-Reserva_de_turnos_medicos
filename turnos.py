@@ -61,26 +61,6 @@ def crear_leer_matriz_turno():
         sys.exit(1)   # termina la ejecución del programa
 
 
-def escribir_turnos(matriz_turnos):
-    """
-    Actualiza la base de datos de turnos generados.
-    
-    Args:
-        matriz_turnos(list[dic]): Lista de diccionarios actualizada.
-    """
-    try:
-        with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
-                json.dump(matriz_turnos, turnos, ensure_ascii=False, indent=4, default=str)
-                # el default=str es para que pueda serializar el objeto tipo date
-                # que es la fecha, se va a guardar como string
-                # al deserilizar es necesario pasar a tipo date.
-    except FileNotFoundError:
-            print('No se pudo actualizar archivo principal de turnos')
-            input('Presione un tecla para continuar: ')
-    except OSError:
-            print('No se pudo actualizar el archivo principal de turnos')
-            input('Presione un tecla para continuar: ')
-
 # ==============================================================================
 # ===============================FUNCION PRINCIPAL==============================
 # ==============================================================================
