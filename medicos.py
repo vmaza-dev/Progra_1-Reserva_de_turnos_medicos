@@ -8,7 +8,7 @@ import random, auxiliares, json
 
 #🟨 FALTA PROBAR
 #✅ PROBADO Y FUNCIONAL
-#🟥 CON ERRORESeS
+#🟥 CON ERRORES
 
 """=========================================================== FUNCIONES C.R.U.D ========================================================================"""
 def ingresar_nombre_medico(): #✅
@@ -350,7 +350,6 @@ def leer_medico_id(listaMeds, idMed): #✅
     except: auxiliares.imprimir_error("ERROR DESCONOCIDO")
 
 def leer_medico_id_recursivo(listaMeds, idMed):
-    print("Entré")
     if (len(listaMeds) == 0):
         auxiliares.imprimir_un_encabezado("MEDICO NO ENCONTRADO")
         return
@@ -386,6 +385,17 @@ def buscar_borrar_med(idElim, listaMeds): #🟨
     except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
     except: auxiliares.imprimir_error("HUBO UN ERROR DESCONOCIDO")
     finally: return encontrado
+
+def buscar_borrar_med_recursivo(listaMeds, idElim):
+    if (len(listaMeds) == 0):
+        auxiliares.imprimir_un_encabezado("NO SE ENCONTRÓ EL MÉDICO")
+        return False
+    elif (listaMeds[0]["ID" == idElim]):
+        listaMeds.remove(listaMeds[0])
+        return True
+    else:
+        return buscar_borrar_med_recursivo(listaMeds[1:], idElim)
+
     
 def elim_medico(listaMeds): #🟨
     """
@@ -401,7 +411,7 @@ def elim_medico(listaMeds): #🟨
         if (buscar_borrar_med(idElim, listaMeds)): print("\n>> Medico de ID", idElim, "eliminado exitosamente.")
         else: print("\n>> Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
 
-    except TypeError: auxiliares.imprimir_error("LA LISTA DE MÉDICOS NO ES UNA LISTA O NO ES UNA LISTA DE DICCIONARIOS")
+    except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido()
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
@@ -790,7 +800,7 @@ def inicializar_modulo_medicos():
 #listaUsados = [100000, 999999, 156904, 777555, 321987, 229767, 414359, 271664, 703046, 568102]
 """
 
-inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
+#inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
 
 # CAMBIOS A REALIZAR:
 # ADAPTAR FUNCIONES A DICCIONARIOS 🟨

@@ -577,6 +577,6 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-pacientes = cargar_pacientes_json() 
-pacientes_actualizados = principal_pacientes(pacientes)
-guardar_pacientes_json(pacientes_actualizados)
+#pacientes = cargar_pacientes_json() 
+#pacientes_actualizados = principal_pacientes(pacientes)
+#guardar_pacientes_json(pacientes_actualizados)
