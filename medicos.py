@@ -100,6 +100,22 @@ def obtener_medicos():
         except Exception as Exep: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo")
     return listaMedicos
 
+def obtener_ids_usados():
+    arch = open("datos/arch_medicos_idsUsados.txt", "rt", encoding="UTF-8")
+    textoLista = (arch.readline()).strip() #Leo el archivo y obtengo la lista, también elimino los espacios con .strip()
+    textoLista = (textoLista.strip("[]")).split(",") # Elimino los corchetes de la línea, después la convierto en una lista de substrings usando ',' como delimitador
+
+    listaUsados = [int(idUsado) for idUsado in textoLista] # De la lista de substrings que obtuve, creo una lista nueva con cada elemento casteado a int
+    return listaUsados
+
+def guardar_medicos(listaMeds):
+    auxiliares.guardar_archivo_json(listaMeds, "datos/arch_medicos.json")
+
+def guardar_ids_usados(listaUsados):
+    arch = open("datos/arch_medicos_idsUsados.txt", "wt", encoding="UTF-8")
+    arch.write(str(listaUsados))
+    arch.close()
+
 """================================================================= CREAR ============================================================================"""
 def crear_medico(listaMeds, listaIDs): #🟨
     """
@@ -638,12 +654,6 @@ def menu_leer_medicos(listaMeds): #✅
    auxiliares.limpiar_terminal()
    menu_leer_medicos(listaMeds)
 
-def guardar_medicos(listaMeds):
-    auxiliares.guardar_archivo_json(listaMeds, "datos/arch_medicos.json")
-
-def guardar_idUsados(listaUsados):
-    auxiliares.guardar_archivo_json(listaUsados, "datos/arch_medicos_idsUsados.json")
-
 def menu_crud_medicos(listaMeds, idsUsados): #🟨
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D', auxiliares.ANCHO, '\033[1m')
@@ -665,7 +675,7 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
             auxiliares.limpiar_terminal()
             crear_medico(listaMeds, idsUsados)
             guardar_medicos(listaMeds)
-            guardar_idUsados(idsUsados)
+            guardar_ids_usados(idsUsados)
 
         case 2: 
             auxiliares.limpiar_terminal()
@@ -748,10 +758,7 @@ def menu_medicos(listaMeds, idsUsados): #🟨
 
 def inicializar_modulo_medicos():
     listaMedicos = obtener_medicos()
-
-    archIds = open("datos/arch_medicos_idsUsados.json", "rt", encoding="UTF-8")
-    idsUsados = json.load(archIds)
-    archIds.close()
+    idsUsados = obtener_ids_usados()
 
     menu_medicos(listaMedicos, idsUsados)
 
@@ -765,7 +772,9 @@ def inicializar_modulo_medicos():
     {"ID": 321987, "nombre": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
 ]"""
 
-# inicializar_modulo_medicos()
+listaUsados = [100000, 999999, 156904, 777555, 321987, 229767, 414359, 271664, 703046, 568102]
+guardar_ids_usados(listaUsados)
+inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
 
 # CAMBIOS A REALIZAR:
 # ADAPTAR FUNCIONES A DICCIONARIOS 🟨
