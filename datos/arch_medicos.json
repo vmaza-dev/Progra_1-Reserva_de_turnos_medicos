@@ -68,5 +68,12 @@
         "espec": "Oftamología",
         "antig": 7,
         "estado": true
+    },
+    {
+        "ID": 202859,
+        "nombre": "Rodolfo Ansinas",
+        "espec": "Psiquiatría",
+        "antig": 12,
+        "estado": true
     }
 ]

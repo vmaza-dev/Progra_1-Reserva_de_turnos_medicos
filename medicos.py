@@ -12,13 +12,13 @@ import random, auxiliares, json
 """=========================================================== FUNCIONES C.R.U.D ========================================================================"""
 def ingresar_nombre_medico(): #✅
     """
-    Solicita al usuario el nyap de un médico *ingresa el nyap* .
+    Solicita al usuario el nombre de un médico.
 
     Returns:
-        str: nyap ingresado.
+        str: nombre ingresado.
     """
-    nyap = input("Ingrese el nyap del medico: ")
-    return nyap
+    nombre = input("Ingrese el nombre completo del medico: ")
+    return nombre
 
 def ingresar_espe(nyapMed="el médico"): #✅
     """
@@ -38,7 +38,7 @@ def ingresar_antig(nyapMed): #🟨
     Solicita al usuario la antiguedad (años de experiencia de un medico)
     
     Parametros:
-        nyapMed (str): nyap del medico, utilizado para mostrar en el prompt
+        nyapMed (str): Nombre del medico, utilizado para mostrar en el prompt
         
     Returns:
         int: Antiguedad en años.
@@ -99,6 +99,22 @@ def obtener_medicos():
         except Exception as Exep: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo")
     return listaMedicos
 
+def obtener_ids_usados():
+    arch = open("datos/arch_medicos_idsUsados.txt", "rt", encoding="UTF-8")
+    textoLista = (arch.readline()).strip() #Leo el archivo y obtengo la lista, también elimino los espacios con .strip()
+    textoLista = (textoLista.strip("[]")).split(",") # Elimino los corchetes de la línea, después la convierto en una lista de substrings usando ',' como delimitador
+
+    listaUsados = [int(idUsado) for idUsado in textoLista] # De la lista de substrings que obtuve, creo una lista nueva con cada elemento casteado a int
+    return listaUsados
+
+def guardar_medicos(listaMeds):
+    auxiliares.guardar_archivo_json(listaMeds, "datos/arch_medicos.json")
+
+def guardar_ids_usados(listaUsados):
+    arch = open("datos/arch_medicos_idsUsados.txt", "wt", encoding="UTF-8")
+    arch.write(str(listaUsados))
+    arch.close()
+
 """================================================================= CREAR ============================================================================"""
 def crear_medico(listaMeds, listaIDs): #🟨
     """
@@ -111,7 +127,7 @@ def crear_medico(listaMeds, listaIDs): #🟨
 
     Flujo:
         - Genera un ID aleatorio de 4 digitos
-        - Pide al usuario (nyap,especialidad y antiguedad)
+        - Pide al usuario (nombre ,especialidad y antiguedad)
         - Define el estado inicial como activo (1)
         - Agrega la informacion del medico a la matriz
         """
@@ -134,7 +150,7 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
         - listaIDs (list): Lista que almacena los IDs ya utilizados, para evitar repeticiones.
 
     Flujo:
-        - Genera un nyap completo usando la función 'random.choice()' y listas auxiliares de nyaps y apellidos
+        - Genera un nombre completo usando la función 'random.choice()' y listas auxiliares de nombres y apellidos
         - Genera una especialidad aleatoria usando 'random.choice()' y una lista auxiliar de especialidades
         - Genera un ID aleatorio de 6 digitos
         - Agrega la informacion del medico a la matriz de Medicos, dejandolo con el estado "Activo" (True) por defecto.
@@ -193,7 +209,7 @@ def actu_medico(med, nyapMed): #🟨
 
     Parametros:
         listaMed (list): Lista que representa a un medico, en el formato:[ID, nyap, Especialidad, Antiguedad, Estado]
-        nyapMed (str):nyap del medico que solo se va a utilizar para mostrar mensajes
+        nyapMed (str):Nombre del medico que solo se va a utilizar para mostrar mensajes
 
     Flujo: 
         - Muestra un menu de opciones de edicion
@@ -205,7 +221,7 @@ def actu_medico(med, nyapMed): #🟨
     print("")
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
-    auxiliares.imprimir_opcion(1, 'nyap Y APELLIDO', '1;33', False)
+    auxiliares.imprimir_opcion(1, 'NOMBRE Y APELLIDO', '1;33', False)
     auxiliares.imprimir_opcion(2, 'ESPECIALIDAD', '1;34')
     auxiliares.imprimir_opcion(3, 'ANTIGÜEDAD', '1;35')
     auxiliares.imprimir_opcion(4, 'ESTADO (DAR DE BAJA/ALTA)', '1;31')
@@ -245,7 +261,7 @@ def imprimir_medico(med): #🟨
 
     Flujo: 
         - Imprime el ID del médico centrado en 6 caracteres
-        - Imprime el nyap comleto del médico ajustado a la izquierda en 41 caracteres y en negrita.
+        - Imprime el nombre completo del médico ajustado a la izquierda en 41 caracteres y en negrita.
         - Imprime la especialidad del médico ajustada a la izquierda en 21 caracteres.
         - Imprime la antigüedad del médico ajustada la izquierda en 11 caracteres, en caso de ser mayor a 25 se colorea de amarillo
         - Imprime el estado del médico, verde para activo, rojo para inactivo.
@@ -271,14 +287,14 @@ def header_medicos(anchoTotal): #✅
 
     Flujo: 
         - Llama a la función "linea_iguales()" para imprimir una linea de '='
-        - Imprime 'ID', 'nyap COMPLETO', 'ESPECIALIDAD', 'ANTIGÜEDAD' Y 'ESTADO' todos centrados, en negrita y color azul.
+        - Imprime 'ID', 'NOMBRE COMPLETO', 'ESPECIALIDAD', 'ANTIGÜEDAD' Y 'ESTADO' todos centrados, en negrita y color azul.
         - Llama nuevamente a la función auxiliar "linea_iguales()"
     """
 
     auxiliares.linea_iguales(anchoTotal)
 
     print(f"| \033[1;34m{'ID'.center(6)}\033[0m", end=" |")
-    print(f"| \033[1;34m{'nyap COMPLETO'.center(41)}\033[0m", end=" |")
+    print(f"| \033[1;34m{'NOMBRE COMPLETO'.center(41)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ESPECIALIDAD'.center(21)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ANTIGÜEDAD'.center(11)}\033[0m", end=" |")
     print(f"| \033[1;34m{'ESTADO'.center(12)}\033[0m", end=" |\n")
@@ -332,6 +348,21 @@ def leer_medico_id(listaMeds, idMed): #✅
     except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
     except: auxiliares.imprimir_error("ERROR DESCONOCIDO")
 
+def leer_medico_id_recursivo(listaMeds, idMed):
+    print("Entré")
+    if (len(listaMeds) == 0):
+        auxiliares.imprimir_un_encabezado("MEDICO NO ENCONTRADO")
+        return
+    elif (listaMeds[0]["ID"] == idMed):
+        header_medicos(auxiliares.ANCHO)
+        imprimir_medico(listaMeds[0])
+        print("")
+        auxiliares.linea_iguales(auxiliares.ANCHO)
+        return
+    else:
+        return leer_medico_id_recursivo(listaMeds[1:], idMed)
+        
+
 """============================================================== ELIMINAR ============================================================================="""
 def buscar_borrar_med(idElim, listaMeds): #🟨
     """
@@ -339,7 +370,7 @@ def buscar_borrar_med(idElim, listaMeds): #🟨
 
     Parametros: 
         idElim (int): ID del medico a eliminar.
-        meds (list): Lista de medicos, donde cada medico es una lista en el formato: [ID, nyap, Especialidad, Antiguedad, Estado]
+        meds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
         
     Returns:
         bool: True si se encontro y elimino al medico, false si no se encontro.
@@ -630,18 +661,12 @@ def menu_leer_medicos(listaMeds): #✅
         leer_medicos(listaMeds)
        case 2: 
         auxiliares.limpiar_terminal()
-        leer_medico_id(listaMeds, ingresar_id())
+        leer_medico_id_recursivo(listaMeds, ingresar_id())
 
    if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
 
    auxiliares.limpiar_terminal()
    menu_leer_medicos(listaMeds)
-
-def guardar_medicos(listaMeds):
-    auxiliares.guardar_archivo_json(listaMeds, "datos/arch_medicos.json")
-
-def guardar_idUsados(listaUsados):
-    auxiliares.guardar_archivo_json(listaUsados, "datos/arch_medicos_idsUsados.json")
 
 def menu_crud_medicos(listaMeds, idsUsados): #🟨
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -664,7 +689,7 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
             auxiliares.limpiar_terminal()
             crear_medico(listaMeds, idsUsados)
             guardar_medicos(listaMeds)
-            guardar_idUsados(idsUsados)
+            guardar_ids_usados(idsUsados)
 
         case 2: 
             auxiliares.limpiar_terminal()
@@ -747,10 +772,7 @@ def menu_medicos(listaMeds, idsUsados): #🟨
 
 def inicializar_modulo_medicos():
     listaMedicos = obtener_medicos()
-
-    archIds = open("datos/arch_medicos_idsUsados.json", "rt", encoding="UTF-8")
-    idsUsados = json.load(archIds)
-    archIds.close()
+    idsUsados = obtener_ids_usados()
 
     menu_medicos(listaMedicos, idsUsados)
 
@@ -762,9 +784,12 @@ def inicializar_modulo_medicos():
     {"ID": 156904, "nombre": "Fernando Guerra", "espec":"Traumatologia", "antig":10, "estado":1},
     {"ID": 777555, "nombre": "Guillermo Smith", "espec":"Traumatologia", "antig":25, "estado":1},
     {"ID": 321987, "nombre": "Rodrigo Rodríguez", "espec":"Urologia", "antig":5, "estado":0}
-]"""
+]
 
-# inicializar_modulo_medicos()
+#listaUsados = [100000, 999999, 156904, 777555, 321987, 229767, 414359, 271664, 703046, 568102]
+"""
+
+inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
 
 # CAMBIOS A REALIZAR:
 # ADAPTAR FUNCIONES A DICCIONARIOS 🟨
