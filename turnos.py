@@ -9,7 +9,7 @@
 #-------------------------------------------------------------------------------
 
 from datetime import date
-import json
+import json, sys
 
 #-------------------------------------------------------------------------------
 #---------------------------- MODULOS DEL PROYECTO -----------------------------
@@ -50,14 +50,16 @@ def crear_leer_matriz_turno():
         except FileNotFoundError:
             print('No se pudo crear el archivo principal de turnos')
             input('Presione un tecla para continuar: ')
+            sys.exit(1)   # termina la ejecución del programa
         except OSError:
             print('No se pudo crear el archivo principal de turnos')
             input('Presione un tecla para continuar: ')
+            sys.exit(1)   # termina la ejecución del programa
     except OSError:
         print('No se pudo inicializar el programa')
         input('Presione un tecla para continuar: ')
+        sys.exit(1)   # termina la ejecución del programa
 
-    return
 
 def escribir_turnos(matriz_turnos):
     """

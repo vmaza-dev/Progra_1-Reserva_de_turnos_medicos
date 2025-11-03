@@ -1,0 +1,72 @@
+[
+    {
+        "id": 9798,
+        "dni": 37307952,
+        "nombre": "Aline Figueroa",
+        "edad": 41,
+        "obra_social": "VICMAZA"
+    },
+    {
+        "id": 4565,
+        "dni": 43846437,
+        "nombre": "Sofia Miranda",
+        "edad": 27,
+        "obra_social": "OSDE"
+    },
+    {
+        "id": 4917,
+        "dni": 20773951,
+        "nombre": "Nicolás Rojas",
+        "edad": 85,
+        "obra_social": "OSDE"
+    },
+    {
+        "id": 3974,
+        "dni": 31415986,
+        "nombre": "Martina Cabrera",
+        "edad": 18,
+        "obra_social": "Galeno"
+    },
+    {
+        "id": 5123,
+        "dni": 31409827,
+        "nombre": "Amparo Caballero",
+        "edad": 65,
+        "obra_social": "VICMAZA"
+    },
+    {
+        "id": 6710,
+        "dni": 17183750,
+        "nombre": "Vitto Guzmán",
+        "edad": 63,
+        "obra_social": "Particular"
+    },
+    {
+        "id": 4114,
+        "dni": 32430655,
+        "nombre": "Malena Ortiz",
+        "edad": 69,
+        "obra_social": "Particular"
+    },
+    {
+        "id": 8287,
+        "dni": 43425627,
+        "nombre": "Rick Farias",
+        "edad": 25,
+        "obra_social": "Swiss Medical"
+    },
+    {
+        "id": 8749,
+        "dni": 38751026,
+        "nombre": "Xiomara Ramos",
+        "edad": 37,
+        "obra_social": "OSDE"
+    },
+    {
+        "id": 8955,
+        "dni": 47201888,
+        "nombre": "Tomas Fernandez",
+        "edad": 35,
+        "obra_social": "OSDE"
+    }
+]
