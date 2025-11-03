@@ -8,7 +8,7 @@
 import random, auxiliares, re, json
 pacientes = []
 
-print("l")
+
 OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 
 # ==============================================================================
@@ -18,7 +18,7 @@ def cargar_pacientes_json():
     try:
         with open("arch_pacientes.json" , "r", encoding="UTF-8") as arch:
             return json.load(arch)
-    except (FileNotFoundError):
+    except FileNotFoundError:# revisar, abarca todos los errores?
         print("El archivo no se pudo encontrar o esta vacio")
         return []
 
@@ -58,11 +58,11 @@ def crear_paciente(id):
             # Validar que solo tenga letras y espacios
             if not all(c.isalpha() or c.isspace() for c in nombreCompleto):
                 raise ValueError("El nombre solo puede contener letras y espacios")
-            break
+            break# revisar porque usamos el break?
         except ValueError as e:
             print(f"Error: {e}")
     edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
-    while True:
+    while True:# Podemos hacerlo sin el while true?
         try:
             obra_social = input("Ingrese su obra social: ").strip()
             if obra_social not in OBRAS_SOCIALES:
@@ -288,8 +288,8 @@ def validacion_dni(dni):
     while True:
         try:
             dni_str = str(dni)
-            if not re.match(patron, dni_str):
-                raise ValueError(f"DNI inválido: {dni}")
+            if not re.match(patron, dni_str):# que cada funcion haga una sola cosa!
+                raise ValueError(f"DNI inválido: {dni}")# agarramos el error del raise acá, eso no es correcto!
             return int(dni_str)
         except ValueError as e:
             print(f"Error: {e}")
@@ -350,7 +350,7 @@ def promedio_edades(pacientes):
         float: Promedio de edades.
     """
     edades = list(map(lambda p: p['edad'], pacientes))
-    return sum(edades)/len(edades) if edades else 0
+    return sum(edades)/len(edades) if edades else 0# hacer un test, evitar el uso del if
 
 def pacientes_por_obra(pacientes):
     """
