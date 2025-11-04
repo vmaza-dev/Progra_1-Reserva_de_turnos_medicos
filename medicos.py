@@ -1,5 +1,6 @@
 # ==============================================================================
-8765432
+# Materia: Programación 1 
+# Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
 # Descripción: 
 # Fecha de creación: 10/08/2025
 # ==============================================================================
@@ -33,7 +34,7 @@ def ingresar_espe(nyapMed="el médico"): #✅
     especialidad = input(f"Ingrese la especialidad de {nyapMed}: ") #Uso fPrints ya que el input no puede concatenar cadenas con ","
     return especialidad
 
-def ingresar_antig(nyapMed): #🟨
+def ingresar_antig(nyapMed): #✅
     """
     Solicita al usuario la antiguedad (años de experiencia de un medico)
     
@@ -51,13 +52,14 @@ def ingresar_antig(nyapMed): #🟨
     except TypeError: auxiliares.imprimir_error("Ingrese un numero entero")
     except AssertionError: auxiliares.imprimir_error("Error, ingrese un numero mayor o igual a cero")
 
-def ingresar_id(): #🟨
-    """idBuscado = int(input("Ingrese el ID del medico a buscar: "))
-    while (idBuscado < 100000 or idBuscado > 999999):
-        print("ID INVALIDO INTENTE NUEVAMENTE")
-        idBuscado = int(input("Ingrese el ID del medico a buscar: "))
-    return idBuscado"""
-
+def ingresar_id(): #✅
+    """
+    Solicita al usuario el ID del médico a buscar, se valida que sea un número de 6 digitos y que efectivamente sea un número con manejo
+    de excepciones.
+    
+    Returns:
+        int: ID indicado por el usuario (validado)
+    """
     try:
         while True:
             idBuscado = int(input("Ingrese el ID del medico a buscar: "))
@@ -86,7 +88,14 @@ def generar_id(listaIDs): #✅
         return idGenerado
 
 """=========================================================== FUNCIONES DE ARCHIVO ======================================================================"""
-def obtener_medicos():
+def obtener_medicos(): #✅
+    """
+    Abre el archivo "medicos.json" y carga su contenido en una lista (su contenido son diccionarios así que pasa a ser una lista de diccionarios), en caso
+    de ocurrir un error se notifica y se retorna una lista vacía. En cualquier caso se cierra el archivo.
+     
+    Returns:
+        list: La lista de médicos (o una lista vacía si falló)
+    """    
     try:
         archMeds = open("datos/arch_medicos.json", "rt", encoding="UTF-8")
         listaMedicos = json.load(archMeds)
@@ -407,7 +416,7 @@ def elim_medico(listaMeds): #🟨
     try:
         idElim = int(input("Ingrese el ID del médico a eliminar: "))
         # Devuelve True si lo encontro y borro, False si no lo encontró
-        if (buscar_borrar_med(idElim, listaMeds)): print("\n>> Medico de ID", idElim, "eliminado exitosamente.")
+        if (buscar_borrar_med_recursivo(idElim, listaMeds)): print("\n>> Medico de ID", idElim, "eliminado exitosamente.")
         else: print("\n>> Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
 
     except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
@@ -628,11 +637,7 @@ def prom_antig_espec(listaMeds): #🟨
 """================================================================ MENU Y MAIN========================================================================="""
 def ingresar_opcion(max): #🟨
     """
-    opcion = int(input("Ingrese la opcion deseada: "))
-    while (opcion < 0 or opcion > max):
-        print("Opcion no valida, intente nuevamente.")
-        opcion = int(input("Ingrese la opcion deseada: "))
-    return opcion
+ 
     """
     while True:
         try:
@@ -644,6 +649,9 @@ def ingresar_opcion(max): #🟨
         except AssertionError:auxiliares.imprimir_error("Error, ingrese un numero entre 0 y" + str(max))
 
 def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''): #✅
+    """
+    """
+
     if (guiones):
         auxiliares.linea_guiones(auxiliares.ANCHO)
 
