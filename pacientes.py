@@ -16,13 +16,13 @@ OBRAS_SOCIALES = ["OSDE", "Swiss Medical", "VICMAZA", "Galeno", "Particular"]
 # ==============================================================================
 def cargar_pacientes_json():
     try:
-        with open("arch_pacientes.json" , "r", encoding="UTF-8") as arch:
+        with open("datos/arch_pacientes.json" , "r", encoding="UTF-8") as arch:
             return json.load(arch)
     except FileNotFoundError:# revisar, abarca todos los errores?
         print("El archivo no se pudo encontrar o esta vacio")
         return []
 
-def cargar_pacientes_json(archivo_json="arch_pacientes.json"):
+def cargar_pacientes_json(archivo_json="datos/arch_pacientes.json"):
     """
     Carga la lista de pacientes desde el archivo JSON.
     Maneja excepciones si el archivo no existe o está corrupto.
@@ -49,7 +49,7 @@ def cargar_pacientes_json(archivo_json="arch_pacientes.json"):
         print(f"Error inesperado al cargar el JSON: {e}")
         return inicializar_pacientes_random()
 
-def guardar_pacientes_json(pacientes_a_guardar, archivo_json="arch_pacientes.json"):
+def guardar_pacientes_json(pacientes_a_guardar, archivo_json="datos/arch_pacientes.json"):
     """
     Guarda la lista de pacientes actual en el archivo JSON.
     Usa indent=4 para que sea legible.
@@ -263,7 +263,7 @@ def eliminar_paciente(pacientes):
         print("El paciente no fue eliminado porque no pudo ser encontrado.")
         return
     else:
-        archivo = "bajas_pacientes.txt"
+        archivo = "datos/bajas_pacientes.txt"
         try:
             arch = open(archivo, "a", encoding="UTF-8")
             linea = f"ID: {pac['id']} - NOMBRE: {pac['nombre']} - DNI: {pac['dni']} - EDAD:{pac['edad']} - OBRA SOCIAL: {pac['obra_social']}\n"
