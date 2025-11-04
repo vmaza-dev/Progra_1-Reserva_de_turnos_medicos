@@ -18,8 +18,7 @@ import json
 #-------------------------------------------------------------------------------
 
 import auxiliares, calendario, turnos
-from pacientes import principal_pacientes
-from turnos import escribir_turnos
+from pacientes import crear_paciente
 
 #-------------------------------------------------------------------------------
 #---------------------------- FUNCIONES DEL MODULO -----------------------------
@@ -70,7 +69,6 @@ def crear_id_turno(matriz_turnos):#✅
     Returns:
         int: Número de id turno
     """
-    # TODO: mejorar creando un id informativo pero no muy largo
     # posible idea pasarlo a hexadecimal
     if len(matriz_turnos) == 0:
         id_t = str(1).zfill(6)
@@ -137,6 +135,7 @@ def ingresar_paciente(matriz_pacs, rnd):
     print("Ingrese paciente")
     # TODO: EN ESTA PARTE NECESITARÍA INTEGRAR LA CREACIÓN DE UN PACIENTE
     # O LA ELECCIÓN DE UN PACIENTE EXISTENTE. HACER UN MENU
+    # datos_paciente = crear_paciente()
     datos_paciente = random.choice(matriz_pacs)# simulo ingreso de un paciente
     
     return datos_paciente
@@ -169,15 +168,17 @@ def validar_turno(matriz_turnos, datos_turno, rnd = True):#✅
             mensaje = "El paciente ya tiene un turno en el horario solicitado"
             busqueda = False
         # valido superpocion de horario del medico con otro turno del medico
-        elif (datos_turno.get('medico') in matriz_turnos_fecha[turno]and
-              datos_turno.get('fecha') == matriz_turnos_fecha[turno].get('fecha')):
+        elif (datos_turno.get('medico') == matriz_turnos_fecha[turno].get('medico')and
+              datos_turno.get('hora') == matriz_turnos_fecha[turno].get('hora')):
             valido = False
             mensaje = "El médico solicitado no tiene disponible el horario solicitado"
             busqueda = False
         # valido si el paciente ya tiene turno con el medico
         elif (datos_turno.get('medico') == matriz_turnos_fecha[turno].get('medico')and
               datos_turno.get('paciente') == matriz_turnos_fecha[turno].get('paciente')):
-            raise PermissionError("El paciente ya tiene un turno con el médico solicitado")
+            mensaje = "El paciente ya tiene un turno con el médico solicitado"
+            valido = False
+            busqueda = False
         if rnd == False:
             if (datos_turno.get('especialidad_medica') == matriz_turnos_fecha[turno].get('especialidad_medica') and
                 datos_turno.get('paciente') == matriz_turnos_fecha[turno].get('paciente')):
@@ -437,15 +438,12 @@ def obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
         datos_valido, mensaje = validar_turno(matriz_turnos, datos_turno)
         while datos_valido == False:
             print(mensaje)
+            auxiliares.ingresar_respuesta_str('Presione enter para continuar ')
             matricula_medico, hora_turno = elegir_medico(matriz_turnos, matriz_meds,
                                                     especialidad_medico,
                                                     fecha, dia_semana)
             datos_turno.update({'medico':matricula_medico, 'hora':hora_turno})
             datos_valido, mensaje = validar_turno(matriz_turnos, datos_turno)
-    except PermissionError as superposicion:
-        print(superposicion)
-        auxiliares.ingresar_respuesta_str('Presione enter para regresar ')
-        return turnos.principal_crear_leer_turnos(matriz_turnos, matriz_pacs, matriz_meds, 1)
     except Warning as alerta:
         print(alerta)
         auxiliares.ingresar_respuesta_str('Presione enter para continuar ')
@@ -646,15 +644,15 @@ def mostrar_opcion_turnos_medico(matriz_meds, medicos_horarios_libres, fecha_tur
 
     matriz_horarios = []
     opcion = 0
-    print("-"*56)# TODO: Pensar como agregar un columna mas automaticamente
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     for medico_horarios in medicos_horarios_libres:
         opcion += 1
         medico = list(medico_horarios.keys())[0]
         matriz_horarios.append(medico_horarios[medico])
         encabezado = f"MEDICO: {opcion} {devolver_nombre_persona(matriz_meds,medico, 'ID')}"
-        print(f"| {encabezado:<25}",end="|")
+        print(f"| {encabezado:<34}",end=" |")
     print()
-    print("-"*56)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
     transpuesta_horarios = auxiliares.transponer_matriz(matriz_horarios)
     opcion = 0
@@ -662,24 +660,23 @@ def mostrar_opcion_turnos_medico(matriz_meds, medicos_horarios_libres, fecha_tur
         opcion += 1
         for columna in range(len(transpuesta_horarios[fila])):
             horario = f"TURNO {opcion}: {transpuesta_horarios[fila][columna]}"
-            print(f'| {horario:<25}', end="|")
+            print(f'| {horario:<34}', end="|")       
         print()
-
-    print("-"*56)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
 
 def confirmar_ingreso_paciente(datos_del_paciente):
     """
     Confirma el ingreso de un paciente devolviendo su información.
     """
 
-    print("----------------------------------")
-    print("[ENTER] CONFIRMAR INGRESO PACIENTE")
-    print("[0]     CANCELAR")
-    print("----------------------------------")
-    print("#"*34)
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_opcion("[ENTER]", 'CONFIRMAR INGRESO PACIENTE', '1;33', False)
+    auxiliares.imprimir_opcion(0, 'CANCELAR', '1;36')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    print("#"*auxiliares.ANCHO)
     print(f"{datos_del_paciente['nombre']} DNI: {datos_del_paciente['dni']}"
           f" EDAD: {datos_del_paciente['edad']} OBRA SOCIAL: {datos_del_paciente['obra_social']}")
-    print("----------------------------------")
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     
     op = input("")
     if op == "":
@@ -699,10 +696,10 @@ def confirmar_turno(datos_turno, dia_semana, matriz_pacs, matriz_meds):#✅
     Returns:
         bool: True si es válido.
     """
-    print("---------------------------")
-    print("[ENTER] CONFIRMAR TURNO")
-    print("[0]     CANCELAR")
-    print("---------------------------")
+    auxiliares.linea_iguales(auxiliares.ANCHO)
+    auxiliares.imprimir_opcion("[ENTER]", 'CONFIRMAR TURNO', '1;33', False)
+    auxiliares.imprimir_opcion(0, 'CANCELAR', '1;36')
+    auxiliares.linea_iguales(auxiliares.ANCHO)
     print(f"{devolver_nombre_persona(matriz_pacs, datos_turno['paciente'], 'dni')}")
     print(f"{dia_semana} {datos_turno['fecha'].strftime('%d/%m/%Y')} a las {datos_turno['hora']} hs\
      MEDICO: {devolver_nombre_persona(matriz_meds, datos_turno['medico'], 'ID')} - {datos_turno['especialidad_medica']}")
@@ -1000,7 +997,7 @@ def leer_turnos(matriz_turnos, matriz_pacs, matriz_meds, metricas = True):#✅
 
     print("="*ancho)
 
-def consultar_turno(matriz_turnos, matriz_pacs, matriz_meds):# TODO: Falta tunear el menu.✅
+def consultar_turno(matriz_turnos, matriz_pacs, matriz_meds):
     """
     Funcion principal de consulta de turnos
     
@@ -1013,16 +1010,15 @@ def consultar_turno(matriz_turnos, matriz_pacs, matriz_meds):# TODO: Falta tunea
                 logo_turnos()
                 while True:
                     opciones = 4
-                    print()
-                    print("------------------------------------------")
-                    print("MENÚ PRINCIPAL > TURNOS > CONSULTA > OTRAS")
-                    print("------------------------------------------")
-                    print("[1] Consulta por fecha")
-                    print("[2] Consulta por paciente")
-                    print("------------------------------------------")
-                    print("[0] Volver al menú anterior")
-                    print("------------------------------------------")
-                    print()
+                    auxiliares.linea_iguales(auxiliares.ANCHO)
+                    auxiliares.imprimir_un_encabezado('MENÚ PRINCIPAL > TURNOS > CONSULTA > OTRAS', auxiliares.ANCHO)
+                    print("")
+
+                    auxiliares.linea_iguales(auxiliares.ANCHO)
+                    auxiliares.imprimir_opcion(1, 'CONSULTAR POR FECHA', '1;33', False)
+                    auxiliares.imprimir_opcion(2, 'CONSULTAR POR PACIENTE', '1;34')
+                    auxiliares.imprimir_opcion(0, 'VOLVER AL MENU ANTERIOR', '1;36')
+                    auxiliares.linea_iguales(auxiliares.ANCHO)
                     
                     opcion = input("Seleccione una opción: ")
                     if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
@@ -1040,3 +1036,22 @@ def consultar_turno(matriz_turnos, matriz_pacs, matriz_meds):# TODO: Falta tunea
                     consultar_por_paciente(matriz_turnos, matriz_pacs, matriz_meds)
                     input("\nPresione ENTER para volver al menú.")
 
+def escribir_turnos(matriz_turnos):
+    """
+    Actualiza la base de datos de turnos generados.
+    
+    Args:
+        matriz_turnos(list[dic]): Lista de diccionarios actualizada.
+    """
+    try:
+        with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
+                json.dump(matriz_turnos, turnos, ensure_ascii=False, indent=4, default=str)
+                # el default=str es para que pueda serializar el objeto tipo date
+                # que es la fecha, se va a guardar como string
+                # al deserilizar es necesario pasar a tipo date.
+    except FileNotFoundError:
+            print('No se pudo actualizar archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+    except OSError:
+            print('No se pudo actualizar el archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
