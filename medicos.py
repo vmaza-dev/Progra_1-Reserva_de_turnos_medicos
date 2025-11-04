@@ -125,7 +125,7 @@ def guardar_ids_usados(listaUsados):
     arch.close()
 
 """================================================================= CREAR ============================================================================"""
-def crear_medico(listaMeds, listaIDs): #🟨
+def crear_medico(listaMeds, listaIDs): #✅
     """
     Crear un nuevo usuario medico y lo agrega a la matriz total de medicos.
     
@@ -149,7 +149,7 @@ def crear_medico(listaMeds, listaIDs): #🟨
     except AssertionError: auxiliares.imprimir_error("NO HAY MÁS IDs DISPONIBLES.")
     except: auxiliares.imprimir_error_desconocido()
 
-def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
+def crear_medicos_random(listaMeds, cantCrear, listaIDs): #✅
     """
     Crea una cantidad específica de medicos aleatorios
     
@@ -179,7 +179,18 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #🟨
     except: auxiliares.imprimir_error_desconocido()
 
 """============================================================== ACTUALIZAR ============================================================================"""
-def buscar_medico_id(listaMeds, idMed): #🟨
+def buscar_medico_id(listaMeds, idMed): #✅
+    """
+    Busca un medico segun el id que tiene y lo retorna si lo encuentra, caso contrario retorna "False".
+
+    Parametros: 
+        idElim (int): ID del medico a buscar y retornar.
+        listaMeds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
+        
+    Returns:
+        med (dic): Retorna el diccionario completo del médico en caso de encontrarlo. 
+        bool: False si no encontró al médico
+    """
     try:
         for med in listaMeds:
             if (med["ID"] == idMed):
@@ -188,7 +199,52 @@ def buscar_medico_id(listaMeds, idMed): #🟨
     except TypeError: auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido()
 
-def menu_act_antig(med, nyapMed): #🟨
+def buscar_medico_id_recursivo(listaMeds, idMed): #✅
+    """
+    Busca un medico segun el id que tiene y lo retorna si lo encuentra, caso contrario retorna "False". Utiliza recursividad para recorrer la lista de médicos
+
+    Parametros: 
+        idElim (int): ID del medico a buscar y retornar.
+        listaMeds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
+        
+    Returns:
+        listaMeds[0] (dic): Retorna el primer diccionario de la lista en caso de coincidencia de 'ID'. 
+        bool: False si no encontró al médico
+        buscar_medico_id_recursivo (function): Para reducir el dominio, se invoca a sí misma y envía la listaMeds pero a partir 
+                                                del segundo elemento (índice [1])
+    """
+    if (len(listaMeds) == 0):
+        return False
+    elif (listaMeds[0]["ID"] == idMed):
+        return listaMeds[0]
+    else:
+        return(buscar_medico_id_recursivo(listaMeds[1:], idMed)) 
+
+def menu_act_antig(med, nyapMed): #✅
+    """
+    Submenú de actualización de antigüedad de un médico
+
+    Parametros:
+        med (dict): Diccionario del médico a actualizar
+        nyapMed (string): Nombre del médico utilizado para mejorar usabilidad.
+
+    Flujo: 
+        - Imprime una línea de iguales y el encabezado que indica el flujo de menús.
+        - Imprime otra línea de iguales, después el título y las distintas opciones:
+            -- Opción 1: Sumar 1 año
+            -- Opción 2: Restar 1 año
+            -- Opcion 3: Ingresar la antigüedad manualmente
+            -- Opcion 0: Volver al menú anterior
+        - Imprime otra línea de iguales
+        - Obtiene la opción llamando a la función 'ingresar_opción' y le indica el número máximo (3)
+        - Con un match verifica la opción elegida y realiza distintas cosas:
+            -- Opcion 0: Retorna 0
+            -- Opcion 1: Suma 1 a la antigüedad de 'med'
+            -- Opcion 2: Resta 1 a la antigüedad de 'med'
+            -- Opcion 3: Iguala la antigüedad de med al retorno de la función 'ingresar_antig' que rlo recibe por input y lo valida.
+        - Después del match imprime la nueva antigüedad y verifica si la opción es diferente a "0" y con un input se "pausa" hasta presionar un enter.
+        - Retorna 0
+    """
     titulo = "LA ANTIGÜEDAD DE " + nyapMed + " ES " + str(med["antig"])
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -210,9 +266,10 @@ def menu_act_antig(med, nyapMed): #🟨
         case 2: med["antig"] -= 1
         case 3: med["antig"] = ingresar_antig(nyapMed)
     print("\nAntigüedad modificada exitosamente a:", med["antig"])
+    if (opcionAntig != 0): input("\nPresione Enter para volver al menú anterior...")
     return 0
 
-def actu_medico(med, nyapMed): #🟨
+def actu_medico(med, nyapMed): #✅
     """
     Permite modificar los datos de un medico que ya estaba registrado.
 
@@ -261,7 +318,7 @@ def actu_medico(med, nyapMed): #🟨
     return 0
 
 """============================================================== LEER ==============================================================================="""
-def imprimir_medico(med): #🟨
+def imprimir_medico(med): #✅
     """
    Imprime en un auxiliares.ANCHO de 111 cada elemento del médico, modificando su color según ciertas condiciones en algunos casos.
 
@@ -357,7 +414,19 @@ def leer_medico_id(listaMeds, idMed): #✅
     except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
     except: auxiliares.imprimir_error("ERROR DESCONOCIDO")
 
-def leer_medico_id_recursivo(listaMeds, idMed):
+def leer_medico_id_recursivo(listaMeds, idMed):#✅
+    """
+    Imprime el reporte de un médico especificado por su ID utilizando las funciones 'header_medicos' y 'imprimir_medico()'. Busca al médico utilizando
+    recursividad. En caso de reducir el dominio a cero y no encontrar coincidencia informa que el médico no ha sido encontrado.
+
+    Parametros:
+        listaMeds (list): Matriz de médicos a explorar.
+        idMed (int): ID del medico a buscar.
+
+    Returns:
+         leer_medico_id_recursivo (function): Para reducir el dominio, se invoca a sí misma y envía la listaMeds pero a partir del segundo elemento.
+    """
+
     if (len(listaMeds) == 0):
         auxiliares.imprimir_un_encabezado("MEDICO NO ENCONTRADO")
         return
@@ -372,13 +441,13 @@ def leer_medico_id_recursivo(listaMeds, idMed):
         
 
 """============================================================== ELIMINAR ============================================================================="""
-def buscar_borrar_med(idElim, listaMeds): #🟨
+def buscar_borrar_med(idElim, listaMeds): #✅
     """
     Busca un medico segun el id que tiene y lo elimina de la lista si es que lo encuentra.
 
     Parametros: 
         idElim (int): ID del medico a eliminar.
-        meds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
+        listaMeds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
         
     Returns:
         bool: True si se encontro y elimino al medico, false si no se encontro.
@@ -394,7 +463,17 @@ def buscar_borrar_med(idElim, listaMeds): #🟨
     except: auxiliares.imprimir_error("HUBO UN ERROR DESCONOCIDO")
     finally: return encontrado
 
-def buscar_borrar_med_recursivo(listaMeds, idElim):
+def buscar_borrar_med_recursivo(listaMeds, idElim): #✅
+    """
+    Busca un medico segun el id que tiene y lo elimina de la lista si es que lo encuentra, utiliza recursividad para ir recorriendo la lista.
+
+    Parametros: 
+        idElim (int): ID del medico a eliminar.
+        listaMeds (list): Lista de medicos, donde cada medico es un diccionario en el formato: {ID, nyap, Especialidad, Antiguedad, Estado}
+        
+    Returns:
+        bool: True si se encontro y elimino al medico, false si no se encontro.
+    """
     if (len(listaMeds) == 0):
         auxiliares.imprimir_un_encabezado("NO SE ENCONTRÓ EL MÉDICO")
         return False
@@ -405,7 +484,7 @@ def buscar_borrar_med_recursivo(listaMeds, idElim):
         return buscar_borrar_med_recursivo(listaMeds[1:], idElim)
 
     
-def elim_medico(listaMeds): #🟨
+def elim_medico(listaMeds): #✅
     """
     Solicita al usuario que ingrese el ID de un medico y lo modifica su estado a inactivo.
     
@@ -454,7 +533,7 @@ def imprimir_porcentaje_estado(total, activos, inactivos): #✅
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 #ID, nyap, ESPECIALIDAD, ANTIGUEDAD, ESTADO
-def porcentaje_estado(listaMeds): #🟨
+def porcentaje_estado(listaMeds): #✅
     """
     Recorre la matriz y suma dos acumuladores: Uno para los medicos activos y otro para los inactivos, posteriormente calcula que porcentaje
     son sobre el total y llama a la funcion 'imprimir_porcentaje_estado()' para imprimir los resultados.
@@ -536,7 +615,7 @@ def imprimir_porcentaje_especs(espec, cantEspec, porcenEspec, totalMeds): #✅
     auxiliares.imprimir_tres_encabezados(str(totalMeds), str(cantEspec), (porcenEspec+' %'), '\033[1;34m', colorEspec, colorEspec)
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-def porcentaje_espec(listaMeds, espec): #🟨
+def porcentaje_espec(listaMeds, espec): #✅
     """
     Obtiene el total de médicos y posteriormente recorre la matriz de médicos para contar cuantos son de la especialidad indicada.
 
@@ -563,7 +642,7 @@ def porcentaje_espec(listaMeds, espec): #🟨
     except TypeError: auxiliares.imprimir_error("LA LISTA DE MÉDICOS NO ES UNA LISTA, O NO ES UNA LISTA DE DICCIONARIOS")
     except: auxiliares.imprimir_error_desconocido() 
 
-def crear_matriz_prom_antig_espec(listaMeds): #🟨
+def crear_matriz_prom_antig_espec(listaMeds): #✅
     """
     Obtiene el total de médicos y posteriormente recorre la matriz de médicos para contar cuantos son de la especialidad indicada.
 
@@ -596,7 +675,7 @@ def crear_matriz_prom_antig_espec(listaMeds): #🟨
                 # Se le agrega la especialidad, arranca el sumador con su antigüedad y el contador en 1
     return matEspecs
 
-def prom_antig_espec(listaMeds): #🟨
+def prom_antig_espec(listaMeds): #✅
     """
     Crea una función de antigüedades por especialidad, posteriormente imprime los títulos y encabezados del reporte.
     Define los promedios y se les asigna un color según su valor, también se le quita la parte decimal si es nula, y sino, se redondea a 1 digito.
@@ -635,9 +714,16 @@ def prom_antig_espec(listaMeds): #🟨
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================================ MENU Y MAIN========================================================================="""
-def ingresar_opcion(max): #🟨
+def ingresar_opcion(max): #✅
     """
- 
+    Se le ingresa una opción por teclado, verifica que esté entre 0 y 'max (int)' ingresado como parámetro, en caso de fallo, se vuelve a intentar ya que itera
+    con un "while True" (es decir, sigue hasta que retorna)
+
+    Parametros:
+        max (int): Número máximo de opción permitida, si se supera, arroja AssertionError.
+
+    Returns: 
+        opcion (int): La opción indicada mediante input por el usuario, ya validada por la función.
     """
     while True:
         try:
@@ -650,6 +736,15 @@ def ingresar_opcion(max): #🟨
 
 def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''): #✅
     """
+    Imprime una opción, pone un color específico para la opción y para el texto, indicados por parámetro (o no, si se dejan vacíos).
+
+    Parametros:
+        opcion (int): Es el número de opción a imprimir
+        texto (string): Es el texto a imprimir al lado de la opción, típicamente el título de la misma
+        colorOpcion (string): Es el texto ANSI del color de la opción, por defecto está vacío en caso de no querer ponerle un color.
+        guiones (bool): Indica si poner guiones en la parte superior de la opción, por defecto es True 
+                        (esto sirve más que nada para la primera opción, que va en False)
+        colorTexto (string): Indica el texto ANSI del color del texto, por defecto es un string vacío en caso de no querer ponerle color.
     """
 
     if (guiones):
@@ -660,6 +755,28 @@ def imprimir_opcion(opcion, texto, colorOpcion='', guiones=True, colorTexto=''):
     print(f"| " + textoImprimir.ljust(auxiliares.ANCHO-4) + " " * espacios, end=" |\n")
 
 def menu_leer_medicos(listaMeds): #✅
+   """
+    Submenú para leer médicos, es más que nada para indicar si se quiere buscar un sólo médico o informar sobre todos.
+
+    Parametros:
+        listaMeds(list): Lista de diccionarios (que serían los médicos)
+
+    Flujo: 
+        - Imprime una línea de iguales y el encabezado que indica el flujo de menús.
+        - Imprime otra línea de iguales y las distintas opciones:
+            -- Opción 1: Leer todos los médicos
+            -- Opción 2: Leer médico por ID
+            -- Opcion 0: Volver al menú anterior
+        - Imprime otra línea de iguales
+        - Obtiene la opción llamando a la función 'ingresar_opción' y le indica el número máximo (2)
+        - Con un match verifica la opción elegida y realiza distintas cosas:
+            -- Opcion 0: Retorna 0
+            -- Opcion 1: Limpia la terminal y llama a la función 'leer_medicos' envíandole la lista de médicos
+            -- Opcion 2: Limpia la terminal y llama a la función 'leer_medico_id_recursivo' mandandole la lista de médicos y el id indicado, se llama a la 
+                        función 'ingresar_id()' y se usa su retorno como parámetro de forma directa.
+        - Después del match la función verifica si la opción es diferente a "0" y con un input se "pausa" hasta presionar un enter.
+        - Limpia la terminal y se llama a sí misma, esto para que se mantenga en ese menú hasta que se ingrese "0"
+   """
    auxiliares.linea_iguales(auxiliares.ANCHO)
    auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D > LEER MEDICOS', auxiliares.ANCHO, '\033[1m')
    print("")
@@ -686,7 +803,36 @@ def menu_leer_medicos(listaMeds): #✅
    auxiliares.limpiar_terminal()
    menu_leer_medicos(listaMeds)
 
-def menu_crud_medicos(listaMeds, idsUsados): #🟨
+def menu_crud_medicos(listaMeds, idsUsados): #✅
+    """
+    Submenú de funciones C.R.U.D de médicos
+
+    Parametros:
+        listaMeds(list): Lista de diccionarios (que serían los médicos)
+        idsUsados (list): Lista de IDs ya utlizados en algún médico
+
+    Flujo: 
+        - Imprime una línea de iguales y el encabezado que indica el flujo de menús.
+        - Imprime otra línea de iguales y las distintas opciones:
+            -- Opción 1: Crear Médico
+            -- Opción 2: Leer médicos
+            -- Opcion 3: Actualizar médico
+            -- Opcion 4: Eliminar médico
+            -- Opcion 0: Volver al menú anterior
+        - Imprime otra línea de iguales
+        - Obtiene la opción llamando a la función 'ingresar_opción' y le indica el número máximo (3)
+        - Con un match verifica la opción elegida y realiza distintas cosas:
+            -- Opcion 0: Retorna 0
+            -- Opcion 1: Limpia la terminal y llama a la función 'crear_medico' envíandole la lista de médicos y la lista de IDs ya usados. Después llama a las
+                        funciones 'guardar_medicos' y 'guardar_ids_usados' para guardar los cambios en los archivos
+            -- Opcion 2: Limpia la terminal y llama a la función 'menu_leer_medicos' enviandole la lista de médicos
+            -- Opcion 3: Limpia la terminal y llama a la función 'buscar_medico_id' para obtener el médico a actualizar. Si lo encuentra llama a la función
+                        'actu_medico' para actualizarlo y finalmente guarda los cambios en el archivo de médicos con 'guardar_medicos', si no encontró al médico
+                        lo informa con un mensaje.
+            -- Opcion 4: Limpia la terminal y llama a la función 'elim_medico' y le manda la lista de médicos, después guarda los cambios con 'guardar_medicos'
+        - Después del match la función verifica si la opción es diferente a "0" y con un input se "pausa" hasta presionar un enter.
+        - Limpia la terminal y se llama a sí misma, esto para que se mantenga en ese menú hasta que se ingrese "0"
+    """
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > C.R.U.D', auxiliares.ANCHO, '\033[1m')
     print("")
@@ -718,7 +864,7 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
             if (medico): 
                 opcion = actu_medico(medico, medico["nombre"])
                 guardar_medicos(listaMeds)
-            else: print("Medico no encontrado")
+            else: auxiliares.imprimir_error("Medico no encontrado")
         case 4:
             auxiliares.limpiar_terminal()
             elim_medico(listaMeds)
@@ -729,7 +875,31 @@ def menu_crud_medicos(listaMeds, idsUsados): #🟨
     auxiliares.limpiar_terminal()
     menu_crud_medicos(listaMeds, idsUsados)
 
-def menu_estadistica_medicos(listaMeds): #🟨
+def menu_estadistica_medicos(listaMeds): #✅
+    """
+    Submenú de funciones estadísticas del módulo médicos.
+
+    Parametros:
+        listaMeds(list): Lista de diccionarios (que serían los médicos)
+
+    Flujo: 
+        - Imprime una línea de iguales y el encabezado que indica el flujo de menús.
+        - Imprime otra línea de iguales y las distintas opciones:
+            -- Opción 1: Porcentaje de Médicos Activos e Inactivos
+            -- Opción 2: Porcentaje de Médicos por Especialidad
+            -- Opcion 3: Promedio de Antigüedad por Especialidad
+            -- Opcion 0: Volver al menú anterior
+        - Imprime otra línea de iguales
+        - Obtiene la opción llamando a la función 'ingresar_opción' y le indica el número máximo (3)
+        - Con un match verifica la opción elegida y realiza distintas cosas:
+            -- Opcion 0: Retorna 0
+            -- Opcion 1: Limpia la terminal y llama a la función 'porcentaje_estado' envíandole la lista de médicos
+            -- Opcion 2: Limpia la terminal y llama a la función 'porcentaje_espec' mandandole la lista de médicos y la especialidad para esta se llama a la 
+                        función 'ingresar_espe()' y se usa su retorno como parámetro de forma directa.
+            -- Opcion 3: Limpia la terminal y llama a la función 'prom_antig_espec' enviandole la lista de médicos
+        - Después del match la función verifica si la opción es diferente a "0" y con un input se "pausa" hasta presionar un enter.
+        - Limpia la terminal y se llama a sí misma, esto para que se mantenga en ese menú hasta que se ingrese "0"
+    """
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('MENU MEDICOS > ESTADISTICA', auxiliares.ANCHO, '\033[1m')
     print("")
@@ -760,7 +930,30 @@ def menu_estadistica_medicos(listaMeds): #🟨
     auxiliares.limpiar_terminal()
     menu_estadistica_medicos(listaMeds)
 
-def menu_medicos(listaMeds, idsUsados): #🟨
+def menu_medicos(listaMeds, idsUsados): #✅
+    """
+    Menú principal de médicos, sirve para elegir entre el menú 'CRUD' y el menú de funciones estadísticas.
+
+    Parametros:
+        listaMeds(list): Lista de diccionarios (que serían los médicos)
+        idsUsados (list): Lista de IDs usados, se utiliza en la creación de médicos.
+
+    Flujo: 
+        - Imprime una línea de iguales y el encabezado que indica el flujo de menús. (En este caso el principio, 'MENU MEDICOS')
+        - Imprime otra línea de iguales y las distintas opciones:
+            -- Opción 1: Menú CRUD
+            -- Opción 2: Menú Estadístico
+            -- Opcion 0: Volver al menú anterior
+        - Imprime otra línea de iguales
+        - Obtiene la opción llamando a la función 'ingresar_opción' y le indica el número máximo (2)
+        - Con un match verifica la opción elegida y realiza distintas cosas:
+            -- Opcion 0: Retorna 0
+            -- Opcion 1: Limpia la terminal y llama a la función 'menu_crud_medicos' mandandole la lista de médicos y los ids usados.
+            -- Opcion 2: Limpia la terminal y llama a la función 'menu_estadistica_medicos' mandandole la lista de médicos
+        - Estos últimos pasos se realizan dentro de un try-except, en caso de que ocurra un error desconocido se imprime que ocurrió un error desconocido,
+          en los submenús que invoca no se realizan try-except ya que burbujean hasta este menú.
+        - Limpia la terminal y se llama a sí misma, esto para que se mantenga en ese menú hasta que se ingrese "0"
+    """
     auxiliares.limpiar_terminal()
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -788,7 +981,16 @@ def menu_medicos(listaMeds, idsUsados): #🟨
         menu_medicos(listaMeds, idsUsados)
     except: auxiliares.imprimir_error_desconocido()
 
-def inicializar_modulo_medicos():
+def inicializar_modulo_medicos(): #✅
+    """
+    Función de inicialización del módulo médicos, está pensada para ser llamada desde otros módulos, se obtiene información de los archivos y se llama al
+    menú principal de médicos
+
+    Flujo: 
+        - Obtiene la lista de diccionarios de médicos llamando a la función 'obtener_medicos'
+        - Obtiene la lista de IDs usados de médicos llamando a la función 'obtener_ids_usados'
+        - Llama a 'menu_medicos' y le envía estos datos obtenidos para comenzar con el flujo del módulo.
+    """
     listaMedicos = obtener_medicos()
     idsUsados = obtener_ids_usados()
 
