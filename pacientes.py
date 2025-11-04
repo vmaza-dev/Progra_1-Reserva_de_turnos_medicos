@@ -84,7 +84,9 @@ def crear_paciente(id):
         diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
-    while True:
+
+    nombre_valido = False
+    while not nombre_valido:
         try:
             nombreCompleto = input("Ingrese su nombre completo: ").strip()
             if not nombreCompleto:
@@ -92,18 +94,22 @@ def crear_paciente(id):
 
             if not all(c.isalpha() or c.isspace() for c in nombreCompleto):
                 raise ValueError("El nombre solo puede contener letras y espacios")
-            break# revisar porque usamos el break?
+            nombre_valido = True
         except ValueError as e:
             print(f"Error: {e}")
+
     edad = validacion_edad(auxiliares.pedir_valor("Ingrese su edad: ", int))
-    while True:# Podemos hacerlo sin el while true?
+
+    obra_valida = False
+    while not obra_valida:
         try:
             obra_social = input("Ingrese su obra social: ").strip()
             if obra_social not in OBRAS_SOCIALES:
                 raise ValueError(f"Obra social inválida. Opciones válidas: {', '.join(OBRAS_SOCIALES)}")
-            break
+            obra_valida = True
         except ValueError as e:
             print(f"Error: {e}")
+
     paciente = {
         'id': id,
         'dni': dni,
@@ -315,15 +321,14 @@ def validacion_dni(dni):
         int: DNI válido.
     """
     patron = r"^\d{8}$"
-    while True:
-        try:
-            dni_str = str(dni)
-            if not re.match(patron, dni_str):# que cada funcion haga una sola cosa!
-                raise ValueError(f"DNI inválido: {dni}")# agarramos el error del raise acá, eso no es correcto!
-            return int(dni_str)
-        except ValueError as e:
-            print(f"Error: {e}")
-            dni = auxiliares.pedir_valor("Ingrese un DNI válido (8 dígitos): ", int)
+    dni_str = str(dni)
+
+    if re.match(patron, dni_str):
+        return int(dni_str)
+    else:
+        print(f"DNI invalido: {dni}")
+        nuevo = auxiliares.pedir_valor("Ingrese un DNI válido (8 dígitos): ", int)
+        return validacion_dni(nuevo)
 
 def validacion_edad(edad):
     """
@@ -335,14 +340,12 @@ def validacion_edad(edad):
     Returns:
         int: Edad válida.
     """
-    while True:
-        try:
-            if edad < 3 or edad > 98:
-                raise ValueError(f"Edad inválida: {edad}")
-            return edad
-        except ValueError as e:
-            print(f"Error: {e}")
-            edad = auxiliares.pedir_valor("Ingrese una edad válida (3-98): ", int)
+    if edad >= 3 or edad <= 98:
+        return edad
+    else:
+        print(f"Edad invalida: {edad}")
+        nuevo = auxiliares.pedir_valor("Ingrese una edad válida (3-98): ", int)
+        return validacion_edad(nuevo)
 
 def generacion_dni_realista(edad):
     """
@@ -584,6 +587,7 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-#pacientes = cargar_pacientes_json() 
+pacientes = cargar_pacientes_json() 
 #pacientes_actualizados = principal_pacientes(pacientes)
 #guardar_pacientes_json(pacientes_actualizados)
+principal_pacientes(pacientes)
