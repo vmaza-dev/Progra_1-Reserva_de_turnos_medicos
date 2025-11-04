@@ -24,7 +24,7 @@ def main():
     # Inicialización de variables que necesitemos
     #-------------------------------------------------
     matriz_pacientes = inicializar_pacientes_random()
-    listaMedicos = obtener_medicos()# Todo: necesito la manera de crear el arhivo de los médicos
+    listaMedicos = obtener_medicos()
 
     # creo turnos random
     principal_crear_leer_turnos(listaMedicos, matriz_pacientes)

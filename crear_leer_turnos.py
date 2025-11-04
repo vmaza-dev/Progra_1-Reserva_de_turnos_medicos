@@ -179,6 +179,7 @@ def validar_turno(matriz_turnos, datos_turno, rnd = True):#✅
             mensaje = "El paciente ya tiene un turno con el médico solicitado"
             valido = False
             busqueda = False
+        # aviso mediante un error tipo warnig mas de un turno con la misma especialidad
         if rnd == False:
             if (datos_turno.get('especialidad_medica') == matriz_turnos_fecha[turno].get('especialidad_medica') and
                 datos_turno.get('paciente') == matriz_turnos_fecha[turno].get('paciente')):
@@ -422,6 +423,11 @@ def obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
         print(mensaje_error)
         auxiliares.ingresar_respuesta_str('Presione enter para empezar de nuevo')
         # uso recursividad!
+        # el dominio va cambiando porque se elige otras opciones
+        # el caso base es cuando no entra en el except, ejecuta la función y devuelve la
+        # (datos_turno, dia_semana) a las llamadas recursivas
+        # cuando llega a la ultima devuelve la tupla validada 
+        # a la funcion crear_turno que es la que llama originalmente
         return obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
         
     estado_turno = auxiliares.estado_turno['activo']
