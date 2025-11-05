@@ -94,7 +94,7 @@ def obtener_medicos(): #✅
     de ocurrir un error se notifica y se retorna una lista vacía. En cualquier caso se cierra el archivo.
      
     Returns:
-        list: La lista de médicos (o una lista vacía si falló)
+        listaMedicos (list): La lista de médicos (o una lista vacía si falló)
     """    
     try:
         archMeds = open("datos/arch_medicos.json", "rt", encoding="UTF-8")
@@ -105,24 +105,59 @@ def obtener_medicos(): #✅
     finally:
         try:
             archMeds.close()
-        except Exception as Exep: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo")
+        except: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de médicos")
     return listaMedicos
 
-def obtener_ids_usados():
-    arch = open("datos/arch_medicos_idsUsados.txt", "rt", encoding="UTF-8")
-    textoLista = (arch.readline()).strip() #Leo el archivo y obtengo la lista, también elimino los espacios con .strip()
-    textoLista = (textoLista.strip("[]")).split(",") # Elimino los corchetes de la línea, después la convierto en una lista de substrings usando ',' como delimitador
+def obtener_ids_usados(): #✅
+    """
+    Abre el archivo "medicos_idsUsados.txt" y carga la línea en un texto, con manejo de cadenas se convierte en una lista de strings y con una función por
+    comprensión se castea cada elemento a entero.
+     
+    Returns:
+        listaUsados (list): La lista de los IDs usados, o una lista vacía si falló.
+    """
 
-    listaUsados = [int(idUsado) for idUsado in textoLista] # De la lista de substrings que obtuve, creo una lista nueva con cada elemento casteado a int
+    try:
+        arch = open("datos/arch_medicos_idsUsados.txt", "rt", encoding="UTF-8")
+        textoLista = (arch.readline()).strip() #Leo el archivo y obtengo la lista, también elimino los espacios con .strip()
+        textoLista = (textoLista.strip("[]")).split(",") # Elimino los corchetes de la línea, después la convierto en una lista de substrings usando ',' como delimitador
+
+        listaUsados = [int(idUsado) for idUsado in textoLista] # De la lista de substrings que obtuve, creo una lista nueva con cada elemento casteado a int
+    except:
+        auxiliares.imprimir_error("Ocurrió un problema al abrir y leer el archivo de IDS usados")
+        return []
+    finally:
+        try:
+            arch.close()
+        except: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de IDS usados")
     return listaUsados
 
-def guardar_medicos(listaMeds):
+def guardar_medicos(listaMeds): #✅
+    """
+    Llama a la función auxiliar 'guardar_archivo_json' y le envía la lista de meédicos y la ruta del archivo
+
+    Parámetros:
+    listaMeds (list): La lista de diccionarios de los médicos
+    """
     auxiliares.guardar_archivo_json(listaMeds, "datos/arch_medicos.json")
 
-def guardar_ids_usados(listaUsados):
-    arch = open("datos/arch_medicos_idsUsados.txt", "wt", encoding="UTF-8")
-    arch.write(str(listaUsados))
-    arch.close()
+def guardar_ids_usados(listaUsados): #✅
+    """
+    Abre el archivo de IDs usados en modo escritura y escribe la lista de IDs usados casteada a string. Después cierra el archivo.
+
+    Parámetros:
+    listaUsados (list): La lista de IDs usados de los médicos
+    """
+
+    try:
+        arch = open("datos/arch_medicos_idsUsados.txt", "wt", encoding="UTF-8")
+        arch.write(str(listaUsados))
+    except: auxiliares.imprimir_error("Ocurrió un error al abrir y escribir en el archivo de IDs usados")
+    finally:
+        try:
+            arch.close()
+        except: auxiliares.imrpimir_error("Ocurrió un error al cerrar el archivo de IDs usados")
+
 
 """================================================================= CREAR ============================================================================"""
 def crear_medico(listaMeds, listaIDs): #✅
@@ -1010,9 +1045,5 @@ def inicializar_modulo_medicos(): #✅
 """
 
 #inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
-
-# CAMBIOS A REALIZAR:
-# ADAPTAR FUNCIONES A DICCIONARIOS 🟨
-# CORREGIR PEQUEÑOS ERRORES QUE QUEDARON 
 
 
