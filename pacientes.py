@@ -572,4 +572,4 @@ def principal_pacientes(pacientes):
 #pacientes = cargar_pacientes_json() 
 #pacientes_actualizados = principal_pacientes(pacientes)
 #guardar_pacientes_json(pacientes_actualizados)
-#principal_pacientes(pacientes)
+# principal_pacientes(pacientes)

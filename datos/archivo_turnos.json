@@ -98,25 +98,5 @@
         "medico": 777555,
         "tipo_consulta": "Urgencia",
         "estado_turno": "Finalizado"
-    },
-    {
-        "id": "000011",
-        "fecha": "2025-11-28",
-        "hora": "16:00",
-        "paciente": 43425627,
-        "especialidad_medica": "Otorrinonaringologia",
-        "medico": 999999,
-        "tipo_consulta": "Urgencia",
-        "estado_turno": "Cancelado"
-    },
-    {
-        "id": "000012",
-        "fecha": "2025-11-24",
-        "hora": "16:00",
-        "paciente": 43846437,
-        "especialidad_medica": "Traumatologia",
-        "medico": 100000,
-        "tipo_consulta": "Urgencia",
-        "estado_turno": "Cancelado"
     }
 ]

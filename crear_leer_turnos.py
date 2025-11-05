@@ -17,7 +17,7 @@ import json
 #---------------------------- MODULOS DEL PROYECTO -----------------------------
 #-------------------------------------------------------------------------------
 
-import auxiliares, calendario, turnos
+import auxiliares, calendario
 from pacientes import crear_paciente
 
 #-------------------------------------------------------------------------------
@@ -159,7 +159,6 @@ def validar_turno(matriz_turnos, datos_turno, rnd = True):#✅
     valido = True
     busqueda = True
     turno = 0
-    # uso while para no forzar la finalizacion del bucle con un return o break
     while busqueda and turno <= len(matriz_turnos_fecha) - 1:
         # valido superpocion de horario con otro turno del paciente
         if (datos_turno.get('hora') == matriz_turnos_fecha[turno].get('hora')and
@@ -240,6 +239,26 @@ def mostrar_estado_turno(estado, alineacion):
     elif estado == auxiliares.estado_turno.get('cancelado'):
         estado_turno = rojo(f"{estado:^{alineacion}}")
     return estado_turno 
+
+def escribir_turnos(matriz_turnos):
+    """
+    Actualiza la base de datos de turnos generados.
+    
+    Args:
+        matriz_turnos(list[dic]): Lista de diccionarios actualizada.
+    """
+    try:
+        with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
+                json.dump(matriz_turnos, turnos, ensure_ascii=False, indent=4, default=str)
+                # el default=str es para que pueda serializar el objeto tipo date
+                # que es la fecha, se va a guardar como string
+                # al deserilizar es necesario pasar a tipo date.
+    except FileNotFoundError:
+            print('No se pudo actualizar archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
+    except OSError:
+            print('No se pudo actualizar el archivo principal de turnos')
+            input('Presione un tecla para continuar: ')
 
 #-------------------------------------------------------------------------------
 # FUNCIONES FILTROS-BUSQUEDAS --------------------------------------------------
@@ -893,8 +912,6 @@ def crear_turnos(matriz_turnos, matriz_pacs, matriz_meds, rnd = False):#✅
     nuevo_turno = {'id':"void"}
     datos_turno, dia_semana = obtener_datos_turnos(matriz_turnos, matriz_pacs, matriz_meds, info_mes, rnd)
     
-    # no hay superposición procedo a confirmar y a crear
-    
     confirmacion = confirmar_turno(datos_turno, dia_semana, matriz_pacs, matriz_meds)
 
     if confirmacion == False:
@@ -1042,22 +1059,3 @@ def consultar_turno(matriz_turnos, matriz_pacs, matriz_meds):
                     consultar_por_paciente(matriz_turnos, matriz_pacs, matriz_meds)
                     input("\nPresione ENTER para volver al menú.")
 
-def escribir_turnos(matriz_turnos):
-    """
-    Actualiza la base de datos de turnos generados.
-    
-    Args:
-        matriz_turnos(list[dic]): Lista de diccionarios actualizada.
-    """
-    try:
-        with open('datos/archivo_turnos.json', 'w', encoding='UTF-8') as turnos:
-                json.dump(matriz_turnos, turnos, ensure_ascii=False, indent=4, default=str)
-                # el default=str es para que pueda serializar el objeto tipo date
-                # que es la fecha, se va a guardar como string
-                # al deserilizar es necesario pasar a tipo date.
-    except FileNotFoundError:
-            print('No se pudo actualizar archivo principal de turnos')
-            input('Presione un tecla para continuar: ')
-    except OSError:
-            print('No se pudo actualizar el archivo principal de turnos')
-            input('Presione un tecla para continuar: ')
