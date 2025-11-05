@@ -98,5 +98,15 @@
         "medico": 777555,
         "tipo_consulta": "Urgencia",
         "estado_turno": "Finalizado"
+    },
+    {
+        "id": "000011",
+        "fecha": "2025-11-01",
+        "hora": "09:00",
+        "paciente": 10842820,
+        "especialidad_medica": "Otorrinonaringologia",
+        "medico": 999999,
+        "tipo_consulta": "Control",
+        "estado_turno": "Activo"
     }
 ]
