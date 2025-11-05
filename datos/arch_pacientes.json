@@ -1,12 +1,5 @@
 [
     {
-        "id": 9798,
-        "dni": 37307952,
-        "nombre": "Aline Figueroa",
-        "edad": 41,
-        "obra_social": "VICMAZA"
-    },
-    {
         "id": 4565,
         "dni": 43846437,
         "nombre": "Sofia Miranda",
@@ -60,13 +53,6 @@
         "dni": 38751026,
         "nombre": "Xiomara Ramos",
         "edad": 37,
-        "obra_social": "OSDE"
-    },
-    {
-        "id": 8955,
-        "dni": 47201888,
-        "nombre": "Tomas Fernandez",
-        "edad": 35,
         "obra_social": "OSDE"
     }
 ]

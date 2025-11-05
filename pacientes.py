@@ -18,51 +18,21 @@ def cargar_pacientes_json():
     try:
         with open("datos/arch_pacientes.json" , "r", encoding="UTF-8") as arch:
             return json.load(arch)
-    except FileNotFoundError:# revisar, abarca todos los errores?
-        print("El archivo no se pudo encontrar o esta vacio")
+    except (FileNotFoundError,OSError) as error:
+        print(f'Error: {error}')
         return []
-
-def cargar_pacientes_json(archivo_json="datos/arch_pacientes.json"):
-    """
-    Carga la lista de pacientes desde el archivo JSON.
-    Maneja excepciones si el archivo no existe o está corrupto.
-    """
-    if not os.path.exists(archivo_json):
-        print("Advertencia: No se encontró 'arch_pacientes.json'.")
-        # Si no existe, llamamos al fallback para crear datos de prueba
-        return inicializar_pacientes_random() 
-
-    try:
-        with open(archivo_json, 'r', encoding='utf-8') as f:
-            datos = json.load(f)
-            if not datos: # Chequea si el JSON está vacío (ej: "[]")
-                 print("Advertencia: 'arch_pacientes.json' está vacío.")
-                 return inicializar_pacientes_random()
-            print(f"Se cargaron {len(datos)} pacientes desde '{archivo_json}'.")
-            return datos
-            
-    except json.JSONDecodeError:
-        print(f"Error: El archivo '{archivo_json}' está mal formateado (corrupto).")
-        # Si está corrupto, mejor no arriesgarse.
-        return inicializar_pacientes_random()
-    except Exception as e:
-        print(f"Error inesperado al cargar el JSON: {e}")
-        return inicializar_pacientes_random()
 
 def guardar_pacientes_json(pacientes_a_guardar, archivo_json="datos/arch_pacientes.json"):
     """
     Guarda la lista de pacientes actual en el archivo JSON.
-    Usa indent=4 para que sea legible.
     """
     try:
         with open(archivo_json, 'w', encoding='utf-8') as f:
             # indent=4 es clave para que el JSON quede prolijo
             json.dump(pacientes_a_guardar, f, indent=4, ensure_ascii=False)
         print(f"Datos guardados exitosamente en '{archivo_json}'.")
-    except IOError as e:
-        print(f"Error al escribir en el archivo JSON: {e}")
-    except Exception as e:
-        print(f"Error inesperado al guardar el JSON: {e}")
+    except (FileNotFoundError,OSError) as error:
+        print(f"Error al escribir en el archivo JSON: {error}")
 
 # ==============================================================================
 # CRUD
@@ -73,7 +43,7 @@ def obtener_paciente_por_id(pacientes,id):
         return i
     return -1
 
-def crear_paciente(id):
+def crear_paciente():
     """
     Crea un paciente por teclado solicitando los datos al usuario
 
@@ -83,6 +53,9 @@ def crear_paciente(id):
     Return:
         diccionario: dicc. con los datos del paciente {id,dni,nombre,edad,obra_social
     """
+    pacientes = cargar_pacientes_json()
+    id = id_unico(pacientes)
+
     dni = validacion_dni(auxiliares.pedir_valor("Ingrese su DNI: ", int))
 
     nombre_valido = False
@@ -117,7 +90,8 @@ def crear_paciente(id):
         'edad': edad,
         'obra_social': obra_social
     }
-
+    pacientes.append(paciente)
+    guardar_pacientes_json(pacientes)
     return paciente
 
 def crear_pacientes_random(pacientes, cantCrear):
@@ -179,6 +153,7 @@ def leer_pacientes(pacientes):
     Returns:
         None.
     """
+    pacientes = cargar_pacientes_json()
     imprimir_paciente(pacientes)
 
 def buscar_id_paciente(pacientes):
@@ -214,6 +189,7 @@ def actualizar_paciente(pacientes):
     Args:
         pacientes (list[dict]): Lista de pacientes.
     """
+    pacientes = cargar_pacientes_json()
 
     print("\n=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
@@ -251,7 +227,10 @@ def actualizar_paciente(pacientes):
                         print("Opcion invalida, intente nuevamente.")
                 pac['obra_social'] = OBRAS_SOCIALES[op_obra - 1]
                 print("Perfil actualizado del paciente:")
-                imprimir_paciente([pac])
+
+        guardar_pacientes_json(pacientes)
+        imprimir_paciente([pac])
+        return pacientes
 
 def eliminar_paciente(pacientes):
     """
@@ -261,6 +240,7 @@ def eliminar_paciente(pacientes):
     Args:
         pacientes (list[dict]): Lista de pacientes.
     """
+    pacientes = cargar_pacientes_json()
     print("=== LISTADO DE PACIENTES DISPONIBLES ===")
     imprimir_paciente(pacientes)
     id = auxiliares.pedir_valor("Ingrese el ID del paciente a eliminar: ", int)
@@ -285,7 +265,8 @@ def eliminar_paciente(pacientes):
                 
         pacientes.remove(pac)
         print(f"Paciente '{pac['nombre']}' eliminado correctamente.")
-
+        guardar_pacientes_json(pacientes)
+        return pacientes
 
 # ==============================================================================
 # VALIDACIONES
@@ -521,7 +502,10 @@ def inicializar_pacientes_random():
     Returns:
         list[dict]: La lista global de pacientes ya inicializada.
     """
-    crear_pacientes_random(pacientes, 10)
+    pacientes = cargar_pacientes_json()
+    if not pacientes:
+        print("No hay pacientes, se crearon algunos de prueba.")
+        crear_pacientes_random(pacientes, 10)
     return pacientes
 
 def principal_pacientes(pacientes):
@@ -562,9 +546,7 @@ def principal_pacientes(pacientes):
                 input(f"Error: {e}. Presione intro para volver a seleccionar.")
 
             if opcion_p == "1":
-                pac_id = id_unico(pacientes)
-                nuevo = crear_paciente(pac_id)
-                pacientes.append(nuevo)
+                nuevo = crear_paciente()
                 print("\nPaciente creado correctamente:")
                 imprimir_paciente([nuevo])
 
@@ -587,7 +569,7 @@ def principal_pacientes(pacientes):
 
     return pacientes
 
-pacientes = cargar_pacientes_json() 
+#pacientes = cargar_pacientes_json() 
 #pacientes_actualizados = principal_pacientes(pacientes)
 #guardar_pacientes_json(pacientes_actualizados)
 # principal_pacientes(pacientes)
