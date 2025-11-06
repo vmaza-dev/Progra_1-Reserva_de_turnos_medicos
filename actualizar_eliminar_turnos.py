@@ -5,14 +5,6 @@
 # Fecha de creación: 10/08/2025
 # ==============================================================================
 
-# ==============================================================================
-# Materia: Programación 1 
-# Grupo 6: Aliano Manuel, Ávila Simón, Iturria Agustín, Nicolás Seijo, Victor Maza
-# Descripción: Módulo Turnos
-# Fecha de creación: 10/08/2025
-# (Versión corregida el 04/11/2025)
-# ==============================================================================
-
 import auxiliares
 import crear_leer_turnos
 
