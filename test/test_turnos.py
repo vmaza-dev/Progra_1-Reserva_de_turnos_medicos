@@ -9,6 +9,8 @@
 #-------------------------------------------------------------------------------
 import pytest
 from crear_leer_turnos import filtrar_turnos, devolver_nombre_persona, validar_turno
+from actualizar_eliminar_turnos import elim_turno, edit_turnos
+import auxiliares
 
 #-------------------------------------------------------------------------------
 # TESTS CREAR_LEER_CONSULTAR_TURNOS --------------------------------------------
@@ -136,3 +138,33 @@ def test_warning_repetir_misma_epecialidad(matriz_turnos_test):
 #-------------------------------------------------------------------------------
 # TESTS ACTUALIZAR_ELIMINAR_TURNOS ---------------------------------------------
 #-------------------------------------------------------------------------------
+
+
+# Prueba 1: Verifica que 'elim_turno' NO cambie el estado si ya está 'Finalizado'
+def test_elim_turno_no_cancela_un_turno_finalizado(monkeypatch):
+    # Organizar: Un turno finalizado
+    estado_original = auxiliares.estado_turno['finalizado']
+    turno_finalizado = {"id": "000001", "estado_turno": estado_original}
+    matriz = [turno_finalizado]
+    
+    # Simulamos que el usuario ingresa el ID "1"
+    monkeypatch.setattr('auxiliares.ingresar_entero_positivo', lambda _: "1")
+    monkeypatch.setattr('builtins.input', lambda _: "") # Simula presionar Enter
+    elim_turno(matriz)
+    
+    # Afirmar: El estado del turno NO debe haber cambiado
+    assert matriz[0]['estado_turno'] == estado_original
+
+# Prueba 2: Verifica que 'edit_turnos' NO pueda editar un turno 'Cancelado'
+def test_edit_turnos_no_edita_un_turno_cancelado(monkeypatch):
+    # Organizar: Un turno cancelado
+    estado_original = auxiliares.estado_turno['cancelado']
+    turno_cancelado = {"id": "000001", "estado_turno": estado_original}
+    matriz = [turno_cancelado]
+
+    # Simulamos que el usuario ingresa el ID "1" 
+    monkeypatch.setattr('auxiliares.ingresar_entero_positivo', lambda _: "1")
+    monkeypatch.setattr('builtins.input', lambda _: "") # Simula presionar Enter
+    
+    # Afirmar: El estado debe seguir siendo el original
+    assert matriz[0]['estado_turno'] == estado_original
