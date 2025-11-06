@@ -474,7 +474,6 @@ def leer_medico_id_recursivo(listaMeds, idMed):#✅
     else:
         return leer_medico_id_recursivo(listaMeds[1:], idMed)
         
-
 """============================================================== ELIMINAR ============================================================================="""
 def buscar_borrar_med(idElim, listaMeds): #✅
     """
@@ -517,7 +516,6 @@ def buscar_borrar_med_recursivo(listaMeds, idElim): #✅
         return True
     else:
         return buscar_borrar_med_recursivo(listaMeds[1:], idElim)
-
     
 def elim_medico(listaMeds): #✅
     """
