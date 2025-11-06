@@ -1,5 +1,5 @@
 import pytest
-from pacientes import promedio_edades, validacion_dni, pacientes_por_obra
+from pacientes import validacion_dni, validacion_edad, id_unico, generacion_dni_realista, promedio_edades,pacientes_por_obra, porcentaje_por_obra, generar_usuario
 
 
 def test_promedio_edades():
@@ -35,3 +35,42 @@ def test_pacientes_por_obra():
     resultado = pacientes_por_obra(pacientes)
     esperado = [("OSDE", 2), ("IOMA", 1)]
     assert sorted(resultado) == sorted(esperado)
+
+
+
+# VARIABLE NECESARIA PARA LOS TESTS   ------------------------------------------
+@pytest.fixture
+def pacientes_test():
+    return[
+        {"id":1000, "dni":12345678, "nombre": "Juan Perez", "edad": 30, "obra_social": "OSDE"},
+        {"id":1001, "dni":22334455, "nombre": "Pepe Argento", "edad": 43, "obra_social": "Swiss Medical"},
+        {"id":1002, "dni":66778899, "nombre": "Felipe Alvarez", "edad": 60, "obra_social": "OSDE"},
+    ]
+
+# TESTS ------------------------------------------------------------------------
+
+def test_validacion_dni_valido():
+    #Arrange
+    dni = 12345678
+    #Act
+    resultado = validacion_dni(dni)
+    #Assert
+    assert resultado == dni
+
+def test_id_unico(pacientes_test):
+    #Arrange
+    id_existente = [p['id'] for p in pacientes_test]
+    #Act
+    nuevo_id = id_unico(pacientes_test)
+    #Assert
+    assert nuevo_id not in id_existente
+    assert 1000 <= nuevo_id <= 9999
+
+def test_promedio_edades(pacientes_test):
+    #Arrange
+    esperado = (30 + 43 + 60)/3
+    #Act
+    resultado = promedio_edades(pacientes_test)
+    #Assert
+    assert resultado == pytest.approx(esperado)
+

@@ -365,7 +365,7 @@ def promedio_edades(pacientes):
         float: Promedio de edades.
     """
     edades = list(map(lambda p: p['edad'], pacientes))
-    return sum(edades)/len(edades) if edades else 0# hacer un test, evitar el uso del if
+    return sum(edades) / (len(edades) or 1) #hacer un test, evitar el uso del if
 
 def pacientes_por_obra(pacientes):
     """
