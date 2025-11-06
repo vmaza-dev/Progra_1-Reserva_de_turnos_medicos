@@ -27,10 +27,11 @@ def test_buscar_borrar_med_tipoInvalido():
 
 def test_buscar_medico_id():
     #Arrange
-    idBuscado = 100000
+    idBuscado = 999991
     listaMedicos = [
-        {"ID": 100000, "nyap": "Juan Pérez", "espec":"Testingología", "antig":18, "estado":0},
-        {"ID": 999991, "nyap": "Augusto Zorzoli", "espec":"Ejemplologia", "antig":23, "estado":1}
+        {"ID": 100000, "nyap": "Juan Pérez", "espec":"Testingologia", "antig":18, "estado":0},
+        {"ID": 999991, "nyap": "Augusto Zorzoli", "espec":"Ejemplologia", "antig":23, "estado":1},
+        {"ID": 456871, "nyap": "Silvio Masa", "espec":"Noexisteologia", "antig":0, "estado":1},
     ]
 
     #Act

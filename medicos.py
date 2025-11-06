@@ -158,7 +158,6 @@ def guardar_ids_usados(listaUsados): #✅
             arch.close()
         except: auxiliares.imrpimir_error("Ocurrió un error al cerrar el archivo de IDs usados")
 
-
 """================================================================= CREAR ============================================================================"""
 def crear_medico(listaMeds, listaIDs): #✅
     """
