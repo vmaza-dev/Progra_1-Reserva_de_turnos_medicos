@@ -101,8 +101,8 @@
     },
     {
         "id": "000011",
-        "fecha": "2025-11-01",
-        "hora": "09:00",
+        "fecha": "2025-11-02",
+        "hora": "10:00",
         "paciente": 43846437,
         "especialidad_medica": "Otorrinonaringologia",
         "medico": 999999,
