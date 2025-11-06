@@ -676,10 +676,10 @@ def porcentaje_espec(listaMeds, espec): #✅
 
 def crear_matriz_prom_antig_espec(listaMeds): #✅
     """
-    Obtiene el total de médicos y posteriormente recorre la matriz de médicos para contar cuantos son de la especialidad indicada.
+    Obtiene el total de médicos y posteriormente recorre la lista de médicos para contar cuantos son de la especialidad indicada.
 
     Parametros:
-        listaMeds(list): La matriz con la totalidad de los médicos.
+        listaMeds(list): La lista de diccionarios con la totalidad de los médicos.
 
     Return:
         matEspecs(list): Matriz de antigüedades por especialidad, con formato [Especialidad, AcumuladorAntiguedad, CantidadMedicosAntiguedad]
@@ -703,7 +703,7 @@ def crear_matriz_prom_antig_espec(listaMeds): #✅
                     espec[2] += 1
                     break
             if (not existe):
-                matEspecs.append([med[2], med[3], 1]) 
+                matEspecs.append([med["espec"], med["antig"], 1]) 
                 # Se le agrega la especialidad, arranca el sumador con su antigüedad y el contador en 1
     return matEspecs
 
@@ -730,6 +730,7 @@ def prom_antig_espec(listaMeds): #✅
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
     auxiliares.imprimir_un_encabezado('PROMEDIO DE ANTIGÜEDAD POR ESPECIALIDAD', auxiliares.ANCHO, '\033[1m')
+    print("")
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
     auxiliares.linea_iguales(auxiliares.ANCHO)
@@ -1042,5 +1043,3 @@ def inicializar_modulo_medicos(): #✅
 """
 
 #inicializar_modulo_medicos() # Esta línea existe solo por motivos de debugging.
-
-

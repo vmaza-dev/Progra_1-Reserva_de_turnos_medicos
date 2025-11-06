@@ -8,9 +8,9 @@
     },
     {
         "ID": 999999,
-        "nombre": "Ataúlfo Américo Djandjikian",
-        "espec": "Otorrinonaringologia",
-        "antig": 26,
+        "nombre": "Ataúlfo José",
+        "espec": "Traumatologia",
+        "antig": 25,
         "estado": 1
     },
     {
@@ -65,7 +65,7 @@
     {
         "ID": 568102,
         "nombre": "Ricardo Pereyra",
-        "espec": "Oftamología",
+        "espec": "Oftamologia",
         "antig": 7,
         "estado": true
     },
@@ -74,6 +74,13 @@
         "nombre": "Rodolfo Ansinas",
         "espec": "Psiquiatría",
         "antig": 12,
+        "estado": true
+    },
+    {
+        "ID": 927994,
+        "nombre": "Claudio",
+        "espec": "Rivadavia",
+        "antig": 6,
         "estado": true
     }
 ]
