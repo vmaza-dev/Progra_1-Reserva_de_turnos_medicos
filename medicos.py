@@ -67,6 +67,7 @@ def ingresar_id(): #✅
             return idBuscado
     except TypeError: auxiliares.imprimir_error("Ingrese un numero entero")
     except AssertionError: auxiliares.imprimir_error("El ID debe ser un número de 6 dígitos.")
+    except: auxiliares.imprimir_error_desconocido()
 
 def generar_id(listaIDs): #✅
     """
@@ -78,14 +79,17 @@ def generar_id(listaIDs): #✅
     Returns:
         idGenerado (int): El idGenerado en caso de ser exitoso, o '-1' en caso de fallar.
     """
-    if (len(listaIDs) == 900000):
-        print("No hay mas IDs disponibles")
-        return -1
-    else:
-        idGenerado = random.randint(100000, 999999)
-        while (idGenerado in listaIDs):
+    try:
+        if (len(listaIDs) == 900000):
+            print("No hay mas IDs disponibles")
+            return -1
+        else:
             idGenerado = random.randint(100000, 999999)
-        return idGenerado
+            while (idGenerado in listaIDs):
+                idGenerado = random.randint(100000, 999999)
+            return idGenerado
+    except (TypeError, ValueError): auxiliares.imprimir_error("VALOR INVÁLIDO")
+    except: auxiliares.imprimir_error_desconocido()
 
 """=========================================================== FUNCIONES DE ARCHIVO ======================================================================"""
 def obtener_medicos(): #✅
@@ -99,13 +103,17 @@ def obtener_medicos(): #✅
     try:
         archMeds = open("datos/arch_medicos.json", "rt", encoding="UTF-8")
         listaMedicos = json.load(archMeds)
-    except: 
+    except (FileNotFoundError, OSError, IsADirectoryError): 
         auxiliares.imprimir_error("Ocurrió un problema al abrir y leer el archivo de médicos")
+        return []
+    except: 
+        auxiliares.imprimir_error_desconocido()
         return []
     finally:
         try:
             archMeds.close()
-        except: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de médicos")
+        except (FileNotFoundError, OSError, IsADirectoryError): auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de médicos")
+        except: auxiliares.imprimir_error_desconocido()
     return listaMedicos
 
 def obtener_ids_usados(): #✅
@@ -123,13 +131,17 @@ def obtener_ids_usados(): #✅
         textoLista = (textoLista.strip("[]")).split(",") # Elimino los corchetes de la línea, después la convierto en una lista de substrings usando ',' como delimitador
 
         listaUsados = [int(idUsado) for idUsado in textoLista] # De la lista de substrings que obtuve, creo una lista nueva con cada elemento casteado a int
-    except:
+    except (FileNotFoundError, OSError, IsADirectoryError):
         auxiliares.imprimir_error("Ocurrió un problema al abrir y leer el archivo de IDS usados")
+        return []
+    except: 
+        auxiliares.imprimir_error_desconocido()
         return []
     finally:
         try:
             arch.close()
-        except: auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de IDS usados")
+        except (FileNotFoundError, OSError, IsADirectoryError): auxiliares.imprimir_error("Ocurrió un problema al cerrar el archivo de IDS usados")
+        except: auxiliares.imprimir_error_desconocido()
     return listaUsados
 
 def guardar_medicos(listaMeds): #✅
@@ -152,11 +164,13 @@ def guardar_ids_usados(listaUsados): #✅
     try:
         arch = open("datos/arch_medicos_idsUsados.txt", "wt", encoding="UTF-8")
         arch.write(str(listaUsados))
-    except: auxiliares.imprimir_error("Ocurrió un error al abrir y escribir en el archivo de IDs usados")
+    except(FileNotFoundError, OSError, IsADirectoryError): auxiliares.imprimir_error("Ocurrió un error al abrir y escribir en el archivo de IDs usados")
+    except: auxiliares.imprimir_error_desconocido()
     finally:
         try:
             arch.close()
-        except: auxiliares.imrpimir_error("Ocurrió un error al cerrar el archivo de IDs usados")
+        except(FileNotFoundError, OSError, IsADirectoryError): auxiliares.imprimir_error("Ocurrió un error al cerrar el archivo de IDs usados")
+        except: auxiliares.imprimir_error_desconocido()
 
 """================================================================= CREAR ============================================================================"""
 def crear_medico(listaMeds, listaIDs): #✅
@@ -181,6 +195,8 @@ def crear_medico(listaMeds, listaIDs): #✅
         listaIDs.append(idMed)
         listaMeds.append({"ID": idMed, "nombre": nombreCompleto, "espec": ingresar_espe(nombreCompleto), "antig": ingresar_antig(nombreCompleto), "estado": True})
     except AssertionError: auxiliares.imprimir_error("NO HAY MÁS IDs DISPONIBLES.")
+    except (TypeError, ValueError): auxiliares.imprimir_error("SE INGRESÓ UN TIPO DE DATO INVÁLIDO")
+    except KeyError: auxiliares.imprimir_error("'KEY' INVÁLIDA, ENVÍE UN DICCIONARIO VÁLIDO DE MÉDICOS")
     except: auxiliares.imprimir_error_desconocido()
 
 def crear_medicos_random(listaMeds, cantCrear, listaIDs): #✅
@@ -210,6 +226,7 @@ def crear_medicos_random(listaMeds, cantCrear, listaIDs): #✅
             listaMeds.append({"ID":idMed, "nombre":nombre, "espec":espe, "antig":random.randint(1,30), "estado":True})
 
     except AssertionError: auxiliares.imprimir_error("NO HAY MÁS IDs DISPONIBLES.")
+    except (TypeError, ValueError): auxiliares.imprimir_error("DATO CON TIPO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido()
 
 """============================================================== ACTUALIZAR ============================================================================"""
@@ -230,7 +247,8 @@ def buscar_medico_id(listaMeds, idMed): #✅
             if (med["ID"] == idMed):
                 return med
         return False
-    except TypeError: auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except KeyError: auxiliares.imprimir_error("'KEY' INVÁLIDA, ENVÍE UN DICCIONARIO VÁLIDO DE MÉDICOS")
     except: auxiliares.imprimir_error_desconocido()
 
 def buscar_medico_id_recursivo(listaMeds, idMed): #✅
@@ -294,11 +312,15 @@ def menu_act_antig(med, nyapMed): #✅
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcionAntig = ingresar_opcion(3)
-    match opcionAntig:
-        case 0: return 0
-        case 1: med["antig"] += 1
-        case 2: med["antig"] -= 1
-        case 3: med["antig"] = ingresar_antig(nyapMed)
+    try:
+        match opcionAntig:
+            case 0: return 0
+            case 1: med["antig"] += 1
+            case 2: med["antig"] -= 1
+            case 3: med["antig"] = ingresar_antig(nyapMed)
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except KeyError: auxiliares.imprimir_error("'KEY' INVÁLIDA, ENVÍE UN DICCIONARIO VÁLIDO DE MÉDICOS")
+    except: auxiliares.imprimir_error_desconocido()
     print("\nAntigüedad modificada exitosamente a:", med["antig"])
     if (opcionAntig != 0): input("\nPresione Enter para volver al menú anterior...")
     return 0
@@ -329,24 +351,31 @@ def actu_medico(med, nyapMed): #✅
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
     opcion = ingresar_opcion(4)
-    match opcion:
-        case 0: return 0
-        case 1: 
-            med["nombre"] = ingresar_nombre_medico()
-            print("Nombre modificado exitosamente a:", med["nombre"])
-        case 2: 
-            med["espec"] = ingresar_espe(nyapMed)
-            print("Especialidad modificada exitosamente a:", med["espec"])
-        case 3:
-            auxiliares.limpiar_terminal()
-            opcion = menu_act_antig(med, nyapMed)
-        case 4:
-            if (not med["estado"]):
-                med["estado"] = True
-                print("El médico", nyapMed, "ahora se encuentra activo")
-            else:
-                med["estado"] = False
-                print("El médico", nyapMed, "ahora se encuentra dado de baja")
+
+    try:
+        match opcion:
+            case 0: return 0
+            case 1: 
+                med["nombre"] = ingresar_nombre_medico()
+                print("Nombre modificado exitosamente a:", med["nombre"])
+            case 2: 
+                med["espec"] = ingresar_espe(nyapMed)
+                print("Especialidad modificada exitosamente a:", med["espec"])
+            case 3:
+                auxiliares.limpiar_terminal()
+                opcion = menu_act_antig(med, nyapMed)
+            case 4:
+                if (not med["estado"]):
+                    med["estado"] = True
+                    print("El médico", nyapMed, "ahora se encuentra activo")
+                else:
+                    med["estado"] = False
+                    print("El médico", nyapMed, "ahora se encuentra dado de baja")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except KeyError: auxiliares.imprimir_error("'KEY' INVÁLIDA, ENVÍE UN DICCIONARIO VÁLIDO DE MÉDICOS")
+    except: auxiliares.imprimir_error_desconocido()
+
+    
 
     if (opcion != 0): input("\nPresione Enter para volver al menú anterior...")
     return 0
@@ -375,8 +404,9 @@ def imprimir_medico(med): #✅
             print(f"| \033[1;32m{'ACTIVO'.center(12)}\033[0m", end=" |")
         else:
             print(f"| \033[1;31m{'INACTIVO'.center(12)}\033[0m", end=" |")
-    except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVALIDO")
-    except: auxiliares.imprimir_error("DESCONOCIDO")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except KeyError: auxiliares.imprimir_error("'KEY' INVÁLIDA, ENVÍE UN DICCIONARIO VÁLIDO DE MÉDICOS")
+    except: auxiliares.imprimir_error_desconocido()
 
 def header_medicos(anchoTotal): #✅
     """
@@ -413,12 +443,13 @@ def leer_medicos(listaMeds): #✅
         - Para cada médico de la matriz llama a la función 'imprimir_medico()' y deja un espacio.
         - Llama a la función auxiliar "linea_iguales()" para imprimri una línea de '='
     """
-
     header_medicos(auxiliares.ANCHO)
-    for med in listaMeds:
-        imprimir_medico(med)
-        print("")
-        
+    try:
+        for med in listaMeds:
+            imprimir_medico(med)
+            print("")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+            
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 def leer_medico_id(listaMeds, idMed): #✅
@@ -529,9 +560,9 @@ def elim_medico(listaMeds): #✅
         # Devuelve True si lo encontro y borro, False si no lo encontró
         if (buscar_borrar_med_recursivo(idElim, listaMeds)): print("\n>> Medico de ID", idElim, "eliminado exitosamente.")
         else: print("\n>> Medico de ID", idElim, "no encontrado o inexistente, no se realizó la eliminación.")
-
-    except TypeError: auxiliares.imprimir_error("TIPO DE DATO INVÁLIDO")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido()
+
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================ FUNCIONES ESTADÍSTICAS ====================================================================="""
@@ -591,9 +622,9 @@ def porcentaje_estado(listaMeds): #✅
                 acumAct+=1
             else:
                 acumInac+=1
-
         imprimir_porcentaje_estado(totalMeds, (acumAct*100)/totalMeds, (acumInac*100)/totalMeds)
-    except TypeError: auxiliares.imprimir_error("LA LISTA DE MÉDICOS NO ES UNA LISTA O NO ES UNA LISTA DE DICCIONARIOS")
+
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido()
 
 def color_porcentaje_espec(porcentaje): #✅
@@ -671,7 +702,7 @@ def porcentaje_espec(listaMeds, espec): #✅
 
         imprimir_porcentaje_especs(espec, contEspec, (contEspec*100)/totalMeds, totalMeds)
 
-    except TypeError: auxiliares.imprimir_error("LA LISTA DE MÉDICOS NO ES UNA LISTA, O NO ES UNA LISTA DE DICCIONARIOS")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
     except: auxiliares.imprimir_error_desconocido() 
 
 def crear_matriz_prom_antig_espec(listaMeds): #✅
@@ -737,13 +768,16 @@ def prom_antig_espec(listaMeds): #✅
     auxiliares.imprimir_tres_encabezados('ESPECIALIDAD', 'CANTIDAD MEDICOS', 'PROMEDIO ANTIGÜEDAD', '\033[1;34m', '\033[1;35m', '\033[1;36m')
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
-    for espec in matEspecs:
-        prom = (espec[1]/espec[2])
-        colorProm = '\033[1;31m' if prom>=25 else '\033[1;32m' if prom<=5 else '\033[1;33m'
-        prom = str(int(prom)) if prom == int(prom) else str(round(prom,1))
+    try:
+        for espec in matEspecs:
+            prom = (espec[1]/espec[2])
+            colorProm = '\033[1;31m' if prom>=25 else '\033[1;32m' if prom<=5 else '\033[1;33m'
+            prom = str(int(prom)) if prom == int(prom) else str(round(prom,1))
+    except ZeroDivisionError: auxiliares.imprimir_error("DIVISIÓN POR CERO")
+    except (TypeError, ValueError): auxiliares.imprimir_error("UNO DE LOS DATOS ES DE UN TIPO INVÁLIDO")
+    except: auxiliares.imprimir_error_desconocido()
 
-        auxiliares.imprimir_tres_encabezados(str(espec[0]), str(espec[2]), prom, '\033[1m', "", colorProm)
-
+    auxiliares.imprimir_tres_encabezados(str(espec[0]), str(espec[2]), prom, '\033[1m', "", colorProm)
     auxiliares.linea_iguales(auxiliares.ANCHO)
 
 """================================================================ MENU Y MAIN========================================================================="""
