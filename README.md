@@ -16,16 +16,35 @@ El proyecto tiene como objetivo brindar funcionalidades CRUD con tres entidades 
 ## Estructura general
 
 ```
-├── actualizar_elimiar_turnos.py
-├── auxiliares.py
-├── calendario.py
-├── crear_leer_turnos.py
+├── backups
+│   └── medicos_backup_pre-diccionarios.py
+├── datos
+│   ├── archivos backup
+│   │   ├── arch_medicos_backup.json
+│   │   └── arch_medicos_idsUsados_backup.json
+│   ├── archivo_turnos.json
+│   ├── arch_medicos_idsUsados.txt
+│   ├── arch_medicos.json
+│   ├── arch_pacientes.json
+│   ├── bajas_pacientes.txt
+│   └── turnos_cancelados.txt
+├── test
+│   ├── __init__.py
+│   ├── test_medicos.py
+│   ├── test_pacientes.py
+│   └── test_turnos.py
+├── README.md
 ├── info_general.md
 ├── LICENSE
+├── __init__.py
 ├── main.py
 ├── medicos.py
 ├── pacientes.py
-└── README.md
+├── turnos.py
+├── crear_leer_turnos.py
+├── actualizar_eliminar_turnos.py
+├── calendario.py
+└──auxiliares.py
 ```
 
 **Paquetes de Pyhton utlizados:**
@@ -34,8 +53,12 @@ El proyecto tiene como objetivo brindar funcionalidades CRUD con tres entidades 
 - re: Uso de expresiones regulares.
 - datetime: Para manejo de fechas y creación de horarios.
 - calendar: Para manejo de ultimos días del mes.
+- json: Para el manejo de archivos.
+- sys: Para finalizar ejecución del programas por errores fatales.
+- pytest: Para pruebas unitarias.
+- monkeypatch: Para la simulación de entradas por teclado.
 
-## Descripción de cada módulo/paquete
+## Descripción de cada módulo
 
 ### main.py
 
@@ -70,12 +93,13 @@ Seleccione una opción:
 
 ### Módulo Turnos
 
-Originalmente era un sólo módulo, por comodidad de trabajo se uso como strategia la división del módulo en dos módulos por separado. Cada módulo representa funcionalidades CRUD específicas de la entidad turnos, existiendo el módulo auxiliar `calendario.py` específico para la implementación visual de un calendario mensual.
+Originalmente era un sólo módulo, por comodidad de trabajo se uso como strategia la división del módulo en tres módulos por separado. Teniendo como principa el módulo `turnos.py` que presenta el menú principal que integra los módulos `crear_leer_turnos.py` y `actualizar_eliminar_turnos.py` que representan funcionalidades CRUD específicas de la entidad turnos, existiendo el módulo auxiliar `calendario.py` específico para la implementación visual de un calendario mensual.
 
 ```
-├── actualizar_elimiar_turnos.py
-├── calendario.py
+├── turnos.py
 ├── crear_leer_turnos.py
+├── actualizar_eliminar_turnos.py
+├── calendario.py
 
 ```
 

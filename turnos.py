@@ -60,6 +60,81 @@ def crear_leer_matriz_turno():
         input('Presione un tecla para continuar: ')
         sys.exit(1)   # termina la ejecución del programa
 
+def chequear_actualizacion_pacientes_medicos_turnos(matriz_meds, matriz_pacs):
+    """
+    Busca cambios y actualiza el archivo de turnos.
+
+    Actualiza todas las creaciones de turnos y las bajas de pacientes y médicos.
+    
+    Args:
+        matriz_turnos(list[dic]): Matriz de turnos con turnos.
+        matriz_meds(list[dic]): Matriz de médicos.
+        matriz_pacs(list[dic]): Matriz de pacientes.
+    """
+    matriz_turnos = crear_leer_matriz_turno()
+
+    id_pacientes = crear_leer_turnos.obtener_lista_dic_value(matriz_pacs, 'dni')
+    id_medicos = crear_leer_turnos.obtener_lista_dic_value(matriz_meds, 'ID')
+    # chequeo cruzado
+    actualizacion_pac = definir_actualizacion_turnos(matriz_turnos, id_pacientes,'paciente')
+    actualizacion_med = definir_actualizacion_turnos(matriz_turnos, id_medicos,'medico')
+
+    if actualizacion_pac or actualizacion_med:
+        if actualizacion_pac: 
+            matriz_turnos = actualizacion_turnos(matriz_turnos, id_pacientes,'paciente')
+        if actualizacion_med:
+            matriz_turnos = actualizacion_turnos(matriz_turnos, id_medicos,'medico')
+        crear_leer_turnos.escribir_turnos(matriz_turnos)
+        matriz_turnos = crear_leer_matriz_turno()
+
+    return matriz_turnos
+    
+def actualizacion_turnos(matriz_turnos, lista_id, id_key):
+    """
+    Realiza una copia de los turnos con datos existentes.
+
+    Estos datos que utiliza para la copia son datos que son tomados desde
+    las base de datos relacionadas al modulo turnos.
+    
+    Args:
+        matriz_turnos(list[dic])
+        lista_id(list)
+        id_key(str)
+    
+    Returns:
+        matriz_actualizada(list[dic])
+    """
+    matriz_actualizada = []
+    for turno in matriz_turnos:
+        if turno[id_key] in lista_id:
+            matriz_actualizada.append(turno)
+   
+    return matriz_actualizada
+
+def definir_actualizacion_turnos(matriz_turnos, lista_id, id_key):
+    """
+    Define si es necesario la actualizacion de turnos.
+
+    Si hay alguna modificacion de un valor en algunas de las bases de datos
+    relacionadas al turno, se retorna un True como bandera que indica 
+    necesidad de actualizacion.
+    
+    Args:
+        matriz_turnos(list[dic])
+        lista_id(list)
+        id_key(str)
+    
+    Returns:
+        bool
+    """
+    necesidad_actualizacion = False
+    turno = 0
+    while turno < len(matriz_turnos) and necesidad_actualizacion == False:
+        if matriz_turnos[turno][id_key] not in lista_id:
+            necesidad_actualizacion = True
+        turno += 1
+
+    return necesidad_actualizacion
 
 # ==============================================================================
 # ===============================FUNCION PRINCIPAL==============================
@@ -92,9 +167,8 @@ def principal_crear_leer_turnos(matriz_meds, matriz_pacs, opcion = 0):
         case 1:
 
             while True:
-                # actualizo el archivo de turnos luego de hacer las operaciones con 
-                # las funciones del modulo
-                matriz_turnos = crear_leer_matriz_turno()
+                # chequeo actualizaciones y eliminaciones de pacientes y médicos
+                matriz_turnos = chequear_actualizacion_pacientes_medicos_turnos(matriz_meds, matriz_pacs)
                 crear_leer_turnos.logo_turnos()
                 while True:
                     opciones = 4
