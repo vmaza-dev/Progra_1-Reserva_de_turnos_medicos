@@ -549,21 +549,30 @@ def principal_pacientes(pacientes):
                 nuevo = crear_paciente()
                 print("\nPaciente creado correctamente:")
                 imprimir_paciente([nuevo])
+                pacientes = cargar_pacientes_json()
+
 
             elif opcion_p == "2":
                 leer_pacientes(pacientes)
                 input("\nPresione Enter para volver al menú...")
+                pacientes = cargar_pacientes_json()
+
 
             elif opcion_p == "3":
                 actualizar_paciente(pacientes)
+                pacientes = cargar_pacientes_json()
+
                 
             elif opcion_p == "4":
                 eliminar_paciente(pacientes)
+                pacientes = cargar_pacientes_json()
                 
             elif opcion_p == "5":
+                pacientes = cargar_pacientes_json()
                 mostrar_estadisticas_pacientes(pacientes)
 
             elif opcion_p == "6":
+                pacientes = cargar_pacientes_json()
                 mostrar_usuarios(pacientes)
                 input("\nPresione Enter para volver al menú...")
 
